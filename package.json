@@ -1,0 +1,120 @@
+{
+  "name": "@graphistry/arrow",
+  "version": "1.0.0",
+  "main": "./targets/es5/cjs/Arrow.js",
+  "module": "./targets/es5/esm/Arrow.js",
+  "browser": "./targets/es5/umd/Arrow.js",
+  "jsnext:main": "./targets/es2015/esm/Arrow.js",
+  "esnext:main": "./targets/esnext/esm/Arrow.js",
+  "typings": "./types/Arrow.d.ts",
+  "description": "Graphistry's Apache Arrow TypeScript projects",
+  "scripts": {
+    "lerna": "lerna",
+    "commit": "git-cz",
+    "test": "gulp test",
+    "build": "gulp build",
+    "clean": "gulp clean",
+    "test:debug": "gulp test:debug",
+    "validate": "npm-run-all lint build test",
+    "lerna:publish": "lerna publish --conventional-commits",
+    "prepublishOnly": "npm-run-all validate doc lerna:publish",
+    "commitmsg": "validate-commit-msg",
+    "doc": "shx rm -rf ./doc && esdoc",
+    "lint": "npm-run-all -p lint:*",
+    "lint:src": "tslint --fix --type-check -p tsconfig.json -c tslint.json \"src/**/*.ts\"",
+    "lint:test": "tslint --fix --type-check -p test/tsconfig.json -c tslint.json \"test/**/*.ts\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/graphistry/arrow.git"
+  },
+  "keywords": [
+    "apache",
+    "arrow"
+  ],
+  "author": "Graphistry, Inc.",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/graphistry/arrow/issues"
+  },
+  "homepage": "https://github.com/graphistry/arrow#readme",
+  "files": [
+    "dist",
+    "types",
+    "targets",
+    "LICENSE",
+    "README.md"
+  ],
+  "peerDependencies": {
+    "tslib": "^1.7.1"
+  },
+  "dependencies": {
+    "flatbuffers": "~1.7.0",
+    "text-encoding": "~0.6.4"
+  },
+  "devDependencies": {
+    "@types/flatbuffers": "~1.6.3",
+    "@types/jest": "~20.0.6",
+    "@types/node": "~8.0.19",
+    "@types/text-encoding": "0.0.31",
+    "command-line-args": "~4.0.6",
+    "commitizen": "~2.9.6",
+    "cz-conventional-changelog": "~2.0.0",
+    "del": "~3.0.0",
+    "esdoc": "~1.0.1",
+    "google-closure-compiler": "~20170806.0.0",
+    "gulp": "~3.9.1",
+    "gulp-json-transform": "~0.4.2",
+    "gulp-sourcemaps": "~2.6.0",
+    "gulp-typescript": "~3.2.0",
+    "husky": "~0.14.3",
+    "jest": "~20.0.4",
+    "jest-environment-node-debug": "~2.0.0",
+    "lerna": "^2.0.0",
+    "lint-staged": "~4.0.1",
+    "merge2": "~1.1.0",
+    "mkdirp": "~0.5.1",
+    "npm-run-all": "~4.0.2",
+    "pump": "~1.0.2",
+    "rimraf": "~2.6.1",
+    "shx": "~0.2.2",
+    "text-encoding-utf-8": "~1.0.1",
+    "ts-jest": "~20.0.10",
+    "tslib": "~1.7.1",
+    "tslint": "~5.6.0",
+    "typescript": "~2.4.2",
+    "validate-commit-msg": "~2.14.0"
+  },
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
+  },
+  "lint-staged": {
+    "*.@(ts)": [
+      "tslint --fix",
+      "git add"
+    ]
+  },
+  "jest": {
+    "verbose": false,
+    "globals": {
+      "ts-jest": {
+        "tsConfigFile": "test/tsconfig.json"
+      }
+    },
+    "roots": [
+      "<rootDir>/test/"
+    ],
+    "moduleFileExtensions": [
+      "js",
+      "ts",
+      "tsx"
+    ],
+    "transform": {
+      ".(ts|tsx)": "<rootDir>/node_modules/ts-jest/preprocessor.js",
+      ".(js|jsx)": "<rootDir>/node_modules/babel-jest/build/index.js"
+    },
+    "testRegex": "(.*(-|\\.)(test|spec)s?)\\.(ts|tsx|js)$"
+  }
+}

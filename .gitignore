@@ -5,6 +5,10 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+.vscode
+yarn.lock
+package-lock.json
+
 # Runtime data
 pids
 *.pid
@@ -42,6 +46,10 @@ typings/
 # Optional npm cache directory
 .npm
 
+# JS package manager files
+yarn.lock
+package-lock.json
+
 # Optional eslint cache
 .eslintcache
 
@@ -57,3 +65,9 @@ typings/
 # dotenv environment variables file
 .env
 
+# compilation targets
+dist
+types
+targets/es5
+targets/es2015
+targets/esnext

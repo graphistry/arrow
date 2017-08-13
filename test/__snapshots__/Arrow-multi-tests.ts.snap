@@ -1,0 +1,113 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`multi count concats vectors into a table 1`] = `"row_count"`;
+
+exports[`multi count concats vectors into a table 2`] = `"Int"`;
+
+exports[`multi count concats vectors into a table 3`] = `1`;
+
+exports[`multi count concats vectors into a table 4`] = `10000`;
+
+exports[`multi count enumerates vectors 1`] = `"row_count"`;
+
+exports[`multi count enumerates vectors 2`] = `"Int"`;
+
+exports[`multi count enumerates vectors 3`] = `1`;
+
+exports[`multi count enumerates vectors 4`] = `10000`;
+
+exports[`multi latlong concats vectors into a table 1`] = `"origin_lat"`;
+
+exports[`multi latlong concats vectors into a table 2`] = `"FloatingPoint"`;
+
+exports[`multi latlong concats vectors into a table 3`] = `5`;
+
+exports[`multi latlong concats vectors into a table 4`] = `35.393089294433594`;
+
+exports[`multi latlong concats vectors into a table 5`] = `35.393089294433594`;
+
+exports[`multi latlong concats vectors into a table 6`] = `35.393089294433594`;
+
+exports[`multi latlong concats vectors into a table 7`] = `29.533695220947266`;
+
+exports[`multi latlong concats vectors into a table 8`] = `29.533695220947266`;
+
+exports[`multi latlong concats vectors into a table 9`] = `"origin_lon"`;
+
+exports[`multi latlong concats vectors into a table 10`] = `"FloatingPoint"`;
+
+exports[`multi latlong concats vectors into a table 11`] = `5`;
+
+exports[`multi latlong concats vectors into a table 12`] = `-97.6007308959961`;
+
+exports[`multi latlong concats vectors into a table 13`] = `-97.6007308959961`;
+
+exports[`multi latlong concats vectors into a table 14`] = `-97.6007308959961`;
+
+exports[`multi latlong concats vectors into a table 15`] = `-98.46977996826172`;
+
+exports[`multi latlong concats vectors into a table 16`] = `-98.46977996826172`;
+
+exports[`multi latlong enumerates vectors 1`] = `"origin_lat"`;
+
+exports[`multi latlong enumerates vectors 2`] = `"FloatingPoint"`;
+
+exports[`multi latlong enumerates vectors 3`] = `5`;
+
+exports[`multi latlong enumerates vectors 4`] = `35.393089294433594`;
+
+exports[`multi latlong enumerates vectors 5`] = `35.393089294433594`;
+
+exports[`multi latlong enumerates vectors 6`] = `35.393089294433594`;
+
+exports[`multi latlong enumerates vectors 7`] = `29.533695220947266`;
+
+exports[`multi latlong enumerates vectors 8`] = `29.533695220947266`;
+
+exports[`multi latlong enumerates vectors 9`] = `"origin_lon"`;
+
+exports[`multi latlong enumerates vectors 10`] = `"FloatingPoint"`;
+
+exports[`multi latlong enumerates vectors 11`] = `5`;
+
+exports[`multi latlong enumerates vectors 12`] = `-97.6007308959961`;
+
+exports[`multi latlong enumerates vectors 13`] = `-97.6007308959961`;
+
+exports[`multi latlong enumerates vectors 14`] = `-97.6007308959961`;
+
+exports[`multi latlong enumerates vectors 15`] = `-98.46977996826172`;
+
+exports[`multi latlong enumerates vectors 16`] = `-98.46977996826172`;
+
+exports[`multi origins concats vectors into a table 1`] = `"origin_city"`;
+
+exports[`multi origins concats vectors into a table 2`] = `"Utf8"`;
+
+exports[`multi origins concats vectors into a table 3`] = `5`;
+
+exports[`multi origins concats vectors into a table 4`] = `"Oklahoma City"`;
+
+exports[`multi origins concats vectors into a table 5`] = `"Oklahoma City"`;
+
+exports[`multi origins concats vectors into a table 6`] = `"Oklahoma City"`;
+
+exports[`multi origins concats vectors into a table 7`] = `"San Antonio"`;
+
+exports[`multi origins concats vectors into a table 8`] = `"San Antonio"`;
+
+exports[`multi origins enumerates vectors 1`] = `"origin_city"`;
+
+exports[`multi origins enumerates vectors 2`] = `"Utf8"`;
+
+exports[`multi origins enumerates vectors 3`] = `5`;
+
+exports[`multi origins enumerates vectors 4`] = `"Oklahoma City"`;
+
+exports[`multi origins enumerates vectors 5`] = `"Oklahoma City"`;
+
+exports[`multi origins enumerates vectors 6`] = `"Oklahoma City"`;
+
+exports[`multi origins enumerates vectors 7`] = `"San Antonio"`;
+
+exports[`multi origins enumerates vectors 8`] = `"San Antonio"`;
