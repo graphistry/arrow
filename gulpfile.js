@@ -25,6 +25,7 @@ const tsProjects = [];
 const argv = require(`command-line-args`)([
     { name: `all`, alias: `a`, type: Boolean },
     { name: 'update', alias: 'u', type: Boolean },
+    { name: 'verbose', alias: 'v', type: Boolean },
     { name: `target`, type: String, defaultValue: `` },
     { name: `module`, type: String, defaultValue: `` },
     { name: `targets`, alias: `t`, type: String, multiple: true, defaultValue: [] },
@@ -66,7 +67,13 @@ function runTaskCombos(name, cb) {
 
 function cleanTask(target, format, taskName, outDir) {
     return [
-        () => del([`${outDir}/**`])
+        () => {
+            const globs = [`${outDir}/**`];
+            if (target === `es5` && format === `cjs`) {
+                globs.push(`types`)
+            }
+            return del(globs);
+        }
     ];
 }
 
@@ -104,6 +111,7 @@ function testTask(target, format, taskName, outDir, debug) {
         `--runInBand`, `--env`, `jest-environment-node-debug`
     ];
     argv.update && jestOptions.unshift(`-u`);
+    argv.verbose && jestOptions.unshift(`--verbose`);
     const forkOptions = {
         execPath: `node`,
         execArgv: [
