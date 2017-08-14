@@ -21,9 +21,19 @@ TODO
 
 `npm install @graphistry/arrow`
 
-# Develop
+# Contribute
 
 See [develop.md](https://github.com/graphistry/arrow/blob/master/develop.md)
+
+PR's welcome! Some easy first ideas:
+
+* API docs
+* Benchmarks
+* Tests
+* More value types: map, ...
+* More variants: Streaming mode and GPU mode
+* Optimizations
+
 
 # Examples
 
