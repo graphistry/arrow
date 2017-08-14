@@ -16,7 +16,8 @@ export type VArrayCtor<VArray> = {
 
 export class VirtualVector<T, TArrayType = VArray<T>> extends Vector<T> {
     protected lists: TArrayType[];
-    public arrayType: VArrayCtor<TArrayType>;
+    protected _arrayType: VArrayCtor<TArrayType>;
+    public get arrayType() { return this._arrayType; }
     constructor(...lists: TArrayType[]) {
         super();
         this.lists = lists.filter(Boolean);
@@ -34,7 +35,7 @@ export class VirtualVector<T, TArrayType = VArray<T>> extends Vector<T> {
     range(from: number, total: number, batch?: number) {
         /* inlined `findVirtual` impl */
         let rows, length, local = from;
-        let { lists, arrayType } = this;
+        let { lists, _arrayType } = this;
         let rowsIndex = (batch || 0) - 1;
         while ((rows = lists[++rowsIndex]) &&
                ((length = rows.length) <= local) &&
@@ -42,22 +43,22 @@ export class VirtualVector<T, TArrayType = VArray<T>> extends Vector<T> {
         if (rows && local > -1) {
             let index = 0, listsLength = lists.length;
             let set: any = Array.isArray(rows) ? arraySet : typedArraySet;
-            let slice = arrayType['prototype']['subarray'] || arrayType['prototype']['slice'];
-            let target = new arrayType(total), source = slice.call(rows, local, local + total);
+            let slice = _arrayType['prototype']['subarray'] || _arrayType['prototype']['slice'];
+            let target = new _arrayType(total), source = slice.call(rows, local, local + total);
             while ((index = set(source, target, index)) < total) {
                 rows = lists[rowsIndex = ((rowsIndex + 1) % listsLength)];
                 source = slice.call(rows, 0, Math.min(rows.length, total - index));
             }
             return target as any;
         }
-        return new arrayType(0);
+        return new _arrayType(0);
     }
     *[Symbol.iterator]() {
-        let { lists } = this;
-        for (let i = -1, n = lists.length; ++i < n;) {
-            let list = lists[i] as any;
-            for (let j = -1, k = list.length; ++j < k;) {
-                yield list[j];
+        let index = -1, { lists, length } = this;
+        for (let outer = -1, n = lists.length; ++outer < n;) {
+            let list = lists[outer] as any;
+            for (let inner = -1, k = list.length; ++index < length && ++inner < k;) {
+                yield list[inner];
             }
         }
     }
@@ -80,14 +81,18 @@ export class ValidityVector extends VirtualVector<boolean, Uint8Array> {
                                                : ValidityVector.constant as Vector<any>;
     }
     static pack(values: Iterable<any>) {
-        let xs = [], i = 0;
+        let xs = [], n, i = 0;
         let bit = 0, byte = 0;
         for (const value of values) {
-            !!value && (byte |= 1 << bit);
+            value && (byte |= 1 << bit);
             if (++bit === 8) {
                 xs[i++] = byte;
                 byte = bit = 0;
             }
+        }
+        if (i === 0 || bit > 0) { xs[i++] = byte; }
+        if (i % 8 && (n = n = i + 8 - i % 8)) {
+            do { xs[i] = 0; } while (++i < n);
         }
         return new Uint8Array(xs);
     }
@@ -203,21 +208,22 @@ export class Uint64Vector  extends LongVector<Uint32Array>  {}
 export class Float32Vector extends ByteVector<Float32Array> {}
 export class Float64Vector extends ByteVector<Float64Array> {}
 
+LongVector.prototype.stride = 2;
 (Vector.prototype as any).lists = [];
 (Vector.prototype as any).validity = ValidityVector.constant;
-VirtualVector.prototype.arrayType = Array;
-Int8Vector.prototype.arrayType = Int8Array;
-Int16Vector.prototype.arrayType = Int16Array;
-Int32Vector.prototype.arrayType = Int32Array;
-Int64Vector.prototype.arrayType = Int32Array;
-Uint8Vector.prototype.arrayType = Uint8Array;
-Uint16Vector.prototype.arrayType = Uint16Array;
-Uint32Vector.prototype.arrayType = Uint32Array;
-Uint64Vector.prototype.arrayType = Uint32Array;
-DateVector.prototype.arrayType = Uint32Array;
-IndexVector.prototype.arrayType = Int32Array;
-Float32Vector.prototype.arrayType = Float32Array;
-Float64Vector.prototype.arrayType = Float64Array;
+(VirtualVector.prototype as any)._arrayType = Array;
+(Int8Vector.prototype as any)._arrayType = Int8Array;
+(Int16Vector.prototype as any)._arrayType = Int16Array;
+(Int32Vector.prototype as any)._arrayType = Int32Array;
+(Int64Vector.prototype as any)._arrayType = Int32Array;
+(Uint8Vector.prototype as any)._arrayType = Uint8Array;
+(Uint16Vector.prototype as any)._arrayType = Uint16Array;
+(Uint32Vector.prototype as any)._arrayType = Uint32Array;
+(Uint64Vector.prototype as any)._arrayType = Uint32Array;
+(DateVector.prototype as any)._arrayType = Uint32Array;
+(IndexVector.prototype as any)._arrayType = Int32Array;
+(Float32Vector.prototype as any)._arrayType = Float32Array;
+(Float64Vector.prototype as any)._arrayType = Float64Array;
 
 function arraySet<T>(source: Array<T>, target: Array<T>, index: number) {
     for (let i = 0, n = source.length; i < n;) {

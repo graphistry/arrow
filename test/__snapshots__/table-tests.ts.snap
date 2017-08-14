@@ -1,0 +1,411 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`dictionary file Arrow Table creates a Table from Arrow buffers 1`] = `"example-csv"`;
+
+exports[`dictionary file Arrow Table creates a Table from Arrow buffers 2`] = `"Struct_"`;
+
+exports[`dictionary file Arrow Table creates a Table from Arrow buffers 3`] = `3`;
+
+exports[`dictionary file Arrow Table creates a Table from Arrow buffers 4`] = `
+Array [
+  "Hermione",
+  25,
+  Float32Array [
+    -53.235599517822266,
+    40.231998443603516,
+  ],
+]
+`;
+
+exports[`dictionary file Arrow Table creates a Table from Arrow buffers 5`] = `
+Array [
+  "Severus",
+  30,
+  Float32Array [
+    -62.22999954223633,
+    3,
+  ],
+]
+`;
+
+exports[`dictionary file Arrow Table creates a Table from Arrow buffers 6`] = `
+Array [
+  "Harry",
+  20,
+  Float32Array [
+    23,
+    -100.23652648925781,
+  ],
+]
+`;
+
+exports[`dictionary stream Arrow Table creates a Table from Arrow buffers 1`] = `"example-csv"`;
+
+exports[`dictionary stream Arrow Table creates a Table from Arrow buffers 2`] = `"Struct_"`;
+
+exports[`dictionary stream Arrow Table creates a Table from Arrow buffers 3`] = `3`;
+
+exports[`dictionary stream Arrow Table creates a Table from Arrow buffers 4`] = `
+Array [
+  "Hermione",
+  25,
+  Float32Array [
+    -53.235599517822266,
+    40.231998443603516,
+  ],
+]
+`;
+
+exports[`dictionary stream Arrow Table creates a Table from Arrow buffers 5`] = `
+Array [
+  "Severus",
+  30,
+  Float32Array [
+    -62.22999954223633,
+    3,
+  ],
+]
+`;
+
+exports[`dictionary stream Arrow Table creates a Table from Arrow buffers 6`] = `
+Array [
+  "Harry",
+  20,
+  Float32Array [
+    23,
+    -100.23652648925781,
+  ],
+]
+`;
+
+exports[`multipart count Arrow Table creates a Table from Arrow buffers 1`] = `"row_count"`;
+
+exports[`multipart count Arrow Table creates a Table from Arrow buffers 2`] = `"Int"`;
+
+exports[`multipart count Arrow Table creates a Table from Arrow buffers 3`] = `1`;
+
+exports[`multipart count Arrow Table creates a Table from Arrow buffers 4`] = `10000`;
+
+exports[`multipart latlong Arrow Table creates a Table from Arrow buffers 1`] = `"origin_lat"`;
+
+exports[`multipart latlong Arrow Table creates a Table from Arrow buffers 2`] = `"FloatingPoint"`;
+
+exports[`multipart latlong Arrow Table creates a Table from Arrow buffers 3`] = `5`;
+
+exports[`multipart latlong Arrow Table creates a Table from Arrow buffers 4`] = `35.393089294433594`;
+
+exports[`multipart latlong Arrow Table creates a Table from Arrow buffers 5`] = `35.393089294433594`;
+
+exports[`multipart latlong Arrow Table creates a Table from Arrow buffers 6`] = `35.393089294433594`;
+
+exports[`multipart latlong Arrow Table creates a Table from Arrow buffers 7`] = `29.533695220947266`;
+
+exports[`multipart latlong Arrow Table creates a Table from Arrow buffers 8`] = `29.533695220947266`;
+
+exports[`multipart latlong Arrow Table creates a Table from Arrow buffers 9`] = `"origin_lon"`;
+
+exports[`multipart latlong Arrow Table creates a Table from Arrow buffers 10`] = `"FloatingPoint"`;
+
+exports[`multipart latlong Arrow Table creates a Table from Arrow buffers 11`] = `5`;
+
+exports[`multipart latlong Arrow Table creates a Table from Arrow buffers 12`] = `-97.6007308959961`;
+
+exports[`multipart latlong Arrow Table creates a Table from Arrow buffers 13`] = `-97.6007308959961`;
+
+exports[`multipart latlong Arrow Table creates a Table from Arrow buffers 14`] = `-97.6007308959961`;
+
+exports[`multipart latlong Arrow Table creates a Table from Arrow buffers 15`] = `-98.46977996826172`;
+
+exports[`multipart latlong Arrow Table creates a Table from Arrow buffers 16`] = `-98.46977996826172`;
+
+exports[`multipart origins Arrow Table creates a Table from Arrow buffers 1`] = `"origin_city"`;
+
+exports[`multipart origins Arrow Table creates a Table from Arrow buffers 2`] = `"Utf8"`;
+
+exports[`multipart origins Arrow Table creates a Table from Arrow buffers 3`] = `5`;
+
+exports[`multipart origins Arrow Table creates a Table from Arrow buffers 4`] = `"Oklahoma City"`;
+
+exports[`multipart origins Arrow Table creates a Table from Arrow buffers 5`] = `"Oklahoma City"`;
+
+exports[`multipart origins Arrow Table creates a Table from Arrow buffers 6`] = `"Oklahoma City"`;
+
+exports[`multipart origins Arrow Table creates a Table from Arrow buffers 7`] = `"San Antonio"`;
+
+exports[`multipart origins Arrow Table creates a Table from Arrow buffers 8`] = `"San Antonio"`;
+
+exports[`simple file Arrow Table creates a Table from Arrow buffers 1`] = `"foo"`;
+
+exports[`simple file Arrow Table creates a Table from Arrow buffers 2`] = `"Int"`;
+
+exports[`simple file Arrow Table creates a Table from Arrow buffers 3`] = `5`;
+
+exports[`simple file Arrow Table creates a Table from Arrow buffers 4`] = `1`;
+
+exports[`simple file Arrow Table creates a Table from Arrow buffers 5`] = `null`;
+
+exports[`simple file Arrow Table creates a Table from Arrow buffers 6`] = `3`;
+
+exports[`simple file Arrow Table creates a Table from Arrow buffers 7`] = `4`;
+
+exports[`simple file Arrow Table creates a Table from Arrow buffers 8`] = `5`;
+
+exports[`simple file Arrow Table creates a Table from Arrow buffers 9`] = `"bar"`;
+
+exports[`simple file Arrow Table creates a Table from Arrow buffers 10`] = `"FloatingPoint"`;
+
+exports[`simple file Arrow Table creates a Table from Arrow buffers 11`] = `5`;
+
+exports[`simple file Arrow Table creates a Table from Arrow buffers 12`] = `1`;
+
+exports[`simple file Arrow Table creates a Table from Arrow buffers 13`] = `null`;
+
+exports[`simple file Arrow Table creates a Table from Arrow buffers 14`] = `null`;
+
+exports[`simple file Arrow Table creates a Table from Arrow buffers 15`] = `4`;
+
+exports[`simple file Arrow Table creates a Table from Arrow buffers 16`] = `5`;
+
+exports[`simple file Arrow Table creates a Table from Arrow buffers 17`] = `"baz"`;
+
+exports[`simple file Arrow Table creates a Table from Arrow buffers 18`] = `"Utf8"`;
+
+exports[`simple file Arrow Table creates a Table from Arrow buffers 19`] = `5`;
+
+exports[`simple file Arrow Table creates a Table from Arrow buffers 20`] = `"aa"`;
+
+exports[`simple file Arrow Table creates a Table from Arrow buffers 21`] = `null`;
+
+exports[`simple file Arrow Table creates a Table from Arrow buffers 22`] = `null`;
+
+exports[`simple file Arrow Table creates a Table from Arrow buffers 23`] = `"bbb"`;
+
+exports[`simple file Arrow Table creates a Table from Arrow buffers 24`] = `"cccc"`;
+
+exports[`simple stream Arrow Table creates a Table from Arrow buffers 1`] = `"foo"`;
+
+exports[`simple stream Arrow Table creates a Table from Arrow buffers 2`] = `"Int"`;
+
+exports[`simple stream Arrow Table creates a Table from Arrow buffers 3`] = `5`;
+
+exports[`simple stream Arrow Table creates a Table from Arrow buffers 4`] = `1`;
+
+exports[`simple stream Arrow Table creates a Table from Arrow buffers 5`] = `null`;
+
+exports[`simple stream Arrow Table creates a Table from Arrow buffers 6`] = `3`;
+
+exports[`simple stream Arrow Table creates a Table from Arrow buffers 7`] = `4`;
+
+exports[`simple stream Arrow Table creates a Table from Arrow buffers 8`] = `5`;
+
+exports[`simple stream Arrow Table creates a Table from Arrow buffers 9`] = `"bar"`;
+
+exports[`simple stream Arrow Table creates a Table from Arrow buffers 10`] = `"FloatingPoint"`;
+
+exports[`simple stream Arrow Table creates a Table from Arrow buffers 11`] = `5`;
+
+exports[`simple stream Arrow Table creates a Table from Arrow buffers 12`] = `1`;
+
+exports[`simple stream Arrow Table creates a Table from Arrow buffers 13`] = `null`;
+
+exports[`simple stream Arrow Table creates a Table from Arrow buffers 14`] = `null`;
+
+exports[`simple stream Arrow Table creates a Table from Arrow buffers 15`] = `4`;
+
+exports[`simple stream Arrow Table creates a Table from Arrow buffers 16`] = `5`;
+
+exports[`simple stream Arrow Table creates a Table from Arrow buffers 17`] = `"baz"`;
+
+exports[`simple stream Arrow Table creates a Table from Arrow buffers 18`] = `"Utf8"`;
+
+exports[`simple stream Arrow Table creates a Table from Arrow buffers 19`] = `5`;
+
+exports[`simple stream Arrow Table creates a Table from Arrow buffers 20`] = `"aa"`;
+
+exports[`simple stream Arrow Table creates a Table from Arrow buffers 21`] = `null`;
+
+exports[`simple stream Arrow Table creates a Table from Arrow buffers 22`] = `null`;
+
+exports[`simple stream Arrow Table creates a Table from Arrow buffers 23`] = `"bbb"`;
+
+exports[`simple stream Arrow Table creates a Table from Arrow buffers 24`] = `"cccc"`;
+
+exports[`struct file Arrow Table creates a Table from Arrow buffers 1`] = `"struct_nullable"`;
+
+exports[`struct file Arrow Table creates a Table from Arrow buffers 2`] = `"Struct_"`;
+
+exports[`struct file Arrow Table creates a Table from Arrow buffers 3`] = `17`;
+
+exports[`struct file Arrow Table creates a Table from Arrow buffers 4`] = `null`;
+
+exports[`struct file Arrow Table creates a Table from Arrow buffers 5`] = `
+Array [
+  null,
+  "MhRNxD4",
+]
+`;
+
+exports[`struct file Arrow Table creates a Table from Arrow buffers 6`] = `
+Array [
+  137773603,
+  "3F9HBxK",
+]
+`;
+
+exports[`struct file Arrow Table creates a Table from Arrow buffers 7`] = `
+Array [
+  410361374,
+  "aVd88fp",
+]
+`;
+
+exports[`struct file Arrow Table creates a Table from Arrow buffers 8`] = `null`;
+
+exports[`struct file Arrow Table creates a Table from Arrow buffers 9`] = `
+Array [
+  null,
+  "3loZrRf",
+]
+`;
+
+exports[`struct file Arrow Table creates a Table from Arrow buffers 10`] = `null`;
+
+exports[`struct file Arrow Table creates a Table from Arrow buffers 11`] = `null`;
+
+exports[`struct file Arrow Table creates a Table from Arrow buffers 12`] = `
+Array [
+  null,
+  null,
+]
+`;
+
+exports[`struct file Arrow Table creates a Table from Arrow buffers 13`] = `
+Array [
+  null,
+  null,
+]
+`;
+
+exports[`struct file Arrow Table creates a Table from Arrow buffers 14`] = `null`;
+
+exports[`struct file Arrow Table creates a Table from Arrow buffers 15`] = `
+Array [
+  null,
+  "78SLiRw",
+]
+`;
+
+exports[`struct file Arrow Table creates a Table from Arrow buffers 16`] = `null`;
+
+exports[`struct file Arrow Table creates a Table from Arrow buffers 17`] = `null`;
+
+exports[`struct file Arrow Table creates a Table from Arrow buffers 18`] = `
+Array [
+  null,
+  "0ilsf82",
+]
+`;
+
+exports[`struct file Arrow Table creates a Table from Arrow buffers 19`] = `
+Array [
+  null,
+  "LjS9MbU",
+]
+`;
+
+exports[`struct file Arrow Table creates a Table from Arrow buffers 20`] = `
+Array [
+  null,
+  null,
+]
+`;
+
+exports[`struct stream Arrow Table creates a Table from Arrow buffers 1`] = `"struct_nullable"`;
+
+exports[`struct stream Arrow Table creates a Table from Arrow buffers 2`] = `"Struct_"`;
+
+exports[`struct stream Arrow Table creates a Table from Arrow buffers 3`] = `17`;
+
+exports[`struct stream Arrow Table creates a Table from Arrow buffers 4`] = `null`;
+
+exports[`struct stream Arrow Table creates a Table from Arrow buffers 5`] = `
+Array [
+  null,
+  "MhRNxD4",
+]
+`;
+
+exports[`struct stream Arrow Table creates a Table from Arrow buffers 6`] = `
+Array [
+  137773603,
+  "3F9HBxK",
+]
+`;
+
+exports[`struct stream Arrow Table creates a Table from Arrow buffers 7`] = `
+Array [
+  410361374,
+  "aVd88fp",
+]
+`;
+
+exports[`struct stream Arrow Table creates a Table from Arrow buffers 8`] = `null`;
+
+exports[`struct stream Arrow Table creates a Table from Arrow buffers 9`] = `
+Array [
+  null,
+  "3loZrRf",
+]
+`;
+
+exports[`struct stream Arrow Table creates a Table from Arrow buffers 10`] = `null`;
+
+exports[`struct stream Arrow Table creates a Table from Arrow buffers 11`] = `null`;
+
+exports[`struct stream Arrow Table creates a Table from Arrow buffers 12`] = `
+Array [
+  null,
+  null,
+]
+`;
+
+exports[`struct stream Arrow Table creates a Table from Arrow buffers 13`] = `
+Array [
+  null,
+  null,
+]
+`;
+
+exports[`struct stream Arrow Table creates a Table from Arrow buffers 14`] = `null`;
+
+exports[`struct stream Arrow Table creates a Table from Arrow buffers 15`] = `
+Array [
+  null,
+  "78SLiRw",
+]
+`;
+
+exports[`struct stream Arrow Table creates a Table from Arrow buffers 16`] = `null`;
+
+exports[`struct stream Arrow Table creates a Table from Arrow buffers 17`] = `null`;
+
+exports[`struct stream Arrow Table creates a Table from Arrow buffers 18`] = `
+Array [
+  null,
+  "0ilsf82",
+]
+`;
+
+exports[`struct stream Arrow Table creates a Table from Arrow buffers 19`] = `
+Array [
+  null,
+  "LjS9MbU",
+]
+`;
+
+exports[`struct stream Arrow Table creates a Table from Arrow buffers 20`] = `
+Array [
+  null,
+  null,
+]
+`;

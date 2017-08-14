@@ -3,12 +3,13 @@ export import Type = Schema_.org.apache.arrow.flatbuf.Type;
 export import Field = Schema_.org.apache.arrow.flatbuf.Field;
 
 function sliceToRangeArgs(length: number, start: number, end?: number) {
-    let from = start || 0, to = typeof end == 'number' ? end : length;
+    let total = length, from = start || 0;
+    let to = end === end && typeof end == 'number' ? end : total;
+    if (to < 0) { to = total + to; }
+    if (from < 0) { from = total - (from * -1) % total; }
     if (to < from) { from = to; to = start; }
-    if (to < 0) { to = length + Math.abs(to); }
-    if (from < 0) { from = length - (from * -1) % length; }
-    length = !isFinite(length = (to - from)) || length < 0 ? 0 : length;
-    return [from, length];
+    total = !isFinite(total = (to - from)) || total < 0 ? 0 : total;
+    return [from, total];
 }
 
 export class Vector<T> implements Iterable<T> {
@@ -40,12 +41,16 @@ export class Vector<T> implements Iterable<T> {
     public name: string;
     public type: string;
     public length: number;
+    public stride: number;
     public props: Map<PropertyKey, any>;
     protected validity: Vector<boolean>;
     get(index: number): T { return null; }
     concat(vector: Vector<T>) { return vector; }
     slice<R = T>(start?: number, end?: number, batch?: number) {
-        const [offset, length] = sliceToRangeArgs(this.length, start || 0, end);
+        const { stride } = this;
+        const [offset, length] = sliceToRangeArgs(
+            stride * this.length, stride * (start || 0), stride * end
+        );
         return this.range<R>(offset, length, batch);
     }
     range<R = T>(offset: number, length: number, batch?: number) {
@@ -63,6 +68,7 @@ export class Vector<T> implements Iterable<T> {
 }
 
 Vector.prototype.length = 0;
+Vector.prototype.stride = 1;
 Vector.prototype.name = Vector.defaultName;
 Vector.prototype.type = Vector.defaultType;
 Vector.prototype.props = Vector.defaultProps;

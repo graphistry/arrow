@@ -2,6 +2,7 @@ import { Vector } from './vectors/vector';
 import { readBuffers } from './reader/arrow';
 
 export class Table implements Iterable<Vector<any>> {
+    public length: number;
     protected columns: Vector<any>[];
     protected columnsMap: { [k: string]: Vector<any> };
     static from(...bytes: Array<Uint8Array | Buffer | string>) {
@@ -12,7 +13,9 @@ export class Table implements Iterable<Vector<any>> {
         return new Table(columns);
     }
     constructor(columns: Vector<any>[]) {
-        this.columnsMap = (this.columns = columns || []).reduce((map, vec) => {
+        this.columns = columns || [];
+        this.length = Math.max(...this.columns.map((v) => v.length));
+        this.columnsMap = this.columns.reduce((map, vec) => {
             return (map[vec.name] = vec) && map || map;
         }, <any> {});
     }
@@ -29,3 +32,5 @@ export class Table implements Iterable<Vector<any>> {
                 vector.concat(table.columns[i])));
     }
 }
+
+Table.prototype.length = 0;

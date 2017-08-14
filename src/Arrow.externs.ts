@@ -1,5 +1,5 @@
 /**
- * @fileoverview Externs for Arrow
+ * @fileoverview Closure Compiler externs for Arrow
  * @externs
  * @suppress {duplicate,checkTypes}
  */
@@ -24,3 +24,17 @@ Vector.prototype.name;
 Vector.prototype.type;
 /** @type {?} */
 Vector.prototype.props;
+/** @type {?} */
+Vector.prototype.get;
+/** @type {?} */
+Vector.prototype.concat;
+/** @type {?} */
+Vector.prototype.slice;
+
+let TypedVector = function() {};
+/** @type {?} */
+TypedVector.prototype.arrayType;
+
+let ValidityVector = function() {};
+/** @type {?} */
+(<any> ValidityVector).pack;
