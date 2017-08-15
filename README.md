@@ -56,7 +56,7 @@ null, null, null
 */
 ```
 
-# Create a Table when the Arrow file is split across buffers
+## Create a Table when the Arrow file is split across buffers
 ```es6
 import { readFileSync } from 'fs';
 import { Table } from 'apache-arrow';
