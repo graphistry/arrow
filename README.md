@@ -1,7 +1,7 @@
 # [Apache Arrow](https://github.com/apache/arrow) JavaScript Bindings
-Loading big native dataframes in JavaScript is finally awesome. `apache-arrow` is [Graphistry's](https://www.graphistry.com) production JavaScript Arrow bindings, providing an easy, modern, and efficient zero-copy JS interface to parse, iterate, and access [Apache Arrow](https://github.com/apache/arrow) columnar data on CPUs (GPU support via [GoAI](http://gpuopenanalytics.com/) is planned).
+Loading big native dataframes in JavaScript is finally awesome. `apache-arrow` is [Graphistry's](https://www.graphistry.com) production JavaScript Arrow bindings, providing an easy, modern, and efficient zero-copy JS interface to parse, iterate, and access [Apache Arrow](https://github.com/apache/arrow) columnar data on CPUs (GPU support via [GoAI](http://gpuopenanalytics.com/) is occurring in parallel).
 
-It's tested on Apache's sample Arrow files and [MapD Core's](https://www.mapd.com/platform/core/) Arrow output, and powers much of Graphistry's GPU visual analytics platform.
+`apache-arrow` is tested on Apache's sample Arrow files and [MapD Core's](https://www.mapd.com/platform/core/) Arrow output, and powers much of Graphistry's GPU visual analytics platform. It is in active development by Graphistry for its GPU client/cloud visual graph analytics platform.
 
 ## install
 `npm install apache-arrow`
@@ -20,15 +20,15 @@ npm install @apache-arrow/esnext/esm # ESNext ESModules target
 npm install @apache-arrow/esnext/umd # ESNext UMD target
 ```
 
-### why'd we do this?
+### why do we package like this?
 The JS community is a diverse group with a varied list of target environments and tool chains. Publishing multiple packages accommodates projects of all types. Friends targeting the latest JS runtimes can pull in the ESNext + ESM build. Friends needing wide browser support and small download size can use the UMD bundle, which has been run through Google's Closure Compiler with advanced optimizations.
 
 If you think we missed a compilation target and it's a blocker for adoption, please open an issue. We're here for you ❤️.
 
 # What's Arrow?
-Apache Arrow is a memory layout specification for encoding columns and table-like containers of flat and nested data. The Arrow spec aligns columnar data in memory to maximize CPU caches and take advantage of the latest SIMD (Single input multiple data) operations on modern processors.
+Apache Arrow is a columnar memory layout specification for encoding vectors and table-like containers of flat and nested data. The Arrow spec aligns columnar data in memory to maximize caches and take advantage of the latest SIMD (Single input multiple data) and GPU operations on modern processors.
 
-Apache Arrow is the emerging standard for large in-memory columnar data ([Spark](https://spark.apache.org/), [Pandas](http://wesmckinney.com/blog/pandas-and-apache-arrow/), [Drill](https://drill.apache.org/), ...). By standardizing on a common interchange format, big-data systems can reduce the costs and friction associated with cross-system communication.
+Apache Arrow is the emerging standard for large in-memory columnar data ([Spark](https://spark.apache.org/), [Pandas](http://wesmckinney.com/blog/pandas-and-apache-arrow/), [Drill](https://drill.apache.org/), ...). By standardizing on a common interchange format, big data systems can reduce the costs and friction associated with cross-system communication.
 
 # Related Projects
 * [Apache Arrow](https://github.com/apache/arrow) -- Arrow columnar format
@@ -140,6 +140,7 @@ PR's welcome! Here's some ideas:
 * Performance optimizations
 * Arrows from node-streams and async-iterators
 * GPU Arrows from node-opencl and node-cuda buffers
+* Bindings to [libgdf](https://github.com/gpuopenanalytics/libgdf)
 
 # License
 
