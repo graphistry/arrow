@@ -67,7 +67,7 @@
     "del": "~3.0.0",
     "esdoc": "~1.0.1",
     "google-closure-compiler": "~20170806.0.0",
-    "gulp": "~3.9.1",
+    "gulp": "github:gulpjs/gulp#4.0",
     "gulp-json-transform": "~0.4.2",
     "gulp-sourcemaps": "~2.6.0",
     "gulp-typescript": "~3.2.0",
