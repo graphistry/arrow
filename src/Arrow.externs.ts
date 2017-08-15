@@ -9,11 +9,21 @@ Symbol.iterator;
 Symbol.asyncIterator;
 let Table = function() {};
 /** @type {?} */
-Table.prototype.concat;
+Table.prototype.rows;
 /** @type {?} */
-Table.prototype.select;
+Table.prototype.cols;
 /** @type {?} */
-Table.prototype.vector;
+Table.prototype.getRow;
+/** @type {?} */
+Table.prototype.getCell;
+/** @type {?} */
+Table.prototype.getCellAt;
+/** @type {?} */
+Table.prototype.getColumn;
+/** @type {?} */
+Table.prototype.getColumnAt;
+/** @type {?} */
+Table.prototype.toString;
 
 let Vector = function() {};
 /** @type {?} */

@@ -2,7 +2,7 @@ import * as Schema_ from '../format/Schema';
 export import Type = Schema_.org.apache.arrow.flatbuf.Type;
 export import Field = Schema_.org.apache.arrow.flatbuf.Field;
 
-function sliceToRangeArgs(length: number, start: number, end?: number) {
+export function sliceToRangeArgs(length: number, start: number, end?: number) {
     let total = length, from = start || 0;
     let to = end === end && typeof end == 'number' ? end : total;
     if (to < 0) { to = total + to; }
@@ -53,10 +53,10 @@ export class Vector<T> implements Iterable<T> {
         );
         return this.range<R>(offset, length, batch);
     }
-    range<R = T>(offset: number, length: number, batch?: number) {
+    range<R = T>(index: number, length: number, batch?: number) {
         const result = new Array<R>(length);
         for (let i = -1, n = this.length; ++i < length;) {
-            result[i] = this.get((i + offset) % n) as any;
+            result[i] = this.get((i + index) % n) as any;
         }
         return result as Iterable<R>;
     }
