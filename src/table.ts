@@ -1,10 +1,10 @@
-import { Vector } from './vectors/vector';
 import { readBuffers } from './reader/arrow';
+import { Vector, sliceToRangeArgs } from './vectors/vector';
 
-export class Table implements Iterable<Vector<any>> {
+export class Table implements Iterable<Map<string, any>> {
     public length: number;
-    protected columns: Vector<any>[];
-    protected columnsMap: { [k: string]: Vector<any> };
+    protected _columns: Vector<any>[];
+    protected _columnsMap: { [k: string]: Vector<any> };
     static from(...bytes: Array<Uint8Array | Buffer | string>) {
         let columns: Vector<any>[];
         for (let vectors of readBuffers(...bytes)) {
@@ -13,24 +13,100 @@ export class Table implements Iterable<Vector<any>> {
         return new Table(columns);
     }
     constructor(columns: Vector<any>[]) {
-        this.columns = columns || [];
-        this.length = Math.max(...this.columns.map((v) => v.length));
-        this.columnsMap = this.columns.reduce((map, vec) => {
+        this._columns = columns || [];
+        this.length = Math.max(...this._columns.map((v) => v.length));
+        this._columnsMap = this._columns.reduce((map, vec) => {
             return (map[vec.name] = vec) && map || map;
         }, <any> {});
     }
     *[Symbol.iterator]() {
-        for (const vector of this.columns) {
-            yield vector;
+        for (let cols = this._columns, i = -1, n = this.length; ++i < n;) {
+            yield rowAsMap(i, cols);
         }
     }
-    vector<T = any>(index: number) { return this.columns[index] as Vector<T>; }
-    select<T = any>(name: string) { return this.columnsMap[name] as Vector<T>; }
-    concat(table: Table) {
-        return new Table(
-            this.columns.map((vector, i) =>
-                vector.concat(table.columns[i])));
+    *rows(startRow?: number | boolean, endRow?: number | boolean, compact?: boolean) {
+        let start = startRow as number, end = endRow as number;
+        if (typeof startRow === 'boolean') {
+            compact = startRow;
+            start = end;
+            end = undefined;
+        } else if (typeof endRow === 'boolean') {
+            compact = endRow;
+            end = undefined;
+        }
+        let rowIndex = -1, { length } = this;
+        const [rowOffset, rowsTotal] = sliceToRangeArgs(length, start, end);
+        while (++rowIndex < rowsTotal) {
+            yield this.getRow((rowIndex + rowOffset) % length, compact);
+        }
+    }
+    *cols(startCol?: number, endCol?: number) {
+        for (const column of this._columns.slice(startCol, endCol)) {
+            yield column;
+        }
+    }
+    getRow(rowIndex: number, compact?: boolean) {
+        return (compact && rowAsArray || rowAsObject)(rowIndex, this._columns);
+    }
+    getCell(columnName: string, rowIndex: number) {
+        return this.getColumn(columnName).get(rowIndex);
+    }
+    getCellAt(columnIndex: number, rowIndex: number) {
+        return this.getColumnAt(columnIndex).get(rowIndex);
+    }
+    getColumn<T = any>(columnName: string) {
+        return this._columnsMap[columnName] as Vector<T>;
+    }
+    getColumnAt<T = any>(columnIndex: number) {
+        return this._columns[columnIndex] as Vector<T>;
+    }
+    toString({ index = false } = {}) {
+        const { length } = this;
+        if (length <= 0) { return ''; }
+        const maxColumnWidths = [];
+        const rows = new Array(length + 1);
+        rows[0] = this._columns.map((c) => c.name);
+        index && rows[0].unshift('Index');
+        for (let i = -1, n = rows.length - 1; ++i < n;) {
+            rows[i + 1] = this.getRow(i, true);
+            index && rows[i + 1].unshift(i);
+        }
+        // Pass one to convert to strings and count max column widths
+        for (let i = -1, n = rows.length; ++i < n;) {
+            const row = rows[i];
+            for (let j = -1, k = row.length; ++j < k;) {
+                const val = row[j] = `${row[j]}`;
+                maxColumnWidths[j] = !maxColumnWidths[j]
+                    ? val.length
+                    : Math.max(maxColumnWidths[j], val.length);
+            }
+        }
+        // Pass two to pad each one to max column width
+        for (let i = -1, n = rows.length; ++i < n;) {
+            const row = rows[i];
+            for (let j = -1, k = row.length; ++j < k;) {
+                row[j] = leftPad(row[j], ' ', maxColumnWidths[j]);
+            }
+            rows[i] = row.join(', ');
+        }
+        return rows.join('\n');
     }
 }
 
 Table.prototype.length = 0;
+
+function leftPad(str, fill, n) {
+    return (new Array(n + 1).join(fill) + str).slice(-1 * n);
+}
+
+function rowAsMap(row: number, columns: Vector<any>[]) {
+    return columns.reduce((map, vector) => map.set(vector.name, vector.get(row)), new Map());
+}
+
+function rowAsObject(rowIndex: number, columns: Vector<any>[]) {
+    return columns.reduce((row, vector) => (row[vector.name] = vector.get(rowIndex)) && row || row, Object.create(null));
+}
+
+function rowAsArray(rowIndex: number, columns: Vector<any>[]) {
+    return columns.reduce((row, vector, columnIndex) => (row[columnIndex] = vector.get(rowIndex)) && row || row, new Array(columns.length));
+}

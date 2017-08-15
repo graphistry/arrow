@@ -24,29 +24,28 @@ export class VirtualVector<T, TArrayType = VArray<T>> extends Vector<T> {
     }
     get(index: number, batch?: number) {
         /* inlined `findVirtual` impl */
-        let rows, local = index;
-        let lists = this.lists, length;
-        let rowsIndex = (batch || 0) - 1;
-        while ((rows = lists[++rowsIndex]) &&
-               ((length = rows.length) <= local) &&
-               ((local -= length) >= 0)) {/*whee*/}
-        return (rows && local > -1) ? rows[local] : null;
+        let rows, length, lists = this.lists;
+        for (batch = (batch || 0) - 1;
+            (rows = lists[++batch]) &&
+            (length = rows.length) <= index &&
+            0 <= (index -= length);) {}
+        return rows && -1 < index ? rows[index] : null;
     }
     range(from: number, total: number, batch?: number) {
         /* inlined `findVirtual` impl */
-        let rows, length, local = from;
+        let rows, local = from, length;
         let { lists, _arrayType } = this;
-        let rowsIndex = (batch || 0) - 1;
-        while ((rows = lists[++rowsIndex]) &&
-               ((length = rows.length) <= local) &&
-               ((local -= length) >= 0)) {/*whee*/}
+        for (batch = (batch || 0) - 1;
+            (rows = lists[++batch]) &&
+            (length = rows.length) <= local &&
+            0 <= (local -= length);) {}
         if (rows && local > -1) {
             let index = 0, listsLength = lists.length;
             let set: any = Array.isArray(rows) ? arraySet : typedArraySet;
             let slice = _arrayType['prototype']['subarray'] || _arrayType['prototype']['slice'];
             let target = new _arrayType(total), source = slice.call(rows, local, local + total);
             while ((index = set(source, target, index)) < total) {
-                rows = lists[rowsIndex = ((rowsIndex + 1) % listsLength)];
+                rows = lists[batch = ((batch + 1) % listsLength)];
                 source = slice.call(rows, 0, Math.min(rows.length, total - index));
             }
             return target as any;
@@ -102,13 +101,12 @@ export class ValidityVector extends VirtualVector<boolean, Uint8Array> {
     }
     get(index: number, batch?: number) {
         /* inlined `findVirtual` impl */
-        let rows, local = index;
-        let lists = this.lists, length;
-        let rowsIndex = (batch || 0) - 1;
-        while ((rows = lists[++rowsIndex]) &&
-               ((length = rows.length) <= local) &&
-               ((local -= length) >= 0)) {/*whee*/}
-        return !(!rows || local < 0 || (rows[local >> 3 | 0] & 1 << local % 8) === 0);
+        let rows, length, lists = this.lists;
+        for (batch = (batch || 0) - 1;
+            (rows = lists[++batch]) &&
+            (length = rows.length) <= index &&
+            0 <= (index -= length);) {}
+        return !(!rows || index < 0 || (rows[index >> 3 | 0] & 1 << index % 8) === 0);
     }
     concat(vector: ValidityVector) {
         return new ValidityVector(...this.lists, ...vector.lists);
@@ -238,12 +236,12 @@ function typedArraySet(source: TypedArray, target: TypedArray, index: number) {
 
 // Rather than eat the iterator cost, we've inlined this function into the relevant `get` functions
 // function* findVirtual<TList>(index: number, lists: TList[], batch?: number) {
-//     let rows, local = index, length;
-//     let rowsIndex = (batch || 0) - 1;
-//     while ((rows = lists[++rowsIndex]) &&
-//            ((length = rows.length) <= local) &&
-//            ((local -= length) >= 0)) {/*whee*/}
-//     return (rows && local > -1) ? yield [rows, local, rowsIndex] : null;
+//     let rows, length;
+//     for (batch = (batch || 0) - 1;
+//         (rows = lists[++batch]) &&
+//         (length = rows.length) <= index &&
+//         0 <= (index -= length);) {}
+//     return rows && -1 < index ? yield [rows, index, batch] : null;
 // }
 
 export type TypedArrayCtor<T extends TypedArray> = {
