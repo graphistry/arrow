@@ -97,7 +97,7 @@ function bundleTask(target, format, taskName, outDir) {
                 (copy[key] = orig[key]) && copy || copy
             ), {
                 main: `Arrow.js`,
-                name: `@apache-arrow/${target}/${format}`
+                name: `@apache-arrow/${target}-${format}`
             }), 2),
             gulp.dest(outDir),
             errorOnce(cb)

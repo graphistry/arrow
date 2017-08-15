@@ -9,15 +9,15 @@ Loading big native dataframes in JavaScript is finally awesome. `apache-arrow` i
 ### packaging
 `apache-arrow` is written in TypeScript, but the project is compiled to multiple JS versions and common module formats. The base `apache-arrow` package includes all the compilation targets for convenience, but if you're conscientious about your `node_modules` footprint, don't worry -- we got you. The targets are also published under the `@apache-arrow` namespace:
 ```sh
-npm install @apache-arrow/es5/cjs # ES5 CommonJS target
-npm install @apache-arrow/es5/esm # ES5 ESModules target
-npm install @apache-arrow/es5/umd # ES5 UMD target
-npm install @apache-arrow/es2015/cjs # ES2015 CommonJS target
-npm install @apache-arrow/es2015/esm # ES2015 ESModules target
-npm install @apache-arrow/es2015/umd # ES2015 UMD target
-npm install @apache-arrow/esnext/esm # ESNext CommonJS target
-npm install @apache-arrow/esnext/esm # ESNext ESModules target
-npm install @apache-arrow/esnext/umd # ESNext UMD target
+npm install @apache-arrow/es5-cjs # ES5 CommonJS target
+npm install @apache-arrow/es5-esm # ES5 ESModules target
+npm install @apache-arrow/es5-umd # ES5 UMD target
+npm install @apache-arrow/es2015-cjs # ES2015 CommonJS target
+npm install @apache-arrow/es2015-esm # ES2015 ESModules target
+npm install @apache-arrow/es2015-umd # ES2015 UMD target
+npm install @apache-arrow/esnext-esm # ESNext CommonJS target
+npm install @apache-arrow/esnext-esm # ESNext ESModules target
+npm install @apache-arrow/esnext-umd # ESNext UMD target
 ```
 
 ### why do we package like this?
