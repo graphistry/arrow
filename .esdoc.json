@@ -1,9 +1,9 @@
 {
-  "source": "./dist/es2015",
+  "source": "./targets/es2015/esm",
   "destination": "./doc",
   "test": {
-    "type": "tape",
-    "source": "./spec"
+    "type": "jest",
+    "source": "./test"
   },
   "experimentalProposal": {
     "asyncGenerators": true
