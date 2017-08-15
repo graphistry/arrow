@@ -1,3 +1,20 @@
+// Licensed to the Apache Software Foundation (ASF) under one
+// or more contributor license agreements.  See the NOTICE file
+// distributed with this work for additional information
+// regarding copyright ownership.  The ASF licenses this file
+// to you under the Apache License, Version 2.0 (the
+// "License"); you may not use this file except in compliance
+// with the License.  You may obtain a copy of the License at
+//
+//   http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing,
+// software distributed under the License is distributed on an
+// "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+// KIND, either express or implied.  See the License for the
+// specific language governing permissions and limitations
+// under the License.
+
 const del = require(`del`);
 const gulp = require(`gulp`);
 const path = require(`path`);
@@ -70,7 +87,7 @@ function cleanTask(target, format, taskName, outDir) {
         () => {
             const globs = [`${outDir}/**`];
             if (target === `es5` && format === `cjs`) {
-                globs.push(`types`)
+                globs.push(`types`);
             }
             return del(globs);
         }
@@ -92,7 +109,7 @@ function bundleTask(target, format, taskName, outDir) {
                 `version`, `description`,
                 `author`, `homepage`, `bugs`,
                 `license`, `keywords`, `typings`,
-                `peerDependencies`
+                `repository`, `peerDependencies`
             ].reduce((copy, key) => (
                 (copy[key] = orig[key]) && copy || copy
             ), {
@@ -100,7 +117,7 @@ function bundleTask(target, format, taskName, outDir) {
                 name: `@apache-arrow/${target}-${format}`
             }), 2),
             gulp.dest(outDir),
-            errorOnce(cb)
+            onError
         )
     ];
 }
@@ -128,7 +145,6 @@ function testTask(target, format, taskName, outDir, debug) {
     };
     return [
         (cb) => {
-            const onError = errorOnce(cb);
             const proc = child_process.fork(
                 `./node_modules/.bin/jest`,
                 jestOptions, forkOptions
@@ -146,7 +162,6 @@ function closureTask(target, format, taskName, outDir) {
     return [
         [`clean:${taskName}`, `build:${clsTarget}:cls`],
         (cb) => {
-            const onError = errorOnce(cb);
             return streamMerge([
                 closureStream(closureSrcs(), `Arrow`, onError, true),
                 closureStream(closureSrcs(), `Arrow.internal`, onError)
@@ -203,7 +218,6 @@ function typescriptTask(target, format, taskName, outDir) {
     return [
         [`clean:${taskName}`],
         (cb) => {
-            const onError = errorOnce(cb);
             const tsconfigPath = `tsconfig/tsconfig.${target}.${format}.json`;
             const { tsProject } = (
                 tsProjects.find((p) => p.target === target && p.format === format) ||
@@ -231,10 +245,6 @@ function typescriptTask(target, format, taskName, outDir) {
     ];
 }
 
-function errorOnce(cb) {
-    return () => {};
-}
-
 function* combinations(_targets, _modules) {
 
     const targets = known(knownTargets, _targets || [`all`]);
@@ -256,5 +266,14 @@ function* combinations(_targets, _modules) {
                     || true) && map
                 ), {})
             ).sort((a, b) => known.indexOf(a) - known.indexOf(b));
+    }
+}
+
+function onError(err) {
+    if (typeof err === 'number') {
+        process.exit(err);
+    } else if (err) {
+        console.error(err.stack || err.toString());
+        process.exit(1);
     }
 }
