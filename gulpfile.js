@@ -101,22 +101,25 @@ function buildTask(target, format, taskName, outDir) {
 function bundleTask(target, format, taskName, outDir) {
     return [
         [`build:${taskName}`],
-        (cb) => pump(
-            gulp.src(`package.json`),
-            gulpJsonTransform((orig) => [
-                `version`, `description`,
-                `author`, `homepage`, `bugs`,
-                `license`, `keywords`, `typings`,
-                `repository`, `peerDependencies`
-            ].reduce((copy, key) => (
-                (copy[key] = orig[key]) && copy || copy
-            ), {
-                main: `Arrow.js`,
-                name: `@apache-arrow/${target}-${format}`
-            }), 2),
-            gulp.dest(outDir),
-            onError
-        )
+        (cb) => streamMerge([
+            pump(gulp.src([`LICENSE`, `*.md`]), gulp.dest(outDir)),
+            pump(
+                gulp.src(`package.json`),
+                gulpJsonTransform((orig) => [
+                    `version`, `description`,
+                    `author`, `homepage`, `bugs`,
+                    `license`, `keywords`, `typings`,
+                    `repository`, `peerDependencies`
+                ].reduce((copy, key) => (
+                    (copy[key] = orig[key]) && copy || copy
+                ), {
+                    main: `Arrow.js`,
+                    name: `@apache-arrow/${target}-${format}`
+                }), 2),
+                gulp.dest(outDir),
+                onError
+            )
+        ])
     ];
 }
 

@@ -1,6 +1,6 @@
 {
   "name": "apache-arrow",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "main": "./targets/es5/cjs/Arrow.js",
   "module": "./targets/es5/esm/Arrow.js",
   "browser": "./targets/es5/umd/Arrow.js",
