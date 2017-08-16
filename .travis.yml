@@ -1,3 +1,20 @@
+# Licensed to the Apache Software Foundation (ASF) under one
+# or more contributor license agreements.  See the NOTICE file
+# distributed with this work for additional information
+# regarding copyright ownership.  The ASF licenses this file
+# to you under the Apache License, Version 2.0 (the
+# "License"); you may not use this file except in compliance
+# with the License.  You may obtain a copy of the License at
+#
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing,
+# software distributed under the License is distributed on an
+# "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+# KIND, either express or implied.  See the License for the
+# specific language governing permissions and limitations
+# under the License.
+
 sudo: false
 
 language: node_js
@@ -15,13 +32,9 @@ env:
   global:
     - PATH=$HOME/.yarn/bin:$HOME/.local/bin:$PATH
   matrix:
-    - CI_MATRIX_BUILD=true
     - CI_MATRIX_LINT=true
+    - CI_MATRIX_BUILD=true
     - CI_MATRIX_TEST=true
-
-matrix:
-  allow_failures:
-    - env: CI_MATRIX_TEST=true # TODO https://github.com/ReactiveX/IxJS/issues/2
 
 before_install:
   # Use the latest yarnpkg because Travis' builtin yarn is not the latest.
@@ -32,10 +45,10 @@ before_install:
 
 script:
   - |
-    if [ "$CI_MATRIX_BUILD" = "true" ]; then
-      npm run build
-    elif [ "$CI_MATRIX_LINT" = "true" ]; then
+    if [ "$CI_MATRIX_LINT" = "true" ]; then
       npm run lint
+    elif [ "$CI_MATRIX_BUILD" = "true" ]; then
+      npm run build
     elif [ "$CI_MATRIX_TEST" = "true" ]; then
       npm run build
       npm run test

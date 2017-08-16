@@ -58,20 +58,20 @@ argv.module && !modules.length && modules.push(argv.module);
 
 for (const [target, format] of combinations([`all`, `all`])) {
     const combo = `${target}:${format}`;
-    gulp.task(`test:${combo}`, ...testTask(target, format, combo, `targets/${target}/${format}`));
-    gulp.task(`build:${combo}`, ...buildTask(target, format, combo, `targets/${target}/${format}`));
-    gulp.task(`clean:${combo}`, ...cleanTask(target, format, combo, `targets/${target}/${format}`));
-    gulp.task(`bundle:${combo}`, ...bundleTask(target, format, combo, `targets/${target}/${format}`));
-    gulp.task(`test:debug:${combo}`, ...testTask(target, format, combo, `targets/${target}/${format}`, true));
+    gulp.task(`test:${combo}`, gulp.series(testTask(target, format, combo, `targets/${target}/${format}`)));
+    gulp.task(`clean:${combo}`, gulp.series(cleanTask(target, format, combo, `targets/${target}/${format}`)));
+    gulp.task(`build:${combo}`, gulp.series(buildTask(target, format, combo, `targets/${target}/${format}`)));
+    gulp.task(`bundle:${combo}`, gulp.series(bundleTask(target, format, combo, `targets/${target}/${format}`)));
+    gulp.task(`test:debug:${combo}`, gulp.series(testTask(target, format, combo, `targets/${target}/${format}`, true)));
 }
 
-gulp.task(`default`, [`build`]);
-gulp.task(`test`, (cb) => runTaskCombos(`test`, cb));
-gulp.task(`clean`, (cb) => runTaskCombos(`clean`, cb));
-gulp.task(`build`, (cb) => runTaskCombos(`bundle`, cb));
-gulp.task(`test:debug`, (cb) => runTaskCombos(`test:debug`, cb));
+gulp.task(`test`, gulp.series(runTaskCombos(`test`)));
+gulp.task(`clean`, gulp.parallel(runTaskCombos(`clean`)));
+gulp.task(`build`, gulp.parallel(runTaskCombos(`bundle`)));
+gulp.task(`test:debug`, gulp.series(runTaskCombos(`test:debug`)));
+gulp.task(`default`, gulp.task(`build`));
 
-function runTaskCombos(name, cb) {
+function runTaskCombos(name) {
     const combos = [];
     for (const [target, format] of combinations(targets, modules)) {
         if (format === `cls`) {
@@ -79,25 +79,23 @@ function runTaskCombos(name, cb) {
         }
         combos.push(`${name}:${target}:${format}`);
     }
-    gulp.start(combos, cb);
+    return combos;
 }
 
 function cleanTask(target, format, taskName, outDir) {
-    return [
-        () => {
-            const globs = [`${outDir}/**`];
-            if (target === `es5` && format === `cjs`) {
-                globs.push(`types`);
-            }
-            return del(globs);
+    return () => {
+        const globs = [`${outDir}/**`];
+        if (target === `es5` && format === `cjs`) {
+            globs.push(`types`);
         }
-    ];
+        return del(globs);
+    };
 }
 
 function buildTask(target, format, taskName, outDir) {
     return format === `umd`
-            ? closureTask(target, format, taskName, outDir)
-            : typescriptTask(target, format, taskName, outDir);
+        ? closureTask(target, format, taskName, outDir)
+        : typescriptTask(target, format, taskName, outDir);
 }
 
 function bundleTask(target, format, taskName, outDir) {
@@ -123,36 +121,21 @@ function bundleTask(target, format, taskName, outDir) {
 }
 
 function testTask(target, format, taskName, outDir, debug) {
-    const testTSConfigPath = `./test/tsconfig.json`;
     const jestOptions = !debug ? [] : [
-        `--runInBand`, `--env`, `jest-environment-node-debug`
-    ];
+        `--runInBand`, `--env`, `jest-environment-node-debug`];
     argv.update && jestOptions.unshift(`-u`);
     argv.verbose && jestOptions.unshift(`--verbose`);
-    const forkOptions = {
-        execPath: `node`,
-        execArgv: [
-            `--harmony_async_iteration`,
-            ...(!debug ? [] : [`--inspect-brk`])
-        ],
-        stdio: [`ignore`, `inherit`, `inherit`, `ipc`],
+    const jestPath = `./node_modules/.bin/jest`;
+    const debugOpts = jestOptions.join(' ');
+    const spawnOptions = {
+        stdio: [`ignore`, `inherit`, `inherit`],
         env: Object.assign({}, process.env, {
-            TS_NODE_FAST: true,
-            TS_NODE_CACHE: false,
-            TS_NODE_PROJECT: testTSConfigPath,
             TEST_TARGET: target, TEST_MODULE: format
         })
     };
-    return [
-        (cb) => {
-            const proc = child_process.fork(
-                `./node_modules/.bin/jest`,
-                jestOptions, forkOptions
-            );
-            proc.on(`error`, onError);
-            proc.on(`close`, (x) => cb());
-        }
-    ];
+    return () => !debug ?
+        child_process.spawn(jestPath, jestOptions, spawnOptions) :
+        child_process.exec(`node --inspect-brk ${jestPath} ${debugOpts}`, spawnOptions);
 }
 
 function closureTask(target, format, taskName, outDir) {
@@ -161,7 +144,7 @@ function closureTask(target, format, taskName, outDir) {
     const languageIn = clsTarget === `es5` ? `es2015` : clsTarget;
     return [
         [`clean:${taskName}`, `build:${clsTarget}:cls`],
-        (cb) => {
+        () => {
             return streamMerge([
                 closureStream(closureSrcs(), `Arrow`, onError, true),
                 closureStream(closureSrcs(), `Arrow.internal`, onError)
@@ -187,7 +170,7 @@ function closureTask(target, format, taskName, outDir) {
         ];
         // copy the UMD bundle to dist
         if (target === `es5` && copyToDist) {
-            streams.push(gulp.dest(`dist`))
+            streams.push(gulp.dest(`dist`));
         }
         return pump(...streams, onError);
     }
@@ -217,30 +200,30 @@ function closureTask(target, format, taskName, outDir) {
 function typescriptTask(target, format, taskName, outDir) {
     return [
         [`clean:${taskName}`],
-        (cb) => {
+        () => {
             const tsconfigPath = `tsconfig/tsconfig.${target}.${format}.json`;
-            const { tsProject } = (
-                tsProjects.find((p) => p.target === target && p.format === format) ||
-                tsProjects[-1 + tsProjects.push({
-                    target, format, tsProject: ts.createProject(tsconfigPath)
-                })]
-            );
-            const { js, dts } = pump(
-                tsProject.src(),
-                sourcemaps.init(),
-                tsProject(ts.reporter.fullReporter(true)),
-                onError
-            );
-            const dtsStreams = [dts, gulp.dest(`${outDir}/types`)];
-            const jsStreams = [js, sourcemaps.write(), gulp.dest(outDir)];
-            // copy types to the root
-            if (target === `es5` && format === `cjs`) {
-                dtsStreams.push(gulp.dest(`types`));
+            let { js, dts } = tsProjects.find((p) => p.target === target && p.format === format) || {};
+            if (!js || !dts) {
+                let tsProject = ts.createProject(tsconfigPath);
+                ({ js, dts } = pump(
+                    tsProject.src(),
+                    sourcemaps.init(),
+                    tsProject(ts.reporter.fullReporter(true)),
+                    onError
+                ));
+                dts = [dts, gulp.dest(`${outDir}/types`)];
+                js = [js, sourcemaps.write(), gulp.dest(outDir),];
+                // copy types to the root
+                if (target === `es5` && format === `cjs`) {
+                    dts.push(gulp.dest(`types`));
+                }
+                tsProjects.push({
+                    target, format, 
+                    js: js = pump(...js, onError),
+                    dts: dts = pump(...dts, onError)
+                });
             }
-            return streamMerge([
-                pump(...dtsStreams, onError),
-                pump(...jsStreams, onError)
-            ]);
+            return streamMerge([ dts, js ]);
         }
     ];
 }
