@@ -118,16 +118,18 @@ const dbName = `mapd`, timeout = 5000;
 
 MapD.open(host, port, encrypted)
     .connect(dbName, username, password, timeout)
-    .flatMap((session) => session.queryDF(`
-        SELECT origin_city
-        FROM flights
-        WHERE dest_city ILIKE 'dallas'
-        LIMIT 5
-    `).disconnect())
-    .map(([schema, records]) =>
-        Table.from(schema, records))
-    .subscribe((table) => console.log(
-        table.toString({ index: true })));
+    .flatMap((session) =>
+        session.queryDF(`
+            SELECT origin_city
+            FROM flights
+            WHERE dest_city ILIKE 'dallas'
+            LIMIT 5`
+        ).disconnect()
+  )
+  .map(([schema, records]) =>
+      Table.from(schema, records))
+  .subscribe((table) => console.log(
+      table.toString({ index: true })));
 /*
 Index,   origin_city
     0, Oklahoma City
@@ -175,7 +177,3 @@ If you think we missed a compilation target and it's a blocker for adoption, ple
 # License
 
 [Apache 2.0](https://github.com/graphistry/arrow/blob/master/LICENSE)
-
-
-
-
