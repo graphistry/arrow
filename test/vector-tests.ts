@@ -18,8 +18,8 @@
 import { vectors } from './Arrow';
 import { flatbuffers } from 'flatbuffers';
 import Long = flatbuffers.Long;
+const BitVector = vectors.BitVector;
 const TypedVector = vectors.TypedVector;
-const ValidityVector = vectors.ValidityVector;
 
 const LongVectors = {
     Int64Vector: vectors.Int64Vector,
@@ -46,7 +46,7 @@ const bytes = Array.from(
         () => Math.random() * 255 | 0));
 
 describe(`ValidityVector`, () => {
-    const vector = new ValidityVector(new Uint8Array([27, 0, 0, 0, 0, 0, 0, 0]));
+    const vector = new BitVector(new Uint8Array([27, 0, 0, 0, 0, 0, 0, 0]));
     const values = [true, true, false, true, true, false, false, false];
     const n = values.length;
     vector.length = 1;
@@ -64,21 +64,21 @@ describe(`ValidityVector`, () => {
         }
     });
     test(`packs 0 values`, () => {
-        expect(ValidityVector.pack([])).toEqual(
+        expect(BitVector.pack([])).toEqual(
             new Uint8Array([0, 0, 0, 0, 0, 0, 0, 0]));
     });
     test(`packs 3 values`, () => {
-        expect(ValidityVector.pack([
+        expect(BitVector.pack([
             true, false, true
         ])).toEqual(new Uint8Array([5, 0, 0, 0, 0, 0, 0, 0]));
     });
     test(`packs 8 values`, () => {
-        expect(ValidityVector.pack([
+        expect(BitVector.pack([
             true, true, false, true, true, false, false, false
         ])).toEqual(new Uint8Array([27, 0, 0, 0, 0, 0, 0, 0]));
     });
     test(`packs 25 values`, () => {
-        expect(ValidityVector.pack([
+        expect(BitVector.pack([
             true, true, false, true, true, false, false, false,
             false, false, false, true, true, false, true, true,
             false

@@ -20,7 +20,7 @@ import { StructVector as StructVector_ } from './vectors/struct';
 import { DictionaryVector as DictionaryVector_ } from './vectors/dictionary';
 import { ListVector as ListVector_, Utf8Vector as Utf8Vector_, FixedSizeListVector as FixedSizeListVector_ } from './vectors/list';
 import {
-    TypedVector as TypedVector_, ValidityVector as ValidityVector_,
+    TypedVector as TypedVector_, BitVector as BitVector_,
     DateVector as DateVector_, IndexVector as IndexVector_,
     Int8Vector as Int8Vector_, Int16Vector as Int16Vector_,
     Int32Vector as Int32Vector_, Int64Vector as Int64Vector_,
@@ -31,6 +31,7 @@ import {
 
 export const vectors = {
     Vector: Vector_,
+    BitVector: BitVector_,
     ListVector: ListVector_,
     Utf8Vector: Utf8Vector_,
     DateVector: DateVector_,
@@ -47,13 +48,13 @@ export const vectors = {
     Float32Vector: Float32Vector_,
     Float64Vector: Float64Vector_,
     StructVector: StructVector_,
-    ValidityVector: ValidityVector_,
     DictionaryVector: DictionaryVector_,
     FixedSizeListVector: FixedSizeListVector_,
 };
 
 export namespace vectors {
     export type Vector<T> =  Vector_<T>;
+    export type BitVector =  BitVector_;
     export type ListVector<T> =  ListVector_<T>;
     export type Utf8Vector =  Utf8Vector_;
     export type DateVector =  DateVector_;
@@ -69,7 +70,6 @@ export namespace vectors {
     export type Float32Vector =  Float32Vector_;
     export type Float64Vector =  Float64Vector_;
     export type StructVector =  StructVector_;
-    export type ValidityVector =  ValidityVector_;
     export type DictionaryVector<T> =  DictionaryVector_<T>;
     export type FixedSizeListVector<T> =  FixedSizeListVector_<T>;
     export type TypedVector<T, TArray> =  TypedVector_<T, TArray>;
@@ -82,6 +82,7 @@ try {
         // string indexers tell closure compiler not to rename these properties
         Arrow['vectors'] = {};
         Arrow['vectors']['Vector'] = Vector_;
+        Arrow['vectors']['BitVector'] = BitVector_;
         Arrow['vectors']['ListVector'] = ListVector_;
         Arrow['vectors']['Utf8Vector'] = Utf8Vector_;
         Arrow['vectors']['DateVector'] = DateVector_;
@@ -97,7 +98,6 @@ try {
         Arrow['vectors']['Float32Vector'] = Float32Vector_;
         Arrow['vectors']['Float64Vector'] = Float64Vector_;
         Arrow['vectors']['StructVector'] = StructVector_;
-        Arrow['vectors']['ValidityVector'] = ValidityVector_;
         Arrow['vectors']['DictionaryVector'] = DictionaryVector_;
         Arrow['vectors']['FixedSizeListVector'] = FixedSizeListVector_;
     }

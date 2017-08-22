@@ -48,7 +48,7 @@ export class VirtualVector<T, TArrayType = VArray<T>> extends Vector<T> {
             0 <= (index -= length);) {}
         return rows && -1 < index ? rows[index] : null;
     }
-    range(from: number, total: number, batch?: number) {
+    protected range(from: number, total: number, batch?: number) {
         /* inlined `findVirtual` impl */
         let rows, local = from, length;
         let { lists, _arrayType } = this;
@@ -60,10 +60,16 @@ export class VirtualVector<T, TArrayType = VArray<T>> extends Vector<T> {
             let index = 0, listsLength = lists.length;
             let set: any = Array.isArray(rows) ? arraySet : typedArraySet;
             let slice = _arrayType['prototype']['subarray'] || _arrayType['prototype']['slice'];
-            let target = new _arrayType(total), source = slice.call(rows, local, local + total);
-            while ((index = set(source, target, index)) < total) {
-                rows = lists[batch = ((batch + 1) % listsLength)];
-                source = slice.call(rows, 0, Math.min(rows.length, total - index));
+            let source = slice.call(rows, local, local + total), target = source;
+            // Perf optimization: if the first slice contains all the values we're looking for,
+            // we don't have to copy values to a target Array. If we're slicing a TypedArray,
+            // this is a significant improvement as we avoid the memcpy 🎉
+            if (source.length < total) {
+                target = new _arrayType(total);
+                while ((index = set(source, target, index)) < total) {
+                    rows = lists[batch = ((batch + 1) % listsLength)];
+                    source = slice.call(rows, 0, Math.min(rows.length, total - index));
+                }
             }
             return target as any;
         }
@@ -81,7 +87,7 @@ export class VirtualVector<T, TArrayType = VArray<T>> extends Vector<T> {
 }
 
 export type ValidityArgs = Vector<boolean> | Uint8Array;
-export class ValidityVector extends VirtualVector<boolean, Uint8Array> {
+export class BitVector extends VirtualVector<boolean, Uint8Array> {
     static constant: Vector<boolean> = new (class ValidVector extends Vector<boolean> {
         get() { return true; }
         *[Symbol.iterator]() {
@@ -89,12 +95,12 @@ export class ValidityVector extends VirtualVector<boolean, Uint8Array> {
         }
     })();
     static from(src: any) {
-        return src instanceof ValidityVector   ? src
-             : src === ValidityVector.constant ? src
-             : src instanceof Uint8Array       ? new ValidityVector(src)
-             : src instanceof Array            ? new ValidityVector(ValidityVector.pack(src))
-             : src instanceof Vector           ? new ValidityVector(ValidityVector.pack(src))
-                                               : ValidityVector.constant as Vector<any>;
+        return src instanceof BitVector   ? src
+             : src === BitVector.constant ? src
+             : src instanceof Uint8Array       ? new BitVector(src)
+             : src instanceof Array            ? new BitVector(BitVector.pack(src))
+             : src instanceof Vector           ? new BitVector(BitVector.pack(src))
+                                               : BitVector.constant as Vector<any>;
     }
     static pack(values: Iterable<any>) {
         let xs = [], n, i = 0;
@@ -125,8 +131,8 @@ export class ValidityVector extends VirtualVector<boolean, Uint8Array> {
             0 <= (index -= length);) {}
         return !(!rows || index < 0 || (rows[index >> 3 | 0] & 1 << index % 8) === 0);
     }
-    concat(vector: ValidityVector) {
-        return new ValidityVector(...this.lists, ...vector.lists);
+    concat(vector: BitVector) {
+        return new BitVector(...this.lists, ...vector.lists);
     }
     *[Symbol.iterator]() {
         for (const byte of super[Symbol.iterator]()) {
@@ -140,7 +146,7 @@ export class ValidityVector extends VirtualVector<boolean, Uint8Array> {
 export class TypedVector<T, TArrayType> extends VirtualVector<T, TArrayType> {
     constructor(validity: ValidityArgs, ...lists: TArrayType[]) {
         super(...lists);
-        validity && (this.validity = ValidityVector.from(validity));
+        validity && (this.validity = BitVector.from(validity));
     }
     concat(vector: TypedVector<T, TArrayType>) {
         return (this.constructor as typeof TypedVector).from(this,
@@ -151,22 +157,31 @@ export class TypedVector<T, TArrayType> extends VirtualVector<T, TArrayType> {
     }
 }
 
-export class ByteVector<TList> extends TypedVector<number, TList> {
+export class DateVector extends TypedVector<Date, Uint32Array> {
     get(index: number) {
-        return this.validity.get(index) ? super.get(index) : null;
+        return !this.validity.get(index) ? null : new Date(
+            Math.pow(2, 32) * super.get(2 * ++index) + super.get(2 * --index)
+        );
+    }
+    *[Symbol.iterator]() {
+        let v, low, high;
+        let it = super[Symbol.iterator]();
+        let iv = this.validity[Symbol.iterator]();
+        while (!(v = iv.next()).done && !(low = it.next()).done && !(high = it.next()).done) {
+            yield !v.value ? null : new Date(Math.pow(2, 32) * high.value + low.value);
+        }
     }
 }
 
 export class IndexVector extends TypedVector<number, Int32Array> {
     get(index: number, batch?: number) {
         /* inlined `findVirtual` impl */
-        let rows, local = index;
-        let lists = this.lists, length;
-        let rowsIndex = (batch || 0) - 1;
-        while ((rows = lists[++rowsIndex]) &&
-               ((length = rows.length) <= local) &&
-               ((local -= length) >= 0)) {/*whee*/}
-        return (rows && local > -1) ? [rows[local + rowsIndex], rowsIndex] : [-1, 0, -1];
+        let rows, length, lists = this.lists;
+        for (batch = (batch || 0) - 1;
+            (rows = lists[++batch]) &&
+            (length = rows.length) <= index &&
+            0 <= (index -= length);) {}
+        return rows && -1 < index ? [rows[index + batch], batch] : [0, -1];
     }
     *[Symbol.iterator]() {
         let { lists } = this;
@@ -176,6 +191,12 @@ export class IndexVector extends TypedVector<number, Int32Array> {
                 yield [list[j], i];
             }
         }
+    }
+}
+
+export class ByteVector<TList> extends TypedVector<number, TList> {
+    get(index: number) {
+        return this.validity.get(index) ? super.get(index) : null;
     }
 }
 
@@ -196,22 +217,6 @@ export class LongVector<TList> extends TypedVector<Long, TList> {
     }
 }
 
-export class DateVector extends TypedVector<Date, Uint32Array> {
-    get(index: number) {
-        return !this.validity.get(index) ? null : new Date(
-            Math.pow(2, 32) * super.get(2 * ++index) + super.get(2 * --index)
-        );
-    }
-    *[Symbol.iterator]() {
-        let v, low, high;
-        let it = super[Symbol.iterator]();
-        let iv = this.validity[Symbol.iterator]();
-        while (!(v = iv.next()).done && !(low = it.next()).done && !(high = it.next()).done) {
-            yield !v.value ? null : new Date(Math.pow(2, 32) * high.value + low.value);
-        }
-    }
-}
-
 export class Int8Vector    extends ByteVector<Int8Array>    {}
 export class Int16Vector   extends ByteVector<Int16Array>   {}
 export class Int32Vector   extends ByteVector<Int32Array>   {}
@@ -225,7 +230,7 @@ export class Float64Vector extends ByteVector<Float64Array> {}
 
 LongVector.prototype.stride = 2;
 (Vector.prototype as any).lists = [];
-(Vector.prototype as any).validity = ValidityVector.constant;
+(Vector.prototype as any).validity = BitVector.constant;
 (VirtualVector.prototype as any)._arrayType = Array;
 (Int8Vector.prototype as any)._arrayType = Int8Array;
 (Int16Vector.prototype as any)._arrayType = Int16Array;

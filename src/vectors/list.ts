@@ -17,7 +17,7 @@
 
 import { Vector } from './vector';
 import { TextDecoder } from 'text-encoding';
-import { IndexVector, ValidityVector, ValidityArgs } from './typed';
+import { IndexVector, BitVector, ValidityArgs } from './typed';
 
 export class ListVectorBase<T> extends Vector<T> {
     protected values: Vector<T>;
@@ -26,7 +26,7 @@ export class ListVectorBase<T> extends Vector<T> {
         super();
         this.values = values;
         this.offsets = offsets;
-        validity && (this.validity = ValidityVector.from(validity));
+        validity && (this.validity = BitVector.from(validity));
     }
     get(index: number): T {
         if (!this.validity.get(index)) {
@@ -76,7 +76,7 @@ export class FixedSizeListVector<T> extends Vector<T[]> {
         super();
         this.values = values;
         this.size = Math.abs(size | 0) || 1;
-        validity && (this.validity = ValidityVector.from(validity));
+        validity && (this.validity = BitVector.from(validity));
     }
     get(index: number) {
         return !this.validity.get(index) ? null : this.values.slice(

@@ -70,7 +70,7 @@ export class Vector<T> implements Iterable<T> {
         );
         return this.range<R>(offset, length, batch);
     }
-    range<R = T>(index: number, length: number, batch?: number) {
+    protected range<R = T>(index: number, length: number, batch?: number) {
         const result = new Array<R>(length);
         for (let i = -1, n = this.length; ++i < length;) {
             result[i] = this.get((i + index) % n) as any;
