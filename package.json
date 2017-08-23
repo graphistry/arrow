@@ -6,7 +6,7 @@
   "browser": "./targets/es5/umd/Arrow.js",
   "jsnext:main": "./targets/es2015/esm/Arrow.js",
   "esnext:main": "./targets/esnext/esm/Arrow.js",
-  "typings": "./types/Arrow.d.ts",
+  "typings": "./typings/Arrow.d.ts",
   "description": "Apache's columnar in-memory data format for big data analytics",
   "scripts": {
     "lerna": "lerna",
