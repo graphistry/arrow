@@ -45,6 +45,7 @@ export let readBuffers = Arrow.readBuffers as typeof readBuffers_;
 export let vectors: typeof vectors_ = ArrowInternal.vectors;
 export namespace vectors {
     export type Vector<T> = vectors_.Vector<T>;
+    export type BitVector = vectors_.BitVector;
     export type ListVector<T> = vectors_.ListVector<T>;
     export type Utf8Vector = vectors_.Utf8Vector;
     export type DateVector = vectors_.DateVector;
@@ -60,7 +61,6 @@ export namespace vectors {
     export type Float32Vector = vectors_.Float32Vector;
     export type Float64Vector = vectors_.Float64Vector;
     export type StructVector = vectors_.StructVector;
-    export type ValidityVector = vectors_.ValidityVector;
     export type DictionaryVector<T> = vectors_.DictionaryVector<T>;
     export type FixedSizeListVector<T> = vectors_.FixedSizeListVector<T>;
 };
