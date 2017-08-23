@@ -268,6 +268,7 @@ LongVector.prototype.stride = 2;
 (Vector.prototype as any).lists = [];
 (Vector.prototype as any).validity = BitVector.constant;
 (VirtualVector.prototype as any)._arrayType = Array;
+(BitVector.prototype as any)._arrayType = Uint8Array;
 (Int8Vector.prototype as any)._arrayType = Int8Array;
 (Int16Vector.prototype as any)._arrayType = Int16Array;
 (Int32Vector.prototype as any)._arrayType = Int32Array;

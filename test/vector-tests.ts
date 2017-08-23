@@ -110,6 +110,11 @@ describe(`BitVector`, () => {
             false
         ])).toEqual(new Uint8Array([27, 216, 0, 0, 0, 0, 0, 0]));
     });
+    test(`from with boolean Array packs values`, () => {
+        expect(BitVector.from([
+            true, false, true
+        ]).slice()).toEqual(new Uint8Array([5, 0, 0, 0, 0, 0, 0, 0]));
+    });
 });
 
 for (const [VectorName, VectorType] of longVectors) {
