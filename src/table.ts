@@ -16,7 +16,7 @@
 // under the License.
 
 import { readBuffers } from './reader/arrow';
-import { Vector, sliceToRangeArgs } from './vectors/vector';
+import { Vector, sliceToRangeArgs } from './vector/vector';
 
 export class Table implements Iterable<Map<string, any>> {
     public length: number;

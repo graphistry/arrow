@@ -37,8 +37,8 @@ export class DictionaryVector<T> extends Vector<T> {
         );
     }
     *[Symbol.iterator]() {
-        let { index, dictionary } = this;
-        for (const loc of index) {
+        let { dictionary } = this;
+        for (const loc of this.index) {
             yield dictionary.get(loc);
         }
     }

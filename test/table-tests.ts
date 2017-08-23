@@ -32,6 +32,18 @@ for (let [name, ...buffers] of arrowTestConfigurations) {
                 }
             }
         });
+        test(`vector iterators report the same values as get`, () => {
+            expect.hasAssertions();
+            const table = Table.from(...buffers);
+            for (const vector of table.cols()) {
+                let i = -1, n = vector.length;
+                for (let v of vector) {
+                    expect(++i).toBeLessThan(n);
+                    expect(v).toEqual(vector.get(i));
+                }
+                expect(++i).toEqual(n);
+            }
+        });
         test(`batch and Table Vectors report the same values`, () => {
             expect.hasAssertions();
             let rowsTotal = 0, table = Table.from(...buffers);

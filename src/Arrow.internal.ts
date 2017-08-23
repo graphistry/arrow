@@ -15,10 +15,10 @@
 // specific language governing permissions and limitations
 // under the License.
 
-import { Vector as Vector_ } from './vectors/vector';
-import { StructVector as StructVector_ } from './vectors/struct';
-import { DictionaryVector as DictionaryVector_ } from './vectors/dictionary';
-import { ListVector as ListVector_, Utf8Vector as Utf8Vector_, FixedSizeListVector as FixedSizeListVector_ } from './vectors/list';
+import { Vector as Vector_ } from './vector/vector';
+import { StructVector as StructVector_ } from './vector/struct';
+import { DictionaryVector as DictionaryVector_ } from './vector/dictionary';
+import { ListVector as ListVector_, Utf8Vector as Utf8Vector_, FixedSizeListVector as FixedSizeListVector_ } from './vector/list';
 import {
     TypedVector as TypedVector_, BitVector as BitVector_,
     DateVector as DateVector_, IndexVector as IndexVector_,
@@ -27,7 +27,7 @@ import {
     Uint8Vector as Uint8Vector_, Uint16Vector as Uint16Vector_,
     Uint32Vector as Uint32Vector_, Uint64Vector as Uint64Vector_,
     Float32Vector as Float32Vector_, Float64Vector as Float64Vector_,
-} from './vectors/typed';
+} from './vector/typed';
 
 export const vectors = {
     Vector: Vector_,

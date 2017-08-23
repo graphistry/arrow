@@ -33,5 +33,18 @@ for (let [name, ...buffers] of arrowTestConfigurations) {
                 }
             }
         });
+        test(`vector iterators report the same values as get`, () => {
+            expect.hasAssertions();
+            for (let vectors of readBuffers(...buffers)) {
+                for (let vector of vectors) {
+                    let i = -1, n = vector.length;
+                    for (let v of vector) {
+                        expect(++i).toBeLessThan(n);
+                        expect(v).toEqual(vector.get(i));
+                    }
+                    expect(++i).toEqual(n);
+                }
+            }
+        });
     });
 }

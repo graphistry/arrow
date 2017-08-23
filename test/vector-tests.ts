@@ -45,7 +45,7 @@ const bytes = Array.from(
         { length: 64 },
         () => Math.random() * 255 | 0));
 
-describe(`ValidityVector`, () => {
+describe(`BitVector`, () => {
     const vector = new BitVector(new Uint8Array([27, 0, 0, 0, 0, 0, 0, 0]));
     const values = [true, true, false, true, true, false, false, false];
     const n = values.length;
@@ -62,6 +62,32 @@ describe(`ValidityVector`, () => {
             expect(++i).toBeLessThan(n);
             expect(v).toEqual(values[i]);
         }
+    });
+    test(`can set values to true and false`, () => {
+        const v = new BitVector(new Uint8Array([27, 0, 0, 0, 0, 0, 0, 0]));
+        const expected1 = [true, true, false, true, true, false, false, false];
+        const expected2 = [true, true,  true, true, true, false, false, false];
+        const expected3 = [true, true, false, false, false, false, true, true];
+        function validate(expected) {
+            for (let i = -1; ++i < n;) {
+                expect(v.get(i)).toEqual(expected[i]);
+            }
+        }
+        validate(expected1);
+        v.set(2, true);
+        validate(expected2);
+        v.set(2, false);
+        validate(expected1);
+        v.set(3, false);
+        v.set(4, false);
+        v.set(6, true);
+        v.set(7, true);
+        validate(expected3);
+        v.set(3, true);
+        v.set(4, true);
+        v.set(6, false);
+        v.set(7, false);
+        validate(expected1);
     });
     test(`packs 0 values`, () => {
         expect(BitVector.pack([])).toEqual(
@@ -146,6 +172,7 @@ for (const [VectorName, VectorType] of byteVectors) {
             }
         });
         test(`iterates expected values`, () => {
+            expect.hasAssertions();
             let i = -1;
             for (let v of vector) {
                 expect(++i).toBeLessThan(n);

@@ -22,7 +22,7 @@ import * as Message_ from '../format/Message';
 import { readFile } from './file';
 import { readStream } from './stream';
 import { readVector } from './vector';
-import { Vector } from '../vectors/vector';
+import { Vector } from '../vector/vector';
 import { readDictionaries } from './dictionary';
 
 import ByteBuffer = flatbuffers.ByteBuffer;

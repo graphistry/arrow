@@ -16,18 +16,18 @@
 // under the License.
 
 import { MessageBatch } from './message';
-import { Vector } from '../vectors/vector';
+import { Vector } from '../vector/vector';
 import * as Schema_ from '../format/Schema';
-import { StructVector } from '../vectors/struct';
+import { StructVector } from '../vector/struct';
 import { IteratorState, Dictionaries } from './arrow';
-import { DictionaryVector } from '../vectors/dictionary';
-import { Utf8Vector, ListVector, FixedSizeListVector } from '../vectors/list';
+import { DictionaryVector } from '../vector/dictionary';
+import { Utf8Vector, ListVector, FixedSizeListVector } from '../vector/list';
 import {
     TypedArray, TypedArrayCtor, IntArray, FloatArray,
     Int8Vector, Int16Vector, Int32Vector, Int64Vector,
     Uint8Vector, Uint16Vector, Uint32Vector, Uint64Vector,
     Float32Vector, Float64Vector, IndexVector, DateVector,
-} from '../vectors/typed';
+} from '../vector/typed';
 
 import Int = Schema_.org.apache.arrow.flatbuf.Int;
 import Type = Schema_.org.apache.arrow.flatbuf.Type;

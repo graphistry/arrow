@@ -28,13 +28,19 @@ export class ListVectorBase<T> extends Vector<T> {
         this.offsets = offsets;
         validity && (this.validity = BitVector.from(validity));
     }
-    get(index: number): T {
-        if (!this.validity.get(index)) {
+    get(index: number) {
+        let batch, from, to, { offsets } = this;
+        if (!this.validity.get(index) ||
+            /* return null if `to` is null */
+            ((to = offsets.get(index + 1)) === null) || !(
+            /*
+            return null if `batch` is less than than 0. this check is placed
+            second to avoid creating the [from, batch] tuple if `to` is null
+            */
+            ([from, batch] = offsets.get(index, true) as number[]) && batch > -1)) {
             return null;
         }
-        let [start] = this.offsets.get(index++);
-        let [stop, b] = this.offsets.get(index);
-        return this.values.slice(start, stop, b) as any;
+        return this.values.slice(from, to, batch) as any;
     }
     concat(vector: ListVectorBase<T>) {
         return (this.constructor as typeof ListVectorBase).from(this,
@@ -49,7 +55,7 @@ export class ListVectorBase<T> extends Vector<T> {
         let it = this.offsets[Symbol.iterator]();
         let iv = this.validity[Symbol.iterator]();
         while (!(v = iv.next()).done && !(r1 = it.next()).done && !(r2 = it.next()).done) {
-            yield values.slice(r1.value[0], r2.value[0], r2.value[1]) as any;
+            yield !v.value ? null : values.slice(r1.value[0], r2.value, r1.value[1]) as any;
         }
     }
 }
