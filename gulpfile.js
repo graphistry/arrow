@@ -149,18 +149,19 @@ function closureTask(target, format, taskName, outDir) {
         [`clean:${taskName}`, `build:${clsTarget}:cls`],
         () => {
             return streamMerge([
-                closureStream(closureSrcs(), `Arrow`, onError, true),
-                closureStream(closureSrcs(), `Arrow.internal`, onError)
+                closureStream(closureSrcs(false), `Arrow`, onError, true),
+                closureStream(closureSrcs(true), `Arrow.internal`, onError)
             ])
             .on('end', () => del([`targets/${target}/cls/**`]));
         }
     ];
-    function closureSrcs() {
+    function closureSrcs(isInternal) {
         return gulp.src([
             `closure-compiler/*.js`,
             `${googleRoot}/**/*.js`,
             `!${googleRoot}/format/*.js`,
-            `!${googleRoot}/Arrow.externs.js`
+            `!${googleRoot}/Arrow.externs.js`,
+            `!${googleRoot}/Arrow${isInternal ? `` : `.internal`}.js`
         ], { base: `./` });
     }
     function closureStream(sources, entry, onError, copyToDist) {
