@@ -15,9 +15,17 @@
 // specific language governing permissions and limitations
 // under the License.
 
+// Use the ES5 UMD target as perf baseline
+// ES6/7 iterators are faster in turbofan, but something about the
+// ES5 transpilation (rewriting let and const to var?) JITs better
+const { Table, readBuffers } = require('../dist/Arrow');
+// const { Table, readBuffers } = require('../targets/es5/cjs');
+// const { Table, readBuffers } = require('../targets/es2015/cjs');
+// const { Table, readBuffers } = require('../targets/esnext/cjs');
+
 const Benchmark = require('benchmark');
 const arrowTestConfigurations = require('./config');
-const { Table, readBuffers } = require('../dist/Arrow');
+
 const suites = [];
 
 for (let [name, ...buffers] of arrowTestConfigurations) {
