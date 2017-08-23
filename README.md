@@ -17,9 +17,10 @@
   under the License.
 -->
 
+# [Apache Arrow](https://github.com/apache/arrow) in JS
+
 [![Build Status](https://travis-ci.org/graphistry/arrow.svg?branch=master)](https://travis-ci.org/graphistry/arrow)
 
-# [Apache Arrow](https://github.com/apache/arrow) in JS
 Loading big native dataframes in JavaScript is finally awesome. `apache-arrow` provides an easy, modern, and efficient zero-copy JS interface to parse, iterate, and access [Apache Arrow](https://github.com/apache/arrow) columnar data on CPUs (GPU support via [GoAI](http://gpuopenanalytics.com/) is occurring in parallel).
 
 `apache-arrow` is tested on Apache's sample Arrow files and [MapD Core's](https://www.mapd.com/platform/core/) Arrow output, and powers much of [Graphistry's](https://www.graphistry.com) GPU visual analytics platform. It is in active development by Graphistry for its GPU client/cloud visual graph analytics platform.
@@ -27,14 +28,17 @@ Loading big native dataframes in JavaScript is finally awesome. `apache-arrow` p
 ***This project has been developed outside the Apache Software Foundation, but an effort to transfer IP and ownership to the ASF is underway.***
 
 ## install
+
 `npm install apache-arrow`
 
 # What's Arrow?
+
 Apache Arrow is a columnar memory layout specification for encoding vectors and table-like containers of flat and nested data. The Arrow spec aligns columnar data in memory to maximize caches and take advantage of the latest SIMD (Single input multiple data) and GPU operations on modern processors.
 
 Apache Arrow is the emerging standard for large in-memory columnar data ([Spark](https://spark.apache.org/), [Pandas](http://wesmckinney.com/blog/pandas-and-apache-arrow/), [Drill](https://drill.apache.org/), ...). By standardizing on a common interchange format, big data systems can reduce the costs and friction associated with cross-system communication.
 
 # Related Projects
+
 * [Apache Arrow](https://github.com/apache/arrow) -- Arrow columnar format
 * [GoAI](http://gpuopenanalytics.com/) -- Arrow standard extensions for GPUs
 * [rxjs-mapd](https://github.com/graphistry/rxjs-mapd) -- Library for querying MapD Core in node
@@ -42,6 +46,7 @@ Apache Arrow is the emerging standard for large in-memory columnar data ([Spark]
 # Examples
 
 ## Get a table from an Arrow file on disk
+
 ```es6
 import { readFileSync } from 'fs';
 import { Table } from 'apache-arrow';
@@ -62,6 +67,7 @@ null, null, null
 ```
 
 ## Create a Table when the Arrow file is split across buffers
+
 ```es6
 import { readFileSync } from 'fs';
 import { Table } from 'apache-arrow';
@@ -84,6 +90,7 @@ console.log(table.toString());
 ```
 
 ## Columns are what you'd expect
+
 ```es6
 import { readFileSync } from 'fs';
 import { Table } from 'apache-arrow';
