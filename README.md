@@ -20,6 +20,7 @@
 # [Apache Arrow](https://github.com/apache/arrow) in JS
 
 [![Build Status](https://travis-ci.org/graphistry/arrow.svg?branch=master)](https://travis-ci.org/graphistry/arrow)
+[![Coverage Status](https://coveralls.io/repos/github/graphistry/arrow/badge.svg)](https://coveralls.io/github/graphistry/arrow)
 
 Loading big native dataframes in JavaScript is finally awesome. `apache-arrow` provides an easy, modern, and efficient zero-copy JS interface to parse, iterate, and access [Apache Arrow](https://github.com/apache/arrow) columnar data on CPUs (GPU support via [GoAI](http://gpuopenanalytics.com/) is occurring in parallel).
 

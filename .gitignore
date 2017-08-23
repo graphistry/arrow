@@ -84,7 +84,6 @@ package-lock.json
 
 # compilation targets
 dist
-types
 targets/es5
 targets/es2015
 targets/esnext

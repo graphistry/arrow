@@ -45,6 +45,7 @@ const argv = require(`command-line-args`)([
     { name: 'verbose', alias: 'v', type: Boolean },
     { name: `target`, type: String, defaultValue: `` },
     { name: `module`, type: String, defaultValue: `` },
+    { name: `coverage`, type: Boolean, defaultValue: false },
     { name: `targets`, alias: `t`, type: String, multiple: true, defaultValue: [] },
     { name: `modules`, alias: `m`, type: String, multiple: true, defaultValue: [] }
 ]);
@@ -128,6 +129,7 @@ function testTask(target, format, taskName, outDir, debug) {
         `--runInBand`, `--env`, `jest-environment-node-debug`];
     argv.update && jestOptions.unshift(`-u`);
     argv.verbose && jestOptions.unshift(`--verbose`);
+    argv.coverage && jestOptions.unshift(`--coverage`);
     const jestPath = `./node_modules/.bin/jest`;
     const debugOpts = jestOptions.join(' ');
     const spawnOptions = {
