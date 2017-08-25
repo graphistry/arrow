@@ -18,14 +18,18 @@
 import * as fs from 'fs';
 import * as path from 'path';
 const arrowFormats = ['file', 'stream'];
-const arrowFileNames = ['simple', 'struct', 'dictionary'];
+const arrowFileNames = ['simple', 'struct', 'dictionary', 'dictionary2', 'multi_dictionary'];
 const multipartArrows = ['count', 'latlong', 'origins'];
 export let arrowTestConfigurations = [];
 
 arrowTestConfigurations = arrowFormats.reduce((configs, format) => {
     return arrowFileNames.reduce((configs, name) => {
         const arrowPath = path.resolve(__dirname, `./arrows/${format}/${name}.arrow`);
-        return [...configs, [`${name} ${format} Arrow`, fs.readFileSync(arrowPath)]];
+        try {
+            const arrowFile = fs.readFileSync(arrowPath);
+            return [...configs, [`${name} ${format} Arrow`, arrowFile]];
+        } catch (e) {}
+        return configs;
     }, configs);
 }, arrowTestConfigurations);
 

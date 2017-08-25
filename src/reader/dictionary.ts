@@ -29,10 +29,15 @@ export function* readDictionaries(field: Field,
                                   dictionaries: Dictionaries) {
     let id: string, encoding: DictionaryEncoding;
     if ((encoding = field.dictionary()) &&
-        (id = encoding.id().toFloat64().toString())) {
+        batch.id === (id = encoding.id().toFloat64().toString())) {
         yield [id, readVector(field, batch, iterator, null)];
+        return;
     }
     for (let i = -1, n = field.childrenLength(); ++i < n;) {
-        yield* readDictionaries(field.children(i), batch, iterator, dictionaries);
+        // Since a dictionary batch can only contain a single vector, return early after we find it
+        for (let result of readDictionaries(field.children(i), batch, iterator, dictionaries)) {
+            yield result;
+            return;
+        }
     }
 }

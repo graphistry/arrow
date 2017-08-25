@@ -90,6 +90,68 @@ Array [
 ]
 `;
 
+exports[`dictionary2 file Arrow readBuffers enumerates each batch as an Array of Vectors 1`] = `"struct"`;
+
+exports[`dictionary2 file Arrow readBuffers enumerates each batch as an Array of Vectors 2`] = `"Struct_"`;
+
+exports[`dictionary2 file Arrow readBuffers enumerates each batch as an Array of Vectors 3`] = `2`;
+
+exports[`dictionary2 file Arrow readBuffers enumerates each batch as an Array of Vectors 4`] = `
+Array [
+  "a0fb47f9-f8fb-4403-a64a-786d7611f8ef",
+  "Airbus",
+  1502880750,
+  Float32Array [
+    32.45663833618164,
+    1.8712350130081177,
+  ],
+]
+`;
+
+exports[`dictionary2 file Arrow readBuffers enumerates each batch as an Array of Vectors 5`] = `
+Array [
+  "50fb46f4-fefa-42c1-919c-0121974cdd00",
+  "Boeing",
+  1502880750,
+  Float32Array [
+    38.766666412353516,
+    -4.181231498718262,
+  ],
+]
+`;
+
+exports[`multi_dictionary file Arrow readBuffers enumerates each batch as an Array of Vectors 1`] = `"struct"`;
+
+exports[`multi_dictionary file Arrow readBuffers enumerates each batch as an Array of Vectors 2`] = `"Struct_"`;
+
+exports[`multi_dictionary file Arrow readBuffers enumerates each batch as an Array of Vectors 3`] = `2`;
+
+exports[`multi_dictionary file Arrow readBuffers enumerates each batch as an Array of Vectors 4`] = `
+Array [
+  "a0fb47f9-f8fb-4403-a64a-786d7611f8ef",
+  "12345",
+  "Airbus",
+  1502880750,
+  Float32Array [
+    32.45663833618164,
+    1.8712350130081177,
+  ],
+]
+`;
+
+exports[`multi_dictionary file Arrow readBuffers enumerates each batch as an Array of Vectors 5`] = `
+Array [
+  "50fb46f4-fefa-42c1-919c-0121974cdd00",
+  "67890",
+  "Boeing",
+  1502880750,
+  Float32Array [
+    38.766666412353516,
+    -4.181231498718262,
+  ],
+]
+`;
+
 exports[`multipart count Arrow readBuffers enumerates each batch as an Array of Vectors 1`] = `"row_count"`;
 
 exports[`multipart count Arrow readBuffers enumerates each batch as an Array of Vectors 2`] = `"Int"`;

@@ -15,6 +15,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
+import { flatbuffers } from 'flatbuffers';
 import { MessageBatch } from './message';
 import { Vector } from '../vector/vector';
 import * as Schema_ from '../format/Schema';
@@ -34,6 +35,7 @@ import Type = Schema_.org.apache.arrow.flatbuf.Type;
 import Field = Schema_.org.apache.arrow.flatbuf.Field;
 import Precision = Schema_.org.apache.arrow.flatbuf.Precision;
 import VectorType = Schema_.org.apache.arrow.flatbuf.VectorType;
+import VectorLayout = Schema_.org.apache.arrow.flatbuf.VectorLayout;
 import FixedSizeList = Schema_.org.apache.arrow.flatbuf.FixedSizeList;
 import FloatingPoint = Schema_.org.apache.arrow.flatbuf.FloatingPoint;
 import DictionaryEncoding = Schema_.org.apache.arrow.flatbuf.DictionaryEncoding;
@@ -55,9 +57,11 @@ function readDictionaryVector(field: Field, batch: MessageBatch, iterator: Itera
     let encoding: DictionaryEncoding;
     if (dictionaries && (encoding = field.dictionary())) {
         let id = encoding.id().toFloat64().toString();
-        let index = readIntVector(field, batch, iterator, null,
+        let fieldType =  encoding.indexType() ||
             /* a dictionary index defaults to signed 32 bit int if unspecified */
-            encoding.indexType() || { bitWidth: () => 32, isSigned: () => true });
+            { bitWidth: () => 32, isSigned: () => true };
+        let indexField = createSyntheticDictionaryIndexField(field, fieldType);
+        let index = readIntVector(indexField, batch, iterator, null, fieldType);
         return DictionaryVector.create(field, index.length, index, dictionaries[id]);
     }
 }
@@ -164,7 +168,6 @@ const readStructVector = readVectorLayout<any[], ArrayLike<any>>(
     createNestedDataViews,
     (field, length, data, validity, offsets, fieldType, batch, iterator, dictionaries) => {
         let vectors: Vector<any>[] = [];
-        iterator.bufferIndex -= field.nullable() ? 0 : field.layoutLength();
         for (let i = -1, n = field.childrenLength(); ++i < n;) {
             vectors[i] = readVector(field.children(i), batch, iterator, dictionaries);
         }
@@ -243,4 +246,26 @@ function createDataView(
 
 function valueForBitWidth(bitWidth: number, values: any[]) {
     return values[bitWidth >> 4] || values[3];
+}
+
+function createSyntheticDictionaryIndexField(field: Field, type: FieldType) {
+    let layouts = [];
+    let builder = new flatbuffers.Builder();
+    if (field.nullable()) {
+        VectorLayout.startVectorLayout(builder);
+        VectorLayout.addBitWidth(builder, 8);
+        VectorLayout.addType(builder, VectorType.VALIDITY);
+        builder.finish(VectorLayout.endVectorLayout(builder));
+        layouts.push(VectorLayout.getRootAsVectorLayout(builder.dataBuffer()));
+        builder = new flatbuffers.Builder();
+    }
+    VectorLayout.startVectorLayout(builder);
+    VectorLayout.addBitWidth(builder, type.bitWidth());
+    VectorLayout.addType(builder, VectorType.DATA);
+    builder.finish(VectorLayout.endVectorLayout(builder));
+    layouts.push(VectorLayout.getRootAsVectorLayout(builder.dataBuffer()));
+    return Object.create(field, {
+        layout: { value(i) { return layouts[i]; } },
+        layoutLength: { value() { return layouts.length; } }
+    });
 }
