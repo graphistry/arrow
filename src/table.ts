@@ -16,6 +16,7 @@
 // under the License.
 
 import { readBuffers } from './reader/arrow';
+import { StructVector } from './vector/struct';
 import { Vector, sliceToRangeArgs } from './vector/vector';
 
 export class Table implements Iterable<Map<string, any>> {
@@ -28,6 +29,9 @@ export class Table implements Iterable<Map<string, any>> {
             columns = !columns ? vectors : columns.map((v, i) => v.concat(vectors[i]));
         }
         return new Table(columns);
+    }
+    static fromStruct(vector: StructVector) {
+        return new Table((<any> vector).vectors);
     }
     constructor(columns: Vector<any>[]) {
         this._columns = columns || [];
