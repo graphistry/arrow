@@ -18,28 +18,34 @@
 import { Vector } from './vector';
 
 export class DictionaryVector<T> extends Vector<T> {
-    protected index: Vector<number>;
-    protected dictionary: Vector<T>;
+    protected data: Vector<T>;
+    protected keys: Vector<number>;
     constructor(index: Vector<number>, dictionary: Vector<T>) {
         super();
-        this.index = index;
-        this.dictionary = dictionary;
+        this.keys = index;
+        this.data = dictionary;
         this.length = index && index.length || 0;
     }
+    index(index: number) {
+        return this.keys.get(index);
+    }
+    value(index: number) {
+        return this.data.get(index);
+    }
     get(index: number) {
-        return this.dictionary.get(this.index.get(index));
+        return this.value(this.index(index));
     }
     concat(vector: DictionaryVector<T>) {
         return DictionaryVector.from(this,
             this.length + vector.length,
-            this.index.concat(vector.index),
-            this.dictionary
+            this.keys.concat(vector.keys),
+            this.data
         );
     }
     *[Symbol.iterator]() {
-        let { dictionary } = this;
-        for (const loc of this.index) {
-            yield dictionary.get(loc);
+        let { data } = this;
+        for (const loc of this.keys) {
+            yield data.get(loc);
         }
     }
 }
