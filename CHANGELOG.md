@@ -1,3 +1,14 @@
+<a name="0.1.2"></a>
+## [0.1.2](https://github.com/graphistry/arrow/compare/v0.1.1...v0.1.2) (2017-09-06)
+
+
+### Bug Fixes
+
+* **DictionaryVector:** Add index and value methods to DictionaryVector ([a8341f5](https://github.com/graphistry/arrow/commit/a8341f5))
+* **Table:** Add fromStruct method to Table ([e1c7852](https://github.com/graphistry/arrow/commit/e1c7852))
+
+
+
 <a name="0.1.1"></a>
 ## [0.1.1](https://github.com/graphistry/arrow/compare/v0.1.0...v0.1.1) (2017-08-26)
 
