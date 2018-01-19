@@ -19,32 +19,24 @@
 
 # [Apache Arrow](https://github.com/apache/arrow) in JS
 
-[![Build Status](https://travis-ci.org/graphistry/arrow.svg?branch=master)](https://travis-ci.org/graphistry/arrow)
-[![Coverage Status](https://coveralls.io/repos/github/graphistry/arrow/badge.svg)](https://coveralls.io/github/graphistry/arrow)
+[![Build Status](https://travis-ci.org/apache/arrow.svg?branch=master)](https://travis-ci.org/apache/arrow)
+[![Coverage Status](https://coveralls.io/repos/github/apache/arrow/badge.svg)](https://coveralls.io/github/apache/arrow)
 
-Loading big native dataframes in JavaScript is finally awesome. `apache-arrow` provides an easy, modern, and efficient zero-copy JS interface to parse, iterate, and access [Apache Arrow](https://github.com/apache/arrow) columnar data on CPUs (GPU support via [GoAI](http://gpuopenanalytics.com/) is occurring in parallel).
+Arrow is a set of technologies that enable big data systems to process and transfer data quickly.
 
-`apache-arrow` is tested on Apache's sample Arrow files and [MapD Core's](https://www.mapd.com/platform/core/) Arrow output, and powers much of [Graphistry's](https://www.graphistry.com) GPU visual analytics platform. It is in active development by Graphistry for its GPU client/cloud visual graph analytics platform.
-
-***This project has been developed outside the Apache Software Foundation, but an effort to transfer IP and ownership to the ASF is underway.***
-
-## install
+## install [apache-arrow from npm](https://www.npmjs.com/package/apache-arrow)
 
 `npm install apache-arrow`
 
-# What's Arrow?
+(read about how we [package apache-arrow](#packaging) below)
 
-Apache Arrow is a columnar memory layout specification for encoding vectors and table-like containers of flat and nested data. The Arrow spec aligns columnar data in memory to maximize caches and take advantage of the latest SIMD (Single input multiple data) and GPU operations on modern processors.
+# Powering Columnar In-Memory Analytics
 
-Apache Arrow is the emerging standard for large in-memory columnar data ([Spark](https://spark.apache.org/), [Pandas](http://wesmckinney.com/blog/pandas-and-apache-arrow/), [Drill](https://drill.apache.org/), ...). By standardizing on a common interchange format, big data systems can reduce the costs and friction associated with cross-system communication.
+[Apache Arrow](https://github.com/apache/arrow) is a columnar memory layout specification for encoding vectors and table-like containers of flat and nested data. The Arrow spec aligns columnar data in memory to minimize cache misses and take advantage of the latest SIMD (Single input multiple data) and GPU operations on modern processors.
 
-# Related Projects
+Apache Arrow is the emerging standard for large in-memory columnar data ([Spark](https://spark.apache.org/), [Pandas](http://wesmckinney.com/blog/pandas-and-apache-arrow/), [Drill](https://drill.apache.org/), [Graphistry](https://www.graphistry.com), ...). By standardizing on a common binary interchange format, big data systems can reduce the costs and friction associated with cross-system communication.
 
-* [Apache Arrow](https://github.com/apache/arrow) -- Arrow columnar format
-* [GoAI](http://gpuopenanalytics.com/) -- Arrow standard extensions for GPUs
-* [rxjs-mapd](https://github.com/graphistry/rxjs-mapd) -- Library for querying MapD Core in node
-
-# Examples
+# Usage
 
 ## Get a table from an Arrow file on disk
 
@@ -53,7 +45,7 @@ import { readFileSync } from 'fs';
 import { Table } from 'apache-arrow';
 
 const arrow = readFileSync('simple.arrow');
-const table = Table.from(arrow);
+const table = Table.from([arrow]);
 
 console.log(table.toString());
 
@@ -73,7 +65,7 @@ null, null, null
 import { readFileSync } from 'fs';
 import { Table } from 'apache-arrow';
 
-const table = Table.from(...[
+const table = Table.from([
     'latlong/schema.arrow',
     'latlong/records.arrow'
 ].map((file) => readFileSync(file)));
@@ -96,12 +88,12 @@ console.log(table.toString());
 import { readFileSync } from 'fs';
 import { Table } from 'apache-arrow';
 
-const table = Table.from(...[
+const table = Table.from([
     'latlong/schema.arrow',
     'latlong/records.arrow'
 ].map(readFileSync));
 
-const column = table.getColumn('origin_lat');
+const column = table.col('origin_lat');
 const typed = column.slice();
 
 assert(typed instanceof Float32Array);
@@ -111,7 +103,7 @@ for (let i = -1, n = column.length; ++i < n;) {
 }
 ```
 
-## Use with MapD Core
+## Usage with MapD Core
 
 ```es6
 import MapD from 'rxjs-mapd';
@@ -119,25 +111,29 @@ import { Table } from 'apache-arrow';
 
 const port = 9091;
 const host = `localhost`;
-const encrypted = false;
-const username = `mapd`;
+const db = `mapd`;
+const user = `mapd`;
 const password = `HyperInteractive`;
-const dbName = `mapd`, timeout = 5000;
 
-MapD.open(host, port, encrypted)
-    .connect(dbName, username, password, timeout)
-    .flatMap((session) =>
-        session.queryDF(`
-            SELECT origin_city
-            FROM flights
-            WHERE dest_city ILIKE 'dallas'
-            LIMIT 5`
-        ).disconnect()
+MapD.open(host, port)
+  .connect(db, user, password)
+  .flatMap((session) =>
+    // queryDF returns Arrow buffers
+    session.queryDF(`
+      SELECT origin_city
+      FROM flights
+      WHERE dest_city ILIKE 'dallas'
+      LIMIT 5`
+    ).disconnect()
   )
   .map(([schema, records]) =>
-      Table.from(schema, records))
-  .subscribe((table) => console.log(
-      table.toString({ index: true })));
+    // Create Arrow Table from results
+    Table.from(schema, records))
+  .map((table) =>
+    // Stringify the table to CSV with row numbers
+    table.toString({ index: true }))
+  .subscribe((csvStr) =>
+    console.log(csvStr));
 /*
 Index,   origin_city
     0, Oklahoma City
@@ -148,40 +144,86 @@ Index,   origin_city
 */
 ```
 
-# Contribute
+# Getting involved
 
-See [develop.md](https://github.com/graphistry/arrow/blob/master/develop.md)
+See [develop.md](https://github.com/apache/arrow/blob/master/develop.md)
 
-Please create an issue if you encounter any bugs!
+Even if you do not plan to contribute to Apache Arrow itself or Arrow
+integrations in other projects, we'd be happy to have you involved:
 
-PR's welcome! Here's some ideas:
+* Join the mailing list: send an email to
+  [dev-subscribe@arrow.apache.org][1]. Share your ideas and use cases for the
+  project.
+* [Follow our activity on JIRA][3]
+* [Learn the format][2]
+* Contribute code to one of the reference implementations
 
-* API docs
-* More Tests/Benchmarks
-* Performance optimizations
-* Arrows from node-streams and async-iterators
-* GPU Arrows from node-opencl and node-cuda buffers
-* Bindings to [libgdf](https://github.com/gpuopenanalytics/libgdf)
+We prefer to receive contributions in the form of GitHub pull requests. Please send pull requests against the [github.com/apache/arrow][4] repository.
 
-### packaging
-`apache-arrow` is written in TypeScript, but the project is compiled to multiple JS versions and common module formats. The base `apache-arrow` package includes all the compilation targets for convenience, but if you're conscientious about your `node_modules` footprint, don't worry -- we got you. The targets are also published under the `@apache-arrow` namespace:
+If you are looking for some ideas on what to contribute, check out the [JIRA
+issues][3] for the Apache Arrow project. Comment on the issue and/or contact
+[dev@arrow.apache.org](http://mail-archives.apache.org/mod_mbox/arrow-dev/)
+with your questions and ideas.
+
+If you’d like to report a bug but don’t have time to fix it, you can still post
+it on JIRA, or email the mailing list
+[dev@arrow.apache.org](http://mail-archives.apache.org/mod_mbox/arrow-dev/)
+
+## Packaging
+
+`apache-arrow` is written in TypeScript, but the project is compiled to multiple JS versions and common module formats.
+
+The base `apache-arrow` package includes all the compilation targets for convenience, but if you're conscientious about your `node_modules` footprint, we got you.
+
+The targets are also published under the `@apache-arrow` namespace:
+
 ```sh
-npm install @apache-arrow/es5-cjs # ES5 CommonJS target
-npm install @apache-arrow/es5-esm # ES5 ESModules target
-npm install @apache-arrow/es5-umd # ES5 UMD target
-npm install @apache-arrow/es2015-cjs # ES2015 CommonJS target
-npm install @apache-arrow/es2015-esm # ES2015 ESModules target
-npm install @apache-arrow/es2015-umd # ES2015 UMD target
-npm install @apache-arrow/esnext-esm # ESNext CommonJS target
-npm install @apache-arrow/esnext-esm # ESNext ESModules target
-npm install @apache-arrow/esnext-umd # ESNext UMD target
+npm install apache-arrow # <-- combined es5/UMD, es2015/CommonJS/ESModules/UMD, and TypeScript package
+npm install @apache-arrow/ts # standalone TypeScript package
+npm install @apache-arrow/es5-cjs # standalone es5/CommonJS package
+npm install @apache-arrow/es5-esm # standalone es5/ESModules package
+npm install @apache-arrow/es5-umd # standalone es5/UMD package
+npm install @apache-arrow/es2015-cjs # standalone es2015/CommonJS package
+npm install @apache-arrow/es2015-esm # standalone es2015/ESModules package
+npm install @apache-arrow/es2015-umd # standalone es2015/UMD package
+npm install @apache-arrow/esnext-esm # standalone esNext/CommonJS package
+npm install @apache-arrow/esnext-esm # standalone esNext/ESModules package
+npm install @apache-arrow/esnext-umd # standalone esNext/UMD package
 ```
 
-### why do we package like this?
-The JS community is a diverse group with a varied list of target environments and tool chains. Publishing multiple packages accommodates projects of all types. Friends targeting the latest JS runtimes can pull in the ESNext + ESM build. Friends needing wide browser support and small download size can use the UMD bundle, which has been run through Google's Closure Compiler with advanced optimizations.
+### Why we package like this
 
-If you think we missed a compilation target and it's a blocker for adoption, please open an issue. We're here for you ❤️.
+The JS community is a diverse group with a varied list of target environments and tool chains. Publishing multiple packages accommodates projects of all stripes.
+
+If you think we missed a compilation target and it's a blocker for adoption, please open an issue.
+
+# People
+
+Full list of broader Apache Arrow [committers](https://arrow.apache.org/committers/).
+
+* Brian Hulette, CCRi,  _contributor_
+* Paul Taylor, Graphistry, Inc.,  _committer_
+
+# Powered By Apache Arrow in JS 
+
+Full list of broader Apache Arrow [projects & organizations](https://github.com/apache/arrow/blob/master/site/powered_by.md).
+ 
+## Open Source Projects
+
+* [Apache Arrow](https://arrow.apache.org) -- Parent project for Powering Columnar In-Memory Analytics, including affiliated open source projects
+* [rxjs-mapd](https://github.com/graphistry/rxjs-mapd) -- A MapD Core node-driver that returns query results as Arrow columns
+
+## Companies & Organizations
+
+* [CCRi](http://www.ccri.com/) -- Commonwealth Computer Research Inc, or CCRi, is a Central Virginia based data science and software engineering company
+* [GOAI](http://gpuopenanalytics.com/) -- GPU Open Analytics Initiative standardizes on Arrow as part of creating common data frameworks that enable developers and statistical researchers to accelerate data science on GPUs
+* [Graphistry, Inc.](https://www.graphistry.com/) - An end-to-end GPU accelerated visual investigation platform used by teams for security, anti-fraud, and related investigations. Graphistry uses Arrow in its NodeJS GPU backend and client libraries, and is an early contributing member to GOAI and Arrow\[JS\] working to bring these technologies to the enterprise.
 
 # License
 
-[Apache 2.0](https://github.com/graphistry/arrow/blob/master/LICENSE)
+[Apache 2.0](https://github.com/apache/arrow/blob/master/LICENSE)
+
+[1]: mailto:dev-subscribe@arrow.apache.org
+[2]: https://github.com/apache/arrow/tree/master/format
+[3]: https://issues.apache.org/jira/browse/ARROW
+[4]: https://github.com/apache/arrow

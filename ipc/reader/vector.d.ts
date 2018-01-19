@@ -1,0 +1,56 @@
+import { Vector } from '../../vector';
+import { RecordBatch } from '../../recordbatch';
+import { TypeVisitor } from '../../visitor';
+import { FlatType, NestedType, ListType } from '../../type';
+import { Message, FieldMetadata, BufferMetadata } from '../metadata';
+import { FlatData, ListData, NestedData, DenseUnionData, SparseUnionData, BoolData, FlatListData, DictionaryData } from '../../data';
+import { Schema, Field, Dictionary, Null, Int, Float, Binary, Bool, Utf8, Decimal, Date_, Time, Timestamp, Interval, List, Struct, Union, FixedSizeBinary, FixedSizeList, Map_, SparseUnion, DenseUnion, FlatListType, DataType } from '../../type';
+export declare function readRecordBatches(messages: Iterable<{
+    schema: Schema;
+    message: Message;
+    loader: TypeDataLoader;
+}>): IterableIterator<RecordBatch>;
+export declare function readRecordBatchesAsync(messages: AsyncIterable<{
+    schema: Schema;
+    message: Message;
+    loader: TypeDataLoader;
+}>): AsyncIterableIterator<RecordBatch>;
+export declare function readRecordBatch(schema: Schema, message: Message, loader: TypeDataLoader): IterableIterator<RecordBatch>;
+export declare abstract class TypeDataLoader extends TypeVisitor {
+    dictionaries: Map<number, Vector>;
+    protected nodes: Iterator<FieldMetadata>;
+    protected buffers: Iterator<BufferMetadata>;
+    constructor(nodes: Iterator<FieldMetadata>, buffers: Iterator<BufferMetadata>, dictionaries: Map<number, Vector>);
+    visitFields(fields: Field[]): any[];
+    visitNull(type: Null): FlatData<any>;
+    visitInt(type: Int): FlatData<Int<any, Int8Array | Uint8Array | Int16Array | Uint16Array | Int32Array | Uint32Array>>;
+    visitFloat(type: Float): FlatData<Float<Uint16Array | Float32Array | Float64Array>>;
+    visitBinary(type: Binary): FlatListData<Binary>;
+    visitUtf8(type: Utf8): FlatListData<Utf8>;
+    visitBool(type: Bool): BoolData;
+    visitDecimal(type: Decimal): FlatData<Decimal>;
+    visitDate(type: Date_): FlatData<Date_>;
+    visitTime(type: Time): FlatData<Time>;
+    visitTimestamp(type: Timestamp): FlatData<Timestamp>;
+    visitInterval(type: Interval): FlatData<Interval>;
+    visitList(type: List): ListData<List<any>>;
+    visitStruct(type: Struct): NestedData<Struct>;
+    visitUnion(type: Union): DenseUnionData | SparseUnionData;
+    visitFixedSizeBinary(type: FixedSizeBinary): FlatData<FixedSizeBinary>;
+    visitFixedSizeList(type: FixedSizeList): ListData<FixedSizeList<any>>;
+    visitMap(type: Map_): NestedData<Map_>;
+    visitDictionary(type: Dictionary): DictionaryData<any>;
+    protected getFieldMetadata(): FieldMetadata;
+    protected getBufferMetadata(): BufferMetadata;
+    protected readNullBitmap<T extends DataType>(type: T, nullCount: number, buffer?: BufferMetadata): any;
+    protected abstract readData<T extends DataType>(type: T, buffer?: BufferMetadata): any;
+    protected abstract readOffsets<T extends DataType>(type: T, buffer?: BufferMetadata): any;
+    protected abstract readTypeIds<T extends DataType>(type: T, buffer?: BufferMetadata): any;
+    protected visitNullType(type: Null, {length, nullCount}?: FieldMetadata): FlatData<any>;
+    protected visitFlatType<T extends FlatType>(type: T, {length, nullCount}?: FieldMetadata): FlatData<T>;
+    protected visitBoolType(type: Bool, {length, nullCount}?: FieldMetadata, data?: Uint8Array): BoolData;
+    protected visitFlatList<T extends FlatListType>(type: T, {length, nullCount}?: FieldMetadata): FlatListData<T>;
+    protected visitListType<T extends ListType>(type: T, {length, nullCount}?: FieldMetadata): ListData<T>;
+    protected visitNestedType<T extends NestedType>(type: T, {length, nullCount}?: FieldMetadata): NestedData<T>;
+    protected visitUnionType(type: DenseUnion | SparseUnion, {length, nullCount}?: FieldMetadata): DenseUnionData | SparseUnionData;
+}
