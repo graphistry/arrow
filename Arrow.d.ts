@@ -2,6 +2,7 @@ import * as type_ from './type';
 import * as data_ from './data';
 import * as vector_ from './vector';
 import * as util_ from './util/int';
+import * as visitor_ from './visitor';
 import { Vector } from './vector';
 import { RecordBatch } from './recordbatch';
 import { Schema, Field, Type } from './type';
@@ -91,4 +92,8 @@ export declare namespace vector {
     export import StructVector = vector_.StructVector;
     export import UnionVector = vector_.UnionVector;
     export import DictionaryVector = vector_.DictionaryVector;
+}
+export declare namespace visitor {
+    export import TypeVisitor = visitor_.TypeVisitor;
+    export import VectorVisitor = visitor_.VectorVisitor;
 }
