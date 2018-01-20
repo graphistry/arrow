@@ -38,6 +38,6 @@
     "tslib": "1.9.0"
   },
   "bin": {
-    "arrow2csv": "bin/arrow2csv"
+    "arrow2csv": "bin/arrow2csv.js"
   }
 }
