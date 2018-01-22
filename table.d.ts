@@ -39,7 +39,7 @@ export declare class Table implements DataFrame {
 }
 export declare class CountByResult extends Table implements DataFrame {
     constructor(values: Vector, counts: IntVector<any>);
-    asJSON(): Object;
+    toJSON(): Object;
 }
 export declare class TableToStringIterator implements IterableIterator<string> {
     private iterator;
