@@ -15,8 +15,8 @@ export declare class Table implements DataFrame {
     static from(sources?: Iterable<Uint8Array | Buffer | string> | object | string): Table;
     static fromAsync(sources?: AsyncIterable<Uint8Array | Buffer | string>): Promise<Table>;
     readonly schema: Schema;
+    readonly length: number;
     readonly numCols: number;
-    readonly numRows: number;
     readonly batches: RecordBatch[];
     readonly columns: Vector<any>[];
     readonly batchesUnion: RecordBatch;
@@ -25,12 +25,16 @@ export declare class Table implements DataFrame {
     constructor(schema: Schema, batches: RecordBatch[]);
     constructor(schema: Schema, ...batches: RecordBatch[]);
     get(index: number): Struct['TValue'];
+    getColumn(name: string): Vector<any>;
+    getColumnAt(index: number): Vector<any>;
+    getColumnIndex(name: string): number;
     [Symbol.iterator](): IterableIterator<Struct['TValue']>;
     filter(predicate: Predicate): DataFrame;
     scan(next: NextFunc): void;
     count(): number;
     countBy(name: Col | string): CountByResult;
     select(...columnNames: string[]): Table;
+    toString(separator?: string): string;
     rowsToString(separator?: string): TableToStringIterator;
 }
 export declare class CountByResult extends Table implements DataFrame {
