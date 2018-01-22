@@ -16,16 +16,16 @@ export interface View<T extends DataType> {
 }
 export declare class Vector<T extends DataType = any> implements VectorLike, View<T>, VisitorNode {
     static create<T extends DataType>(data: Data<T>): Vector<T>;
+    type: T;
+    length: number;
     readonly data: Data<T>;
     readonly view: View<T>;
     constructor(data: Data<T>, view: View<T>);
-    readonly type: T;
-    readonly length: number;
     readonly nullCount: number;
     readonly nullBitmap: Uint8Array | undefined;
     readonly [Symbol.toStringTag]: string;
     toJSON(): any;
-    clone(data: Data<T>, view?: View<T>): this;
+    clone<R extends T>(data: Data<R>, view?: View<R>): this;
     isValid(index: number): boolean;
     get(index: number): T['TValue'] | null;
     set(index: number, value: T['TValue']): void;
@@ -38,6 +38,9 @@ export declare class Vector<T extends DataType = any> implements VectorLike, Vie
 }
 export declare abstract class FlatVector<T extends FlatType> extends Vector<T> {
     readonly values: Uint8Array | T["TArray"];
+    lows(): IntVector<Int32>;
+    highs(): IntVector<Int32>;
+    asInt32(offset?: number, stride?: number): IntVector<Int32>;
 }
 export declare abstract class ListVectorBase<T extends (ListType | FlatListType)> extends Vector<T> {
     readonly values: T["TArray"] | Data<List<T>> | Data<FixedSizeList<T>>;
@@ -86,6 +89,8 @@ export declare class FloatVector<T extends Float = Float<any>> extends FlatVecto
 export declare class DateVector extends FlatVector<Date_> {
     static defaultView<T extends Date_>(data: Data<T>): DateDayView | DateMillisecondView;
     constructor(data: Data<Date_>, view?: View<Date_>);
+    lows(): IntVector<Int32>;
+    highs(): IntVector<Int32>;
 }
 export declare class DecimalVector extends FlatVector<Decimal> {
     constructor(data: Data<Decimal>, view?: View<Decimal>);
@@ -93,6 +98,8 @@ export declare class DecimalVector extends FlatVector<Decimal> {
 export declare class TimeVector extends FlatVector<Time> {
     static defaultView<T extends Time>(data: Data<T>): FlatView<T>;
     constructor(data: Data<Time>, view?: View<Time>);
+    lows(): IntVector<Int32>;
+    highs(): IntVector<Int32>;
 }
 export declare class TimestampVector extends FlatVector<Timestamp> {
     constructor(data: Data<Timestamp>, view?: View<Timestamp>);
@@ -100,15 +107,19 @@ export declare class TimestampVector extends FlatVector<Timestamp> {
 export declare class IntervalVector extends FlatVector<Interval> {
     static defaultView<T extends Interval>(data: Data<T>): IntervalYearMonthView | FixedSizeView<T>;
     constructor(data: Data<Interval>, view?: View<Interval>);
+    lows(): IntVector<Int32>;
+    highs(): IntVector<Int32>;
 }
 export declare class BinaryVector extends ListVectorBase<Binary> {
     constructor(data: Data<Binary>, view?: View<Binary>);
+    asUtf8(): Utf8Vector;
 }
 export declare class FixedSizeBinaryVector extends FlatVector<FixedSizeBinary> {
     constructor(data: Data<FixedSizeBinary>, view?: View<FixedSizeBinary>);
 }
 export declare class Utf8Vector extends ListVectorBase<Utf8> {
     constructor(data: Data<Utf8>, view?: View<Utf8>);
+    asBinary(): BinaryVector;
 }
 export declare class ListVector<T extends DataType = DataType> extends ListVectorBase<List<T>> {
     constructor(data: Data<List<T>>, view?: View<List<T>>);
@@ -118,9 +129,11 @@ export declare class FixedSizeListVector extends ListVectorBase<FixedSizeList> {
 }
 export declare class MapVector extends NestedVector<Map_> {
     constructor(data: Data<Map_>, view?: View<Map_>);
+    asStruct(): StructVector;
 }
 export declare class StructVector extends NestedVector<Struct> {
     constructor(data: Data<Struct>, view?: View<Struct>);
+    asMap(keysSorted?: boolean): MapVector;
 }
 export declare class UnionVector<T extends (SparseUnion | DenseUnion) = any> extends NestedVector<T> {
     constructor(data: Data<T>, view?: View<T>);

@@ -47,7 +47,7 @@ export declare class BaseData<T extends DataType = DataType> implements VectorLi
     readonly childData: any[];
     readonly nullBitmap: Uint8Array | undefined;
     readonly nullCount: number;
-    clone(length?: number, offset?: number, nullCount?: number): this;
+    clone<R extends T>(type: R, length?: number, offset?: number, nullCount?: number): BaseData<R>;
     slice(offset: number, length: number): this;
     protected sliceInternal(clone: this, offset: number, length: number): this;
     protected sliceData(data: T['TArray'] & TypedArray, offset: number, length: number): TypedArray;
@@ -59,11 +59,10 @@ export declare class FlatData<T extends FlatType> extends BaseData<T> {
     readonly values: T["TArray"];
     constructor(type: T, length: number, nullBitmap: Uint8Array | null | undefined, data: Iterable<number>, offset?: number, nullCount?: number);
     readonly ArrayType: T['ArrayType'];
-    clone(length?: number, offset?: number, nullCount?: number): this;
+    clone<R extends T>(type: R, length?: number, offset?: number, nullCount?: number): FlatData<R>;
 }
 export declare class BoolData extends FlatData<Bool> {
     protected sliceData(data: Uint8Array): Uint8Array;
-    clone(length?: number, offset?: number, nullCount?: number): this;
 }
 export declare class FlatListData<T extends FlatListType> extends FlatData<T> {
     0: Int32Array;
@@ -72,7 +71,7 @@ export declare class FlatListData<T extends FlatListType> extends FlatData<T> {
     readonly values: T["TArray"];
     readonly valueOffsets: Int32Array;
     constructor(type: T, length: number, nullBitmap: Uint8Array | null | undefined, valueOffsets: Iterable<number>, data: T['TArray'], offset?: number, nullCount?: number);
-    clone(length?: number, offset?: number, nullCount?: number): this;
+    clone<R extends T>(type: R, length?: number, offset?: number, nullCount?: number): FlatListData<R>;
 }
 export declare class DictionaryData<T extends DataType> extends BaseData<Dictionary<T>> {
     protected _dictionary: Vector<T>;
@@ -82,13 +81,13 @@ export declare class DictionaryData<T extends DataType> extends BaseData<Diction
     constructor(type: Dictionary<T>, dictionary: Vector<T>, indicies: Data<Int<any>>);
     readonly length: number;
     readonly nullCount: number;
-    clone(length?: number, offset?: number): this;
+    clone<R extends Dictionary<T>>(type: R, length?: number, offset?: number): any;
     protected sliceInternal(clone: this, _offset: number, _length: number): this;
 }
 export declare class NestedData<T extends NestedType = NestedType> extends BaseData<T> {
     2: Uint8Array;
     constructor(type: T, length: number, nullBitmap: Uint8Array | null | undefined, childData: Data<any>[], offset?: number, nullCount?: number);
-    clone(length?: number, offset?: number, nullCount?: number): this;
+    clone<R extends T>(type: R, length?: number, offset?: number, nullCount?: number): NestedData<R>;
     protected sliceInternal(clone: this, offset: number, length: number): this;
 }
 export declare class ListData<T extends ListType> extends NestedData<T> {
@@ -98,23 +97,23 @@ export declare class ListData<T extends ListType> extends NestedData<T> {
     readonly values: Data<T>;
     readonly valueOffsets: Int32Array;
     constructor(type: T, length: number, nullBitmap: Uint8Array | null | undefined, valueOffsets: Iterable<number>, valueChildData: Data<T>, offset?: number, nullCount?: number);
-    clone(length?: number, offset?: number, nullCount?: number): this;
+    clone<R extends T>(type: R, length?: number, offset?: number, nullCount?: number): ListData<R>;
 }
 export declare class UnionData<T extends (DenseUnion | SparseUnion) = any> extends NestedData<T> {
     3: T['TArray'];
     readonly typeIds: T["TArray"];
     constructor(type: T, length: number, nullBitmap: Uint8Array | null | undefined, typeIds: Iterable<number>, childData: Data<any>[], offset?: number, nullCount?: number);
-    clone(length?: number, offset?: number, nullCount?: number): this;
+    clone<R extends T>(type: R, length?: number, offset?: number, nullCount?: number): UnionData<R>;
 }
 export declare class SparseUnionData extends UnionData<SparseUnion> {
     constructor(type: SparseUnion, length: number, nullBitmap: Uint8Array | null | undefined, typeIds: Iterable<number>, childData: Data<any>[], offset?: number, nullCount?: number);
-    clone(length?: number, offset?: number, nullCount?: number): this;
+    clone<R extends SparseUnion>(type: R, length?: number, offset?: number, nullCount?: number): UnionData<R>;
 }
 export declare class DenseUnionData extends UnionData<DenseUnion> {
     0: Int32Array;
     readonly valueOffsets: Int32Array;
     constructor(type: DenseUnion, length: number, nullBitmap: Uint8Array | null | undefined, typeIds: Iterable<number>, valueOffsets: Iterable<number>, childData: Data<any>[], offset?: number, nullCount?: number);
-    clone(length?: number, offset?: number, nullCount?: number): this;
+    clone<R extends DenseUnion>(type: R, length?: number, offset?: number, nullCount?: number): UnionData<R>;
 }
 export declare class ChunkedData<T extends DataType> extends BaseData<T> {
     protected _childVectors: Vector<T>[];
@@ -124,7 +123,7 @@ export declare class ChunkedData<T extends DataType> extends BaseData<T> {
     readonly childData: any[];
     constructor(type: T, length: number, childVectors: Vector<T>[], offset?: number, nullCount?: number, childOffsets?: Uint32Array);
     readonly nullCount: number;
-    clone(length?: number, offset?: number, nullCount?: number): this;
+    clone<R extends T>(type: R, length?: number, offset?: number, nullCount?: number): ChunkedData<R>;
     protected sliceInternal(clone: this, offset: number, length: number): this;
     static computeOffsets<T extends DataType>(childVectors: Vector<T>[]): Uint32Array;
 }

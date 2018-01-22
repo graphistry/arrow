@@ -12,6 +12,6 @@ export declare class RecordBatch extends StructVector {
     readonly columns: Vector<any>[];
     constructor(schema: Schema, data: Data<Struct>, view: View<Struct>);
     constructor(schema: Schema, numRows: Long | number, cols: Data<any> | Vector[]);
-    clone(data: Data<Struct>, view?: View<Struct>): this;
+    clone<R extends Struct>(data: Data<R>, view?: View<R>): this;
     select(...columnNames: string[]): RecordBatch;
 }

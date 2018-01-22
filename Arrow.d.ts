@@ -3,6 +3,7 @@ import * as data_ from './data';
 import * as vector_ from './vector';
 import * as util_ from './util/int';
 import * as visitor_ from './visitor';
+import * as view_ from './vector/view';
 import { Vector } from './vector';
 import { RecordBatch } from './recordbatch';
 import { Schema, Field, Type } from './type';
@@ -96,4 +97,29 @@ export declare namespace vector {
 export declare namespace visitor {
     export import TypeVisitor = visitor_.TypeVisitor;
     export import VectorVisitor = visitor_.VectorVisitor;
+}
+export declare namespace view {
+    export import ChunkedView = view_.ChunkedView;
+    export import DictionaryView = view_.DictionaryView;
+    export import ListView = view_.ListView;
+    export import FixedSizeListView = view_.FixedSizeListView;
+    export import BinaryView = view_.BinaryView;
+    export import Utf8View = view_.Utf8View;
+    export import UnionView = view_.UnionView;
+    export import DenseUnionView = view_.DenseUnionView;
+    export import NestedView = view_.NestedView;
+    export import StructView = view_.StructView;
+    export import MapView = view_.MapView;
+    export import FlatView = view_.FlatView;
+    export import NullView = view_.NullView;
+    export import BoolView = view_.BoolView;
+    export import ValidityView = view_.ValidityView;
+    export import FixedSizeView = view_.FixedSizeView;
+    export import Float16View = view_.Float16View;
+    export import DateDayView = view_.DateDayView;
+    export import DateMillisecondView = view_.DateMillisecondView;
+    export import IntervalYearMonthView = view_.IntervalYearMonthView;
+    export import IntervalYearView = view_.IntervalYearView;
+    export import IntervalMonthView = view_.IntervalMonthView;
+    export import PrimitiveView = view_.PrimitiveView;
 }

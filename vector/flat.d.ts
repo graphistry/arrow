@@ -1,6 +1,6 @@
 import { Data } from '../data';
 import { View } from '../vector';
-import { Bool, Float16, Date_, Interval, Null } from '../type';
+import { Bool, Float16, Date_, Interval, Null, Int32 } from '../type';
 import { DataType, FlatType, PrimitiveType, IterableArrayLike } from '../type';
 export declare class FlatView<T extends FlatType> implements View<T> {
     length: number;
@@ -58,6 +58,7 @@ export declare class PrimitiveView<T extends PrimitiveType> extends FlatView<T> 
     [Symbol.iterator](): IterableIterator<T['TValue']>;
 }
 export declare class FixedSizeView<T extends PrimitiveType> extends PrimitiveView<T> {
+    toArray(): IterableArrayLike<T['TValue']>;
     protected getValue(values: T['TArray'], index: number, size: number): T['TValue'];
     protected setValue(values: T['TArray'], index: number, size: number, value: T['TValue']): void;
 }
@@ -80,6 +81,16 @@ export declare class IntervalYearMonthView extends PrimitiveView<Interval> {
     toArray(): Int32Array[];
     protected getValue(values: Int32Array, index: number, size: number): Int32Array;
     protected setValue(values: Int32Array, index: number, size: number, value: Int32Array): void;
+}
+export declare class IntervalYearView extends PrimitiveView<Int32> {
+    toArray(): number[];
+    protected getValue(values: Int32Array, index: number, size: number): number;
+    protected setValue(values: Int32Array, index: number, size: number, value: number): void;
+}
+export declare class IntervalMonthView extends PrimitiveView<Int32> {
+    toArray(): number[];
+    protected getValue(values: Int32Array, index: number, size: number): number;
+    protected setValue(values: Int32Array, index: number, size: number, value: number): void;
 }
 export declare function epochSecondsToMs(data: Int32Array, index: number): number;
 export declare function epochDaysToMs(data: Int32Array, index: number): number;
