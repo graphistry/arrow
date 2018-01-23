@@ -119,6 +119,7 @@ export declare namespace view {
     export import Float16View = view_.Float16View;
     export import DateDayView = view_.DateDayView;
     export import DateMillisecondView = view_.DateMillisecondView;
+    export import TimestampDayView = view_.TimestampDayView;
     export import TimestampSecondView = view_.TimestampSecondView;
     export import TimestampMillisecondView = view_.TimestampMillisecondView;
     export import TimestampMicrosecondView = view_.TimestampMicrosecondView;

@@ -92,7 +92,7 @@ export declare class DateVector extends FlatVector<Date_> {
     constructor(data: Data<Date_>, view?: View<Date_>);
     lows(): IntVector<Int32>;
     highs(): IntVector<Int32>;
-    asEpochMS(): IntVector<Int32>;
+    asEpochMilliseconds(): IntVector<Int32>;
 }
 export declare class DecimalVector extends FlatVector<Decimal> {
     constructor(data: Data<Decimal>, view?: View<Decimal>);
@@ -105,7 +105,7 @@ export declare class TimeVector extends FlatVector<Time> {
 }
 export declare class TimestampVector extends FlatVector<Timestamp> {
     constructor(data: Data<Timestamp>, view?: View<Timestamp>);
-    asEpochMS(): IntVector<Int32>;
+    asEpochMilliseconds(): IntVector<Int32>;
 }
 export declare class IntervalVector extends FlatVector<Interval> {
     static defaultView<T extends Interval>(data: Data<T>): IntervalYearMonthView | FixedSizeView<T>;
