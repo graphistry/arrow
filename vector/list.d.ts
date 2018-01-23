@@ -5,9 +5,9 @@ import { ListType, DataType, IterableArrayLike } from '../type';
 export declare const encodeUtf8: (input?: string | undefined) => Uint8Array;
 export declare const decodeUtf8: (input?: SharedArrayBuffer | ArrayBuffer | ArrayBufferView | undefined) => string;
 export declare abstract class ListViewBase<T extends (ListType | FlatListType)> implements View<T> {
-    protected length: number;
-    protected values: T['TArray'];
-    protected valueOffsets?: Int32Array;
+    length: number;
+    values: T['TArray'];
+    valueOffsets?: Int32Array;
     constructor(data: Data<T>);
     clone(data: Data<T>): this;
     isValid(): boolean;

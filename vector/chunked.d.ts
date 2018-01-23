@@ -4,8 +4,6 @@ import { DataType, IterableArrayLike } from '../type';
 export declare class ChunkedView<T extends DataType> implements View<T> {
     chunks: Vector<T>[];
     offsets: Uint32Array;
-    protected _length: number;
-    protected _nullCount: number;
     constructor(data: ChunkedData<T>);
     clone(data: ChunkedData<T>): this;
     [Symbol.iterator](): IterableIterator<T['TValue'] | null>;

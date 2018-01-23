@@ -58,7 +58,8 @@ import { Null, Int, Float, Decimal, Date_, Time, Timestamp, Interval } from './t
 import { Uint8, Uint16, Uint32, Uint64, Int8, Int16, Int32, Int64, Float16, Float32, Float64 } from './type';
 import { Struct, SparseUnion, DenseUnion, FixedSizeBinary, FixedSizeList, Map_, Dictionary } from './type';
 import { NestedView } from './vector/nested';
-import { FlatView, FixedSizeView, DateDayView, DateMillisecondView, IntervalYearMonthView } from './vector/flat';
+import { FlatView, FixedSizeView } from './vector/flat';
+import { DateDayView, DateMillisecondView, IntervalYearMonthView } from './vector/flat';
 export declare class NullVector extends Vector<Null> {
     constructor(data: Data<Null>, view?: View<Null>);
 }
@@ -103,6 +104,7 @@ export declare class TimeVector extends FlatVector<Time> {
 }
 export declare class TimestampVector extends FlatVector<Timestamp> {
     constructor(data: Data<Timestamp>, view?: View<Timestamp>);
+    asEpochMS(): IntVector<Int32>;
 }
 export declare class IntervalVector extends FlatVector<Interval> {
     static defaultView<T extends Interval>(data: Data<T>): IntervalYearMonthView | FixedSizeView<T>;

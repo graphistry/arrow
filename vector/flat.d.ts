@@ -1,6 +1,6 @@
 import { Data } from '../data';
 import { View } from '../vector';
-import { Bool, Float16, Date_, Interval, Null, Int32 } from '../type';
+import { Bool, Float16, Date_, Interval, Null, Int32, Timestamp } from '../type';
 import { DataType, FlatType, PrimitiveType, IterableArrayLike } from '../type';
 export declare class FlatView<T extends FlatType> implements View<T> {
     length: number;
@@ -76,6 +76,26 @@ export declare class DateMillisecondView extends FixedSizeView<Date_> {
     toArray(): Date[];
     protected getValue(values: Int32Array, index: number, size: number): Date;
     protected setValue(values: Int32Array, index: number, size: number, value: Date): void;
+}
+export declare class TimestampSecondView extends PrimitiveView<Timestamp> {
+    toArray(): number[];
+    protected getValue(values: Int32Array, index: number, size: number): number;
+    protected setValue(values: Int32Array, index: number, size: number, epochMs: number): void;
+}
+export declare class TimestampMillisecondView extends PrimitiveView<Timestamp> {
+    toArray(): number[];
+    protected getValue(values: Int32Array, index: number, size: number): number;
+    protected setValue(values: Int32Array, index: number, size: number, epochMs: number): void;
+}
+export declare class TimestampMicrosecondView extends PrimitiveView<Timestamp> {
+    toArray(): number[];
+    protected getValue(values: Int32Array, index: number, size: number): number;
+    protected setValue(values: Int32Array, index: number, size: number, epochMs: number): void;
+}
+export declare class TimestampNanosecondView extends PrimitiveView<Timestamp> {
+    toArray(): number[];
+    protected getValue(values: Int32Array, index: number, size: number): number;
+    protected setValue(values: Int32Array, index: number, size: number, epochMs: number): void;
 }
 export declare class IntervalYearMonthView extends PrimitiveView<Interval> {
     toArray(): Int32Array[];
