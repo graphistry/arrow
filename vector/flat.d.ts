@@ -77,6 +77,11 @@ export declare class DateMillisecondView extends FixedSizeView<Date_> {
     protected getValue(values: Int32Array, index: number, size: number): Date;
     protected setValue(values: Int32Array, index: number, size: number, value: Date): void;
 }
+export declare class TimestampDayView extends PrimitiveView<Timestamp> {
+    toArray(): number[];
+    protected getValue(values: Int32Array, index: number, size: number): number;
+    protected setValue(values: Int32Array, index: number, size: number, epochMs: number): void;
+}
 export declare class TimestampSecondView extends PrimitiveView<Timestamp> {
     toArray(): number[];
     protected getValue(values: Int32Array, index: number, size: number): number;

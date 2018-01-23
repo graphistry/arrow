@@ -5,4 +5,4 @@ export { UnionView, DenseUnionView, NestedView, StructView, MapView } from './ne
 export { FlatView, NullView, BoolView, ValidityView, PrimitiveView, FixedSizeView, Float16View } from './flat';
 export { DateDayView, DateMillisecondView } from './flat';
 export { IntervalYearMonthView, IntervalYearView, IntervalMonthView } from './flat';
-export { TimestampSecondView, TimestampMillisecondView, TimestampMicrosecondView, TimestampNanosecondView } from './flat';
+export { TimestampDayView, TimestampSecondView, TimestampMillisecondView, TimestampMicrosecondView, TimestampNanosecondView } from './flat';
