@@ -46,8 +46,9 @@ export declare type FixedSizeType = Int64 | Uint64 | Decimal | FixedSizeBinary;
 export declare type PrimitiveType = NumericType | FixedSizeType;
 export declare type FlatListType = Utf8 | Binary;
 export declare type FlatType = Bool | PrimitiveType | FlatListType;
-export declare type ListType = List<any> | FixedSizeList<any>;
+export declare type ListType = List<any>;
 export declare type NestedType = Map_ | Struct | List<any> | FixedSizeList<any> | Union<any>;
+export declare type SingleNestedType = List<any> | FixedSizeList<any>;
 /**
  * *
  * Main data type enumeration:

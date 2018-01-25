@@ -1,7 +1,7 @@
 import { VectorLike, Vector } from './vector';
 import { TypedArray, TypedArrayConstructor, Dictionary } from './type';
 import { Int, Bool, FlatListType, List, FixedSizeList, Struct, Map_ } from './type';
-import { DataType, FlatType, ListType, NestedType, DenseUnion, SparseUnion } from './type';
+import { DataType, FlatType, ListType, NestedType, SingleNestedType, DenseUnion, SparseUnion } from './type';
 export declare function toTypedArray<T extends TypedArray>(ArrayType: TypedArrayConstructor<T>, values?: T | ArrayLike<number> | Iterable<number> | null): T;
 export declare type Data<T extends DataType> = DataTypes<T>[T['TType']] & BaseData<T>;
 export interface DataTypes<T extends DataType> {
@@ -21,7 +21,7 @@ export interface DataTypes<T extends DataType> {
     13: NestedData<Struct>;
     14: UnionData;
     15: FlatData<T>;
-    16: ListData<FixedSizeList<T>>;
+    16: SingleNestedData<FixedSizeList<T>>;
     17: NestedData<Map_>;
     DenseUnion: DenseUnionData;
     SparseUnion: SparseUnionData;
@@ -90,11 +90,14 @@ export declare class NestedData<T extends NestedType = NestedType> extends BaseD
     clone<R extends T>(type: R, length?: number, offset?: number, nullCount?: number): NestedData<R>;
     protected sliceInternal(clone: this, offset: number, length: number): this;
 }
-export declare class ListData<T extends ListType> extends NestedData<T> {
-    0: Int32Array;
-    2: Uint8Array;
+export declare class SingleNestedData<T extends SingleNestedType> extends NestedData<T> {
     protected _valuesData: Data<T>;
     readonly values: Data<T>;
+    constructor(type: T, length: number, nullBitmap: Uint8Array | null | undefined, valueChildData: Data<T>, offset?: number, nullCount?: number);
+}
+export declare class ListData<T extends ListType> extends SingleNestedData<T> {
+    0: Int32Array;
+    2: Uint8Array;
     readonly valueOffsets: Int32Array;
     constructor(type: T, length: number, nullBitmap: Uint8Array | null | undefined, valueOffsets: Iterable<number>, valueChildData: Data<T>, offset?: number, nullCount?: number);
     clone<R extends T>(type: R, length?: number, offset?: number, nullCount?: number): ListData<R>;

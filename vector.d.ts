@@ -16,6 +16,7 @@ export interface View<T extends DataType> {
 }
 export declare class Vector<T extends DataType = any> implements VectorLike, View<T>, VisitorNode {
     static create<T extends DataType>(data: Data<T>): Vector<T>;
+    static concat<T extends DataType>(...sources: Vector<T>[]): Vector<T>;
     type: T;
     length: number;
     readonly data: Data<T>;
@@ -43,7 +44,7 @@ export declare abstract class FlatVector<T extends FlatType> extends Vector<T> {
     asInt32(offset?: number, stride?: number): IntVector<Int32>;
 }
 export declare abstract class ListVectorBase<T extends (ListType | FlatListType)> extends Vector<T> {
-    readonly values: T["TArray"] | Data<List<T>> | Data<FixedSizeList<T>>;
+    readonly values: T["TArray"] | Data<List<T>>;
     readonly valueOffsets: Int32Array;
     getValueOffset(index: number): number;
     getValueLength(index: number): number;
@@ -127,7 +128,7 @@ export declare class Utf8Vector extends ListVectorBase<Utf8> {
 export declare class ListVector<T extends DataType = DataType> extends ListVectorBase<List<T>> {
     constructor(data: Data<List<T>>, view?: View<List<T>>);
 }
-export declare class FixedSizeListVector extends ListVectorBase<FixedSizeList> {
+export declare class FixedSizeListVector extends Vector<FixedSizeList> {
     constructor(data: Data<FixedSizeList>, view?: View<FixedSizeList>);
 }
 export declare class MapVector extends NestedVector<Map_> {

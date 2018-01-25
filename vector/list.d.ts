@@ -4,7 +4,7 @@ import { List, Binary, Utf8, FixedSizeList, FlatListType } from '../type';
 import { ListType, DataType, IterableArrayLike } from '../type';
 export declare const encodeUtf8: (input?: string | undefined) => Uint8Array;
 export declare const decodeUtf8: (input?: SharedArrayBuffer | ArrayBuffer | ArrayBufferView | undefined) => string;
-export declare abstract class ListViewBase<T extends (ListType | FlatListType)> implements View<T> {
+export declare abstract class ListViewBase<T extends (ListType | FlatListType | FixedSizeList)> implements View<T> {
     length: number;
     values: T['TArray'];
     valueOffsets?: Int32Array;
@@ -18,7 +18,10 @@ export declare abstract class ListViewBase<T extends (ListType | FlatListType)> 
     protected abstract getList(values: T['TArray'], index: number, valueOffsets?: Int32Array): T['TValue'];
     protected abstract setList(values: T['TArray'], index: number, value: T['TValue'], valueOffsets?: Int32Array): void;
 }
-export declare class ListView<T extends DataType> extends ListViewBase<List<T>> {
+export declare abstract class VariableListViewBase<T extends (ListType | FlatListType)> extends ListViewBase<T> {
+    constructor(data: Data<T>);
+}
+export declare class ListView<T extends DataType> extends VariableListViewBase<List<T>> {
     constructor(data: Data<List<T>>);
     protected getList(values: Vector<T>, index: number, valueOffsets: Int32Array): Vector<T>;
     protected setList(values: Vector<T>, index: number, value: Vector<T>, valueOffsets: Int32Array): void;
@@ -29,11 +32,11 @@ export declare class FixedSizeListView<T extends DataType> extends ListViewBase<
     protected getList(values: Vector<T>, index: number): Vector<T>;
     protected setList(values: Vector<T>, index: number, value: Vector<T>): void;
 }
-export declare class BinaryView extends ListViewBase<Binary> {
+export declare class BinaryView extends VariableListViewBase<Binary> {
     protected getList(values: Uint8Array, index: number, valueOffsets: Int32Array): Uint8Array;
     protected setList(values: Uint8Array, index: number, value: Uint8Array, valueOffsets: Int32Array): void;
 }
-export declare class Utf8View extends ListViewBase<Utf8> {
+export declare class Utf8View extends VariableListViewBase<Utf8> {
     protected getList(values: Uint8Array, index: number, valueOffsets: Int32Array): string;
     protected setList(values: Uint8Array, index: number, value: string, valueOffsets: Int32Array): void;
 }

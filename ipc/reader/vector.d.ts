@@ -3,7 +3,7 @@ import { RecordBatch } from '../../recordbatch';
 import { TypeVisitor } from '../../visitor';
 import { FlatType, NestedType, ListType } from '../../type';
 import { Message, FieldMetadata, BufferMetadata } from '../metadata';
-import { FlatData, ListData, NestedData, DenseUnionData, SparseUnionData, BoolData, FlatListData, DictionaryData } from '../../data';
+import { FlatData, ListData, NestedData, SingleNestedData, DenseUnionData, SparseUnionData, BoolData, FlatListData, DictionaryData } from '../../data';
 import { Schema, Field, Dictionary, Null, Int, Float, Binary, Bool, Utf8, Decimal, Date_, Time, Timestamp, Interval, List, Struct, Union, FixedSizeBinary, FixedSizeList, Map_, SparseUnion, DenseUnion, FlatListType, DataType } from '../../type';
 export declare function readRecordBatches(messages: Iterable<{
     schema: Schema;
@@ -37,7 +37,7 @@ export declare abstract class TypeDataLoader extends TypeVisitor {
     visitStruct(type: Struct): NestedData<Struct>;
     visitUnion(type: Union): DenseUnionData | SparseUnionData;
     visitFixedSizeBinary(type: FixedSizeBinary): FlatData<FixedSizeBinary>;
-    visitFixedSizeList(type: FixedSizeList): ListData<FixedSizeList<any>>;
+    visitFixedSizeList(type: FixedSizeList): SingleNestedData<FixedSizeList<any>>;
     visitMap(type: Map_): NestedData<Map_>;
     visitDictionary(type: Dictionary): DictionaryData<any>;
     protected getFieldMetadata(): FieldMetadata;
@@ -51,6 +51,7 @@ export declare abstract class TypeDataLoader extends TypeVisitor {
     protected visitBoolType(type: Bool, {length, nullCount}?: FieldMetadata, data?: Uint8Array): BoolData;
     protected visitFlatList<T extends FlatListType>(type: T, {length, nullCount}?: FieldMetadata): FlatListData<T>;
     protected visitListType<T extends ListType>(type: T, {length, nullCount}?: FieldMetadata): ListData<T>;
+    protected visitFixedSizeListType<T extends FixedSizeList>(type: T, {length, nullCount}?: FieldMetadata): SingleNestedData<T>;
     protected visitNestedType<T extends NestedType>(type: T, {length, nullCount}?: FieldMetadata): NestedData<T>;
     protected visitUnionType(type: DenseUnion | SparseUnion, {length, nullCount}?: FieldMetadata): DenseUnionData | SparseUnionData;
 }

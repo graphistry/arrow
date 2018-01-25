@@ -2,11 +2,13 @@ import { ChunkedData } from '../data';
 import { View, Vector } from '../vector';
 import { DataType, IterableArrayLike } from '../type';
 export declare class ChunkedView<T extends DataType> implements View<T> {
-    chunks: Vector<T>[];
-    offsets: Uint32Array;
+    childVectors: Vector<T>[];
+    childOffsets: Uint32Array;
+    protected _childColumns: Vector<any>[];
     constructor(data: ChunkedData<T>);
     clone(data: ChunkedData<T>): this;
     [Symbol.iterator](): IterableIterator<T['TValue'] | null>;
+    getChildAt<R extends DataType = DataType>(index: number): Vector<any>;
     isValid(index: number): boolean;
     get(index: number): T['TValue'] | null;
     set(index: number, value: T['TValue'] | null): void;

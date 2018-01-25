@@ -2,7 +2,7 @@
 import { RecordBatch } from './recordbatch';
 import { Col, Predicate } from './predicate';
 import { Schema, Struct } from './type';
-import { Vector, IntVector } from './vector';
+import { Vector, IntVector, StructVector } from './vector';
 export declare type NextFunc = (idx: number, cols: RecordBatch) => void;
 export interface DataFrame {
     filter(predicate: Predicate): DataFrame;
@@ -14,11 +14,12 @@ export declare class Table implements DataFrame {
     static empty(): Table;
     static from(sources?: Iterable<Uint8Array | Buffer | string> | object | string): Table;
     static fromAsync(sources?: AsyncIterable<Uint8Array | Buffer | string>): Promise<Table>;
+    static fromStruct(struct: StructVector): Table;
     readonly schema: Schema;
     readonly length: number;
     readonly numCols: number;
     readonly batches: RecordBatch[];
-    readonly columns: Vector<any>[];
+    protected readonly _columns: Vector<any>[];
     readonly batchesUnion: RecordBatch;
     constructor(batches: RecordBatch[]);
     constructor(...batches: RecordBatch[]);

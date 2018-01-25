@@ -1,12 +1,12 @@
 import { Data } from '../data';
-import { IterableArrayLike } from '../type';
 import { View, Vector } from '../vector';
+import { IterableArrayLike } from '../type';
 import { DataType, NestedType, DenseUnion, SparseUnion, Struct, Map_ } from '../type';
 export declare abstract class NestedView<T extends NestedType> implements View<T> {
     length: number;
     numChildren: number;
     childData: Data<any>[];
-    protected children: Vector<any>[];
+    protected _childColumns: Vector<any>[];
     constructor(data: Data<T>, children?: Vector<any>[]);
     clone(data: Data<T>): this;
     isValid(): boolean;
