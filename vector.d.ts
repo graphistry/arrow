@@ -51,8 +51,9 @@ export declare abstract class ListVectorBase<T extends (ListType | FlatListType)
 }
 export declare abstract class NestedVector<T extends NestedType> extends Vector<T> {
     readonly view: NestedView<T>;
-    readonly childData: Data<any>[];
+    protected _childData: Data<any>[];
     getChildAt<R extends DataType = DataType>(index: number): Vector<any>;
+    readonly childData: Data<any>[];
 }
 import { List, Binary, Utf8, Bool } from './type';
 import { Null, Int, Float, Decimal, Date_, Time, Timestamp, Interval } from './type';

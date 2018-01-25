@@ -30,21 +30,17 @@ export interface DataTypes<T extends DataType> {
 export declare type kUnknownNullCount = -1;
 export declare const kUnknownNullCount = -1;
 export declare class BaseData<T extends DataType = DataType> implements VectorLike {
-    protected _type: T;
-    protected _length: number;
-    protected _offset: number;
-    protected _childData: Data<any>[];
+    type: T;
+    length: number;
+    offset: number;
+    childData: Data<any>[];
     protected _nullCount: number | kUnknownNullCount;
     protected 0?: Int32Array;
     protected 1?: T['TArray'];
     protected 2?: Uint8Array;
     protected 3?: Int8Array;
     constructor(type: T, length: number, offset?: number, nullCount?: number);
-    readonly type: T;
-    readonly length: number;
-    readonly offset: number;
     readonly typeId: any;
-    readonly childData: any[];
     readonly nullBitmap: Uint8Array | undefined;
     readonly nullCount: number;
     clone<R extends T>(type: R, length?: number, offset?: number, nullCount?: number): BaseData<R>;
@@ -79,7 +75,6 @@ export declare class DictionaryData<T extends DataType> extends BaseData<Diction
     readonly indicies: Data<Int<any, Int8Array | Uint8Array | Int16Array | Uint16Array | Int32Array | Uint32Array>>;
     readonly dictionary: Vector<T>;
     constructor(type: Dictionary<T>, dictionary: Vector<T>, indicies: Data<Int<any>>);
-    readonly length: number;
     readonly nullCount: number;
     clone<R extends Dictionary<T>>(type: R, length?: number, offset?: number): any;
     protected sliceInternal(clone: this, _offset: number, _length: number): this;
@@ -119,12 +114,13 @@ export declare class DenseUnionData extends UnionData<DenseUnion> {
     clone<R extends DenseUnion>(type: R, length?: number, offset?: number, nullCount?: number): UnionData<R>;
 }
 export declare class ChunkedData<T extends DataType> extends BaseData<T> {
-    protected _childVectors: Vector<T>[];
-    protected _childOffsets: Uint32Array;
-    readonly childVectors: Vector<T>[];
-    readonly childOffsets: Uint32Array;
-    readonly childData: any[];
-    constructor(type: T, length: number, childVectors: Vector<T>[], offset?: number, nullCount?: number, childOffsets?: Uint32Array);
+    protected _chunkData: Data<T>[];
+    protected _chunkVectors: Vector<T>[];
+    protected _chunkOffsets: Uint32Array;
+    readonly chunkVectors: Vector<T>[];
+    readonly chunkOffsets: Uint32Array;
+    readonly chunkData: Data<T>[];
+    constructor(type: T, length: number, chunkVectors: Vector<T>[], offset?: number, nullCount?: number, chunkOffsets?: Uint32Array);
     readonly nullCount: number;
     clone<R extends T>(type: R, length?: number, offset?: number, nullCount?: number): ChunkedData<R>;
     protected sliceInternal(clone: this, offset: number, length: number): this;
