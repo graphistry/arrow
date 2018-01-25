@@ -8,7 +8,7 @@ export declare class ChunkedView<T extends DataType> implements View<T> {
     constructor(data: ChunkedData<T>);
     clone(data: ChunkedData<T>): this;
     [Symbol.iterator](): IterableIterator<T['TValue'] | null>;
-    getChildAt<R extends DataType = DataType>(index: number): Vector<any>;
+    getChildAt<R extends DataType = DataType>(index: number): Vector<any> | null;
     isValid(index: number): boolean;
     get(index: number): T['TValue'] | null;
     set(index: number, value: T['TValue'] | null): void;

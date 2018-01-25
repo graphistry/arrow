@@ -6,7 +6,7 @@ export declare abstract class NestedView<T extends NestedType> implements View<T
     length: number;
     numChildren: number;
     childData: Data<any>[];
-    protected _childColumns: Vector<any>[];
+    protected _children: Vector<any>[];
     constructor(data: Data<T>, children?: Vector<any>[]);
     clone(data: Data<T>): this;
     isValid(): boolean;
@@ -17,7 +17,7 @@ export declare abstract class NestedView<T extends NestedType> implements View<T
     set(index: number, value: T['TValue']): void;
     protected abstract getNested(self: NestedView<T>, index: number): T['TValue'];
     protected abstract setNested(self: NestedView<T>, index: number, value: T['TValue']): void;
-    getChildAt<R extends DataType = DataType>(index: number): Vector<any>;
+    getChildAt<R extends DataType = DataType>(index: number): Vector<R> | null;
     [Symbol.iterator](): IterableIterator<T['TValue']>;
 }
 export declare class UnionView<T extends (DenseUnion | SparseUnion) = SparseUnion> extends NestedView<T> {

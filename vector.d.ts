@@ -16,7 +16,7 @@ export interface View<T extends DataType> {
 }
 export declare class Vector<T extends DataType = any> implements VectorLike, View<T>, VisitorNode {
     static create<T extends DataType>(data: Data<T>): Vector<T>;
-    static concat<T extends DataType>(...sources: Vector<T>[]): Vector<T>;
+    static concat<T extends DataType>(source?: Vector<T> | null, ...others: Vector<T>[]): Vector<T>;
     type: T;
     length: number;
     readonly data: Data<T>;
@@ -52,7 +52,7 @@ export declare abstract class ListVectorBase<T extends (ListType | FlatListType)
 export declare abstract class NestedVector<T extends NestedType> extends Vector<T> {
     readonly view: NestedView<T>;
     protected _childData: Data<any>[];
-    getChildAt<R extends DataType = DataType>(index: number): Vector<any>;
+    getChildAt<R extends DataType = DataType>(index: number): Vector<R> | null;
     readonly childData: Data<any>[];
 }
 import { List, Binary, Utf8, Bool } from './type';

@@ -1,5 +1,5 @@
 /// <reference types="flatbuffers" />
-import { Schema, Struct } from './type';
+import { Schema, Struct, DataType } from './type';
 import { flatbuffers } from 'flatbuffers';
 import { View, Vector, StructVector } from './vector';
 import { Data } from './data';
@@ -12,5 +12,6 @@ export declare class RecordBatch extends StructVector {
     constructor(schema: Schema, data: Data<Struct>, view: View<Struct>);
     constructor(schema: Schema, numRows: Long | number, cols: Data<any> | Vector[]);
     clone<R extends Struct>(data: Data<R>, view?: View<R>): this;
+    getChildAt<R extends DataType = DataType>(index: number): Vector<R> | null;
     select(...columnNames: string[]): RecordBatch;
 }

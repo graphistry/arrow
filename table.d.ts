@@ -26,8 +26,8 @@ export declare class Table implements DataFrame {
     constructor(schema: Schema, batches: RecordBatch[]);
     constructor(schema: Schema, ...batches: RecordBatch[]);
     get(index: number): Struct['TValue'];
-    getColumn(name: string): Vector<any>;
-    getColumnAt(index: number): Vector<any>;
+    getColumn(name: string): Vector<any> | null;
+    getColumnAt(index: number): Vector<any> | null;
     getColumnIndex(name: string): number;
     [Symbol.iterator](): IterableIterator<Struct['TValue']>;
     filter(predicate: Predicate): DataFrame;
