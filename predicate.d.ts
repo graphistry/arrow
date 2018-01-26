@@ -34,6 +34,18 @@ export declare abstract class ComparisonPredicate<T = any> extends Predicate {
     protected abstract _bindColCol(batch: RecordBatch, left: Col, right: Col): PredicateFunc;
     protected abstract _bindColLit(batch: RecordBatch, col: Col, lit: Literal): PredicateFunc;
 }
+export declare abstract class CombinationPredicate extends Predicate {
+    readonly left: Predicate;
+    readonly right: Predicate;
+    constructor(left: Predicate, right: Predicate);
+}
+export declare class And extends CombinationPredicate {
+    bind(batch: RecordBatch): (idx: number, batch: RecordBatch) => boolean;
+    ands(): Predicate[];
+}
+export declare class Or extends CombinationPredicate {
+    bind(batch: RecordBatch): (idx: number, batch: RecordBatch) => boolean;
+}
 export declare class Equals extends ComparisonPredicate {
     protected _bindLitLit(_batch: RecordBatch, left: Literal, right: Literal): PredicateFunc;
     protected _bindColCol(batch: RecordBatch, left: Col, right: Col): PredicateFunc;
