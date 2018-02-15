@@ -46,7 +46,7 @@ export declare class BaseData<T extends DataType = DataType> implements VectorLi
     clone<R extends T>(type: R, length?: number, offset?: number, nullCount?: number): BaseData<R>;
     slice(offset: number, length: number): this;
     protected sliceInternal(clone: this, offset: number, length: number): this;
-    protected sliceData(data: T['TArray'] & TypedArray, offset: number, length: number): TypedArray;
+    protected sliceData(data: T['TArray'] & TypedArray, offset: number, length: number): any;
     protected sliceOffsets(valueOffsets: Int32Array, offset: number, length: number): Int32Array;
 }
 export declare class FlatData<T extends FlatType> extends BaseData<T> {

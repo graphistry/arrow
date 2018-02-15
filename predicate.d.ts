@@ -17,7 +17,6 @@ export declare class Col<T = any> extends Value<T> {
     colidx: number;
     constructor(name: string);
     bind(batch: RecordBatch): any;
-    emitString(): string;
 }
 export declare abstract class Predicate {
     abstract bind(batch: RecordBatch): PredicateFunc;
@@ -33,6 +32,7 @@ export declare abstract class ComparisonPredicate<T = any> extends Predicate {
     protected abstract _bindLitLit(batch: RecordBatch, left: Literal, right: Literal): PredicateFunc;
     protected abstract _bindColCol(batch: RecordBatch, left: Col, right: Col): PredicateFunc;
     protected abstract _bindColLit(batch: RecordBatch, col: Col, lit: Literal): PredicateFunc;
+    protected abstract _bindLitCol(batch: RecordBatch, lit: Literal, col: Col): PredicateFunc;
 }
 export declare abstract class CombinationPredicate extends Predicate {
     readonly left: Predicate;
@@ -50,16 +50,19 @@ export declare class Equals extends ComparisonPredicate {
     protected _bindLitLit(_batch: RecordBatch, left: Literal, right: Literal): PredicateFunc;
     protected _bindColCol(batch: RecordBatch, left: Col, right: Col): PredicateFunc;
     protected _bindColLit(batch: RecordBatch, col: Col, lit: Literal): PredicateFunc;
+    protected _bindLitCol(batch: RecordBatch, lit: Literal, col: Col): PredicateFunc;
 }
 export declare class LTeq extends ComparisonPredicate {
     protected _bindLitLit(_batch: RecordBatch, left: Literal, right: Literal): PredicateFunc;
     protected _bindColCol(batch: RecordBatch, left: Col, right: Col): PredicateFunc;
     protected _bindColLit(batch: RecordBatch, col: Col, lit: Literal): PredicateFunc;
+    protected _bindLitCol(batch: RecordBatch, lit: Literal, col: Col): (idx: number, cols: RecordBatch) => boolean;
 }
 export declare class GTeq extends ComparisonPredicate {
     protected _bindLitLit(_batch: RecordBatch, left: Literal, right: Literal): PredicateFunc;
     protected _bindColCol(batch: RecordBatch, left: Col, right: Col): PredicateFunc;
     protected _bindColLit(batch: RecordBatch, col: Col, lit: Literal): PredicateFunc;
+    protected _bindLitCol(batch: RecordBatch, lit: Literal, col: Col): (idx: number, cols: RecordBatch) => boolean;
 }
-export declare function lit(n: number): Value<any>;
+export declare function lit(v: any): Value<any>;
 export declare function col(n: string): Col<any>;

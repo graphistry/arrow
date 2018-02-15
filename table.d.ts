@@ -3,10 +3,11 @@ import { RecordBatch } from './recordbatch';
 import { Col, Predicate } from './predicate';
 import { Schema, Struct } from './type';
 import { Vector, IntVector, StructVector } from './vector';
-export declare type NextFunc = (idx: number, cols: RecordBatch) => void;
+export declare type NextFunc = (idx: number, batch: RecordBatch) => void;
+export declare type BindFunc = (batch: RecordBatch) => void;
 export interface DataFrame {
     filter(predicate: Predicate): DataFrame;
-    scan(next: NextFunc): void;
+    scan(next: NextFunc, bind?: BindFunc): void;
     count(): number;
     countBy(col: (Col | string)): CountByResult;
 }
@@ -31,7 +32,7 @@ export declare class Table implements DataFrame {
     getColumnIndex(name: string): number;
     [Symbol.iterator](): IterableIterator<Struct['TValue']>;
     filter(predicate: Predicate): DataFrame;
-    scan(next: NextFunc): void;
+    scan(next: NextFunc, bind?: BindFunc): void;
     count(): number;
     countBy(name: Col | string): CountByResult;
     select(...columnNames: string[]): Table;

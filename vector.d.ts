@@ -22,8 +22,8 @@ export declare class Vector<T extends DataType = any> implements VectorLike, Vie
     readonly data: Data<T>;
     readonly view: View<T>;
     constructor(data: Data<T>, view: View<T>);
-    readonly nullCount: number;
-    readonly nullBitmap: Uint8Array | undefined;
+    readonly nullCount: any;
+    readonly nullBitmap: any;
     readonly [Symbol.toStringTag]: string;
     toJSON(): any;
     clone<R extends T>(data: Data<R>, view?: View<R>): this;
