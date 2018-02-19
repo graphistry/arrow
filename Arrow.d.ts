@@ -37,6 +37,17 @@ export declare namespace data {
     export import DenseUnionData = data_.DenseUnionData;
     export import ChunkedData = data_.ChunkedData;
 }
+export declare namespace enum_ {
+    export import Type = type_.ArrowType;
+    export import DateUnit = type_.DateUnit;
+    export import TimeUnit = type_.TimeUnit;
+    export import Precision = type_.Precision;
+    export import UnionMode = type_.UnionMode;
+    export import VectorType = type_.VectorType;
+    export import IntervalUnit = type_.IntervalUnit;
+    export import MessageHeader = type_.MessageHeader;
+    export import MetadataVersion = type_.MetadataVersion;
+}
 export declare namespace type {
     export import Schema = type_.Schema;
     export import Field = type_.Field;

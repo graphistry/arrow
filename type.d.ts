@@ -91,26 +91,26 @@ export declare abstract class DataType<TType extends Type = any> implements Part
     readonly TType: TType;
     readonly children: Field<DataType<any>>[] | undefined;
     [Symbol.toStringTag]: string;
-    static isNull(x: DataType): x is Null;
-    static isInt(x: DataType): x is Int;
-    static isFloat(x: DataType): x is Float;
-    static isBinary(x: DataType): x is Binary;
-    static isUtf8(x: DataType): x is Utf8;
-    static isBool(x: DataType): x is Bool;
-    static isDecimal(x: DataType): x is Decimal;
-    static isDate(x: DataType): x is Date_;
-    static isTime(x: DataType): x is Time;
-    static isTimestamp(x: DataType): x is Timestamp;
-    static isInterval(x: DataType): x is Interval;
-    static isList(x: DataType): x is List;
-    static isStruct(x: DataType): x is Struct;
-    static isUnion(x: DataType): x is Union;
-    static isDenseUnion(x: DataType): x is DenseUnion;
-    static isSparseUnion(x: DataType): x is SparseUnion;
-    static isFixedSizeBinary(x: DataType): x is FixedSizeBinary;
-    static isFixedSizeList(x: DataType): x is FixedSizeList;
-    static isMap(x: DataType): x is Map_;
-    static isDictionary(x: DataType): x is Dictionary;
+    static isNull(x: any): x is Null;
+    static isInt(x: any): x is Int;
+    static isFloat(x: any): x is Float;
+    static isBinary(x: any): x is Binary;
+    static isUtf8(x: any): x is Utf8;
+    static isBool(x: any): x is Bool;
+    static isDecimal(x: any): x is Decimal;
+    static isDate(x: any): x is Date_;
+    static isTime(x: any): x is Time;
+    static isTimestamp(x: any): x is Timestamp;
+    static isInterval(x: any): x is Interval;
+    static isList(x: any): x is List;
+    static isStruct(x: any): x is Struct;
+    static isUnion(x: any): x is Union;
+    static isDenseUnion(x: any): x is DenseUnion;
+    static isSparseUnion(x: any): x is SparseUnion;
+    static isFixedSizeBinary(x: any): x is FixedSizeBinary;
+    static isFixedSizeList(x: any): x is FixedSizeList;
+    static isMap(x: any): x is Map_;
+    static isDictionary(x: any): x is Dictionary;
     constructor(TType: TType, children?: Field<DataType<any>>[] | undefined);
     acceptTypeVisitor(visitor: TypeVisitor): any;
     protected static [Symbol.toStringTag]: string;
@@ -122,7 +122,6 @@ export interface Null extends DataType<Type.Null> {
 export declare class Null extends DataType<Type.Null> {
     constructor();
     toString(): string;
-    acceptTypeVisitor(visitor: TypeVisitor): any;
     protected static [Symbol.toStringTag]: string;
 }
 export interface Int<TValueType = any, TArrayType extends IntArray = IntArray> extends DataType<Type.Int> {
@@ -135,7 +134,6 @@ export declare class Int<TValueType = any, TArrayType extends IntArray = IntArra
     constructor(isSigned: boolean, bitWidth: IntBitWidth);
     readonly ArrayType: TypedArrayConstructor<TArrayType>;
     toString(): string;
-    acceptTypeVisitor(visitor: TypeVisitor): any;
     protected static [Symbol.toStringTag]: string;
 }
 export declare class Int8 extends Int<number, Int8Array> {
@@ -171,7 +169,6 @@ export declare class Float<TArrayType extends FloatArray = FloatArray> extends D
     constructor(precision: Precision);
     readonly ArrayType: TypedArrayConstructor<TArrayType>;
     toString(): string;
-    acceptTypeVisitor(visitor: TypeVisitor): any;
     protected static [Symbol.toStringTag]: string;
 }
 export declare class Float16 extends Float<Uint16Array> {
@@ -190,7 +187,6 @@ export interface Binary extends DataType<Type.Binary> {
 export declare class Binary extends DataType<Type.Binary> {
     constructor();
     toString(): string;
-    acceptTypeVisitor(visitor: TypeVisitor): any;
     protected static [Symbol.toStringTag]: string;
 }
 export interface Utf8 extends DataType<Type.Utf8> {
@@ -200,7 +196,6 @@ export interface Utf8 extends DataType<Type.Utf8> {
 export declare class Utf8 extends DataType<Type.Utf8> {
     constructor();
     toString(): string;
-    acceptTypeVisitor(visitor: TypeVisitor): any;
     protected static [Symbol.toStringTag]: string;
 }
 export interface Bool extends DataType<Type.Bool> {
@@ -210,7 +205,6 @@ export interface Bool extends DataType<Type.Bool> {
 export declare class Bool extends DataType<Type.Bool> {
     constructor();
     toString(): string;
-    acceptTypeVisitor(visitor: TypeVisitor): any;
     protected static [Symbol.toStringTag]: string;
 }
 export interface Decimal extends DataType<Type.Decimal> {
@@ -222,7 +216,6 @@ export declare class Decimal extends DataType<Type.Decimal> {
     readonly precision: number;
     constructor(scale: number, precision: number);
     toString(): string;
-    acceptTypeVisitor(visitor: TypeVisitor): any;
     protected static [Symbol.toStringTag]: string;
 }
 export interface Date_ extends DataType<Type.Date> {
@@ -233,7 +226,6 @@ export declare class Date_ extends DataType<Type.Date> {
     readonly unit: DateUnit;
     constructor(unit: DateUnit);
     toString(): string;
-    acceptTypeVisitor(visitor: TypeVisitor): any;
     protected static [Symbol.toStringTag]: string;
 }
 export interface Time extends DataType<Type.Time> {
@@ -245,7 +237,6 @@ export declare class Time extends DataType<Type.Time> {
     readonly bitWidth: TimeBitWidth;
     constructor(unit: TimeUnit, bitWidth: TimeBitWidth);
     toString(): string;
-    acceptTypeVisitor(visitor: TypeVisitor): any;
     protected static [Symbol.toStringTag]: string;
 }
 export interface Timestamp extends DataType<Type.Timestamp> {
@@ -257,7 +248,6 @@ export declare class Timestamp extends DataType<Type.Timestamp> {
     timezone: string | null | undefined;
     constructor(unit: TimeUnit, timezone?: string | null | undefined);
     toString(): string;
-    acceptTypeVisitor(visitor: TypeVisitor): any;
     protected static [Symbol.toStringTag]: string;
 }
 export interface Interval extends DataType<Type.Interval> {
@@ -268,7 +258,6 @@ export declare class Interval extends DataType<Type.Interval> {
     unit: IntervalUnit;
     constructor(unit: IntervalUnit);
     toString(): string;
-    acceptTypeVisitor(visitor: TypeVisitor): any;
     protected static [Symbol.toStringTag]: string;
 }
 export interface List<T extends DataType = any> extends DataType<Type.List> {
@@ -282,7 +271,6 @@ export declare class List<T extends DataType = any> extends DataType<Type.List> 
     readonly ArrayType: any;
     readonly valueType: T;
     readonly valueField: Field<T>;
-    acceptTypeVisitor(visitor: TypeVisitor): any;
     protected static [Symbol.toStringTag]: string;
 }
 export interface Struct extends DataType<Type.Struct> {
@@ -293,7 +281,6 @@ export declare class Struct extends DataType<Type.Struct> {
     children: Field[];
     constructor(children: Field[]);
     toString(): string;
-    acceptTypeVisitor(visitor: TypeVisitor): any;
     protected static [Symbol.toStringTag]: string;
 }
 export interface Union<TType extends Type = any> extends DataType<TType> {
@@ -306,7 +293,6 @@ export declare class Union<TType extends Type = any> extends DataType<TType> {
     readonly children: Field[];
     constructor(mode: UnionMode, typeIds: ArrowType[], children: Field[]);
     toString(): string;
-    acceptTypeVisitor(visitor: TypeVisitor): any;
     protected static [Symbol.toStringTag]: string;
 }
 export declare class DenseUnion extends Union<Type.DenseUnion> {
@@ -325,7 +311,6 @@ export declare class FixedSizeBinary extends DataType<Type.FixedSizeBinary> {
     readonly byteWidth: number;
     constructor(byteWidth: number);
     toString(): string;
-    acceptTypeVisitor(visitor: TypeVisitor): any;
     protected static [Symbol.toStringTag]: string;
 }
 export interface FixedSizeList<T extends DataType = any> extends DataType<Type.FixedSizeList> {
@@ -340,7 +325,6 @@ export declare class FixedSizeList<T extends DataType = any> extends DataType<Ty
     readonly valueType: T;
     readonly valueField: Field<T>;
     toString(): string;
-    acceptTypeVisitor(visitor: TypeVisitor): any;
     protected static [Symbol.toStringTag]: string;
 }
 export interface Map_ extends DataType<Type.Map> {
@@ -352,7 +336,6 @@ export declare class Map_ extends DataType<Type.Map> {
     readonly children: Field[];
     constructor(keysSorted: boolean, children: Field[]);
     toString(): string;
-    acceptTypeVisitor(visitor: TypeVisitor): any;
     protected static [Symbol.toStringTag]: string;
 }
 export interface Dictionary<T extends DataType = any> extends DataType<Type.Dictionary> {
@@ -367,7 +350,6 @@ export declare class Dictionary<T extends DataType> extends DataType<Type.Dictio
     constructor(dictionary: T, indicies: Int<any>, id?: Long | number | null, isOrdered?: boolean | null);
     readonly ArrayType: any;
     toString(): string;
-    acceptTypeVisitor(visitor: TypeVisitor): any;
     protected static [Symbol.toStringTag]: string;
 }
 export interface IterableArrayLike<T = any> extends ArrayLike<T>, Iterable<T> {
