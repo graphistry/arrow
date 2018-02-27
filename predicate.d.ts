@@ -47,6 +47,8 @@ export declare class Or extends CombinationPredicate {
     bind(batch: RecordBatch): (idx: number, batch: RecordBatch) => boolean;
 }
 export declare class Equals extends ComparisonPredicate {
+    private lastDictionary;
+    private lastKey;
     protected _bindLitLit(_batch: RecordBatch, left: Literal, right: Literal): PredicateFunc;
     protected _bindColCol(batch: RecordBatch, left: Col, right: Col): PredicateFunc;
     protected _bindColLit(batch: RecordBatch, col: Col, lit: Literal): PredicateFunc;
@@ -64,5 +66,12 @@ export declare class GTeq extends ComparisonPredicate {
     protected _bindColLit(batch: RecordBatch, col: Col, lit: Literal): PredicateFunc;
     protected _bindLitCol(batch: RecordBatch, lit: Literal, col: Col): (idx: number, cols: RecordBatch) => boolean;
 }
+export declare class CustomPredicate extends Predicate {
+    private next;
+    private bind_;
+    constructor(next: PredicateFunc, bind_: (batch: RecordBatch) => void);
+    bind(batch: RecordBatch): PredicateFunc;
+}
 export declare function lit(v: any): Value<any>;
 export declare function col(n: string): Col<any>;
+export declare function custom(next: PredicateFunc, bind: (batch: RecordBatch) => void): CustomPredicate;

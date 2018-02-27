@@ -11,6 +11,7 @@ export declare class FlatView<T extends FlatType> implements View<T> {
     get(index: number): T['TValue'];
     set(index: number, value: T['TValue']): void;
     toArray(): IterableArrayLike<T['TValue']>;
+    indexOf(search: T['TValue']): number;
     [Symbol.iterator](): IterableIterator<T['TValue']>;
 }
 export declare class NullView implements View<Null> {
@@ -21,6 +22,7 @@ export declare class NullView implements View<Null> {
     set(): void;
     get(): null;
     toArray(): IterableArrayLike<null>;
+    indexOf(search: any): 0 | -1;
     [Symbol.iterator](): IterableIterator<null>;
 }
 export declare class BoolView extends FlatView<Bool> {
@@ -39,6 +41,7 @@ export declare class ValidityView<T extends DataType> implements View<T> {
     constructor(data: Data<T>, view: View<T>);
     clone(data: Data<T>): this;
     toArray(): IterableArrayLike<T['TValue'] | null>;
+    indexOf(search: T['TValue']): number;
     isValid(index: number): boolean;
     get(index: number): T['TValue'] | null;
     set(index: number, value: T['TValue'] | null): void;
@@ -59,6 +62,7 @@ export declare class PrimitiveView<T extends PrimitiveType> extends FlatView<T> 
 }
 export declare class FixedSizeView<T extends PrimitiveType> extends PrimitiveView<T> {
     toArray(): IterableArrayLike<T['TValue']>;
+    indexOf(search: T['TValue']): number;
     protected getValue(values: T['TArray'], index: number, size: number): T['TValue'];
     protected setValue(values: T['TArray'], index: number, size: number, value: T['TValue']): void;
 }

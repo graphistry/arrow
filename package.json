@@ -1,10 +1,9 @@
 {
   "name": "apache-arrow",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "main": "Arrow",
   "types": "Arrow.d.ts",
-  "dist": "Arrow.es5.min.js",
-  "dist:es2015": "Arrow.es2015.min.js",
+  "unpkg": "Arrow.es5.min.js",
   "module": "Arrow.mjs",
   "@std/esm": {
     "esm": "mjs",

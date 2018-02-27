@@ -15,6 +15,7 @@ export declare abstract class ListViewBase<T extends (ListType | FlatListType | 
     get(index: number): T['TValue'];
     set(index: number, value: T['TValue']): void;
     [Symbol.iterator](): IterableIterator<T['TValue']>;
+    indexOf(search: T['TValue']): number;
     protected abstract getList(values: T['TArray'], index: number, valueOffsets?: Int32Array): T['TValue'];
     protected abstract setList(values: T['TArray'], index: number, value: T['TValue'], valueOffsets?: Int32Array): void;
 }

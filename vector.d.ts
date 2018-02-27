@@ -12,6 +12,7 @@ export interface View<T extends DataType> {
     get(index: number): T['TValue'] | null;
     set(index: number, value: T['TValue']): void;
     toArray(): IterableArrayLike<T['TValue'] | null>;
+    indexOf(search: T['TValue']): number;
     [Symbol.iterator](): IterableIterator<T['TValue'] | null>;
 }
 export declare class Vector<T extends DataType = any> implements VectorLike, View<T>, VisitorNode {
@@ -31,6 +32,7 @@ export declare class Vector<T extends DataType = any> implements VectorLike, Vie
     get(index: number): T['TValue'] | null;
     set(index: number, value: T['TValue']): void;
     toArray(): IterableArrayLike<T['TValue'] | null>;
+    indexOf(value: T['TValue']): number;
     [Symbol.iterator](): IterableIterator<T['TValue'] | null>;
     concat(...others: Vector<T>[]): this;
     slice(begin?: number, end?: number): this;
@@ -144,10 +146,11 @@ export declare class UnionVector<T extends (SparseUnion | DenseUnion) = any> ext
     constructor(data: Data<T>, view?: View<T>);
 }
 export declare class DictionaryVector<T extends DataType = DataType> extends Vector<Dictionary<T>> {
-    readonly indicies: Vector<Int>;
+    readonly indices: Vector<Int>;
     readonly dictionary: Vector<T>;
     constructor(data: Data<Dictionary<T>>, view?: View<Dictionary<T>>);
     getKey(index: number): any;
     getValue(key: number): T["TValue"] | null;
+    reverseLookup(value: T): number;
 }
 export declare const createVector: <T extends DataType<any>>(data: Data<T>) => Vector<T>;

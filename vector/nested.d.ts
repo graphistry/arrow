@@ -11,6 +11,7 @@ export declare abstract class NestedView<T extends NestedType> implements View<T
     clone(data: Data<T>): this;
     isValid(): boolean;
     toArray(): IterableArrayLike<T['TValue']>;
+    indexOf(_: T['TValue']): number;
     toJSON(): any;
     toString(): string;
     get(index: number): T['TValue'];

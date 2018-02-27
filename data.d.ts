@@ -71,11 +71,12 @@ export declare class FlatListData<T extends FlatListType> extends FlatData<T> {
 }
 export declare class DictionaryData<T extends DataType> extends BaseData<Dictionary<T>> {
     protected _dictionary: Vector<T>;
-    protected _indicies: Data<Int<any>>;
-    readonly indicies: Data<Int<any, Int8Array | Uint8Array | Int16Array | Uint16Array | Int32Array | Uint32Array>>;
+    protected _indices: Data<Int<any>>;
+    readonly indices: Data<Int<any, Int8Array | Uint8Array | Int16Array | Uint16Array | Int32Array | Uint32Array>>;
     readonly dictionary: Vector<T>;
-    constructor(type: Dictionary<T>, dictionary: Vector<T>, indicies: Data<Int<any>>);
+    constructor(type: Dictionary<T>, dictionary: Vector<T>, indices: Data<Int<any>>);
     readonly nullCount: number;
+    readonly nullBitmap: Uint8Array | undefined;
     clone<R extends Dictionary<T>>(type: R, length?: number, offset?: number): any;
     protected sliceInternal(clone: this, _offset: number, _length: number): this;
 }

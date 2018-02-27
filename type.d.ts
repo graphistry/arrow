@@ -37,7 +37,7 @@ export declare class Field<T extends DataType = DataType> {
     toString(): string;
     readonly typeId: T['TType'];
     readonly [Symbol.toStringTag]: string;
-    readonly indicies: T | Int<any>;
+    readonly indices: T | Int<any>;
 }
 export declare type TimeBitWidth = 32 | 64;
 export declare type IntBitWidth = 8 | 16 | 32 | 64;
@@ -345,9 +345,9 @@ export interface Dictionary<T extends DataType = any> extends DataType<Type.Dict
 export declare class Dictionary<T extends DataType> extends DataType<Type.Dictionary> {
     readonly id: number;
     readonly dictionary: T;
-    readonly indicies: Int<any>;
+    readonly indices: Int<any>;
     readonly isOrdered: boolean;
-    constructor(dictionary: T, indicies: Int<any>, id?: Long | number | null, isOrdered?: boolean | null);
+    constructor(dictionary: T, indices: Int<any>, id?: Long | number | null, isOrdered?: boolean | null);
     readonly ArrayType: any;
     toString(): string;
     protected static [Symbol.toStringTag]: string;

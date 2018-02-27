@@ -13,4 +13,5 @@ export declare class ChunkedView<T extends DataType> implements View<T> {
     get(index: number): T['TValue'] | null;
     set(index: number, value: T['TValue'] | null): void;
     toArray(): IterableArrayLike<T['TValue'] | null>;
+    indexOf(search: T['TValue']): number;
 }
