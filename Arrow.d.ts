@@ -1,7 +1,8 @@
 import * as type_ from './type';
 import * as data_ from './data';
 import * as vector_ from './vector';
-import * as util_ from './util/int';
+import * as util_int_ from './util/int';
+import * as util_bit_ from './util/bit';
 import * as visitor_ from './visitor';
 import * as view_ from './vector/view';
 import * as predicate_ from './predicate';
@@ -20,9 +21,10 @@ export { read, readAsync };
 export { Table, DataFrame, NextFunc, BindFunc, CountByResult };
 export { Field, Schema, RecordBatch, Vector, Type };
 export declare namespace util {
-    export import Uint64 = util_.Uint64;
-    export import Int64 = util_.Int64;
-    export import Int128 = util_.Int128;
+    export import Uint64 = util_int_.Uint64;
+    export import Int64 = util_int_.Int64;
+    export import Int128 = util_int_.Int128;
+    export import packBools = util_bit_.packBools;
 }
 export declare namespace data {
     export import BaseData = data_.BaseData;
@@ -145,6 +147,7 @@ export declare namespace predicate {
     export import Or = predicate_.Or;
     export import Col = predicate_.Col;
     export import And = predicate_.And;
+    export import Not = predicate_.Not;
     export import GTeq = predicate_.GTeq;
     export import LTeq = predicate_.LTeq;
     export import Value = predicate_.Value;

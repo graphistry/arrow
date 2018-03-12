@@ -4,8 +4,11 @@ export declare type ValueFunc<T> = (idx: number, cols: RecordBatch) => T | null;
 export declare type PredicateFunc = (idx: number, cols: RecordBatch) => boolean;
 export declare abstract class Value<T> {
     eq(other: Value<T> | T): Predicate;
-    lteq(other: Value<T> | T): Predicate;
-    gteq(other: Value<T> | T): Predicate;
+    le(other: Value<T> | T): Predicate;
+    ge(other: Value<T> | T): Predicate;
+    lt(other: Value<T> | T): Predicate;
+    gt(other: Value<T> | T): Predicate;
+    ne(other: Value<T> | T): Predicate;
 }
 export declare class Literal<T = any> extends Value<T> {
     v: T;
@@ -22,6 +25,7 @@ export declare abstract class Predicate {
     abstract bind(batch: RecordBatch): PredicateFunc;
     and(expr: Predicate): Predicate;
     or(expr: Predicate): Predicate;
+    not(): Predicate;
     ands(): Predicate[];
 }
 export declare abstract class ComparisonPredicate<T = any> extends Predicate {
@@ -65,6 +69,11 @@ export declare class GTeq extends ComparisonPredicate {
     protected _bindColCol(batch: RecordBatch, left: Col, right: Col): PredicateFunc;
     protected _bindColLit(batch: RecordBatch, col: Col, lit: Literal): PredicateFunc;
     protected _bindLitCol(batch: RecordBatch, lit: Literal, col: Col): (idx: number, cols: RecordBatch) => boolean;
+}
+export declare class Not extends Predicate {
+    readonly child: Predicate;
+    constructor(child: Predicate);
+    bind(batch: RecordBatch): (idx: number, batch: RecordBatch) => boolean;
 }
 export declare class CustomPredicate extends Predicate {
     private next;
