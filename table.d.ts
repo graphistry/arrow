@@ -2,6 +2,7 @@
 import { RecordBatch } from './recordbatch';
 import { Col, Predicate } from './predicate';
 import { Schema, Struct } from './type';
+import { PipeIterator } from './util/node';
 import { Vector, IntVector, StructVector } from './vector';
 export declare type NextFunc = (idx: number, batch: RecordBatch) => void;
 export declare type BindFunc = (batch: RecordBatch) => void;
@@ -37,18 +38,10 @@ export declare class Table implements DataFrame {
     countBy(name: Col | string): CountByResult;
     select(...columnNames: string[]): Table;
     toString(separator?: string): string;
-    rowsToString(separator?: string): TableToStringIterator;
+    serialize(encoding?: string, stream?: boolean): Uint8Array;
+    rowsToString(separator?: string): PipeIterator<string>;
 }
 export declare class CountByResult extends Table implements DataFrame {
     constructor(values: Vector, counts: IntVector<any>);
     toJSON(): Object;
-}
-export declare class TableToStringIterator implements IterableIterator<string> {
-    private iterator;
-    constructor(iterator: IterableIterator<string>);
-    [Symbol.iterator](): IterableIterator<string>;
-    next(value?: any): IteratorResult<string>;
-    throw(error?: any): IteratorResult<string>;
-    return(value?: any): IteratorResult<string>;
-    pipe(stream: NodeJS.WritableStream): void;
 }

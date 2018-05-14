@@ -6,7 +6,7 @@
   "unpkg": "Arrow.es5.min.js",
   "module": "Arrow.mjs",
   "@std/esm": {
-    "esm": "mjs",
+    "mode": "all",
     "warnings": false,
     "sourceMap": true
   },
@@ -27,13 +27,13 @@
   ],
   "dependencies": {
     "@types/flatbuffers": "1.6.5",
-    "@types/node": "9.3.0",
+    "@types/node": "10.0.8",
     "@types/text-encoding-utf-8": "1.0.1",
     "command-line-args": "5.0.1",
     "command-line-usage": "4.1.0",
     "flatbuffers": "trxcllnt/flatbuffers-esm",
     "json-bignum": "0.0.3",
-    "text-encoding-utf-8": "^1.0.2",
+    "text-encoding-utf-8": "trxcllnt/text-encoding-utf-8#6a959afc86b798a435bd7b97682a7eb1f735ee2e",
     "tslib": "1.9.0"
   },
   "bin": {

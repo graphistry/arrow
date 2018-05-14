@@ -61,6 +61,7 @@ import { List, Binary, Utf8, Bool } from './type';
 import { Null, Int, Float, Decimal, Date_, Time, Timestamp, Interval } from './type';
 import { Uint8, Uint16, Uint32, Uint64, Int8, Int16, Int32, Int64, Float16, Float32, Float64 } from './type';
 import { Struct, SparseUnion, DenseUnion, FixedSizeBinary, FixedSizeList, Map_, Dictionary } from './type';
+import { ListView, FixedSizeListView } from './vector/list';
 import { NestedView } from './vector/nested';
 import { FlatView, FixedSizeView } from './vector/flat';
 import { DateDayView, DateMillisecondView, IntervalYearMonthView } from './vector/flat';
@@ -129,10 +130,14 @@ export declare class Utf8Vector extends ListVectorBase<Utf8> {
     asBinary(): BinaryVector;
 }
 export declare class ListVector<T extends DataType = DataType> extends ListVectorBase<List<T>> {
-    constructor(data: Data<List<T>>, view?: View<List<T>>);
+    readonly view: ListView<T>;
+    constructor(data: Data<T>, view?: View<List<T>>);
+    getChildAt(index: number): Vector<T> | null;
 }
-export declare class FixedSizeListVector extends Vector<FixedSizeList> {
-    constructor(data: Data<FixedSizeList>, view?: View<FixedSizeList>);
+export declare class FixedSizeListVector<T extends DataType = DataType> extends Vector<FixedSizeList<T>> {
+    readonly view: FixedSizeListView<T>;
+    constructor(data: Data<FixedSizeList<T>>, view?: View<FixedSizeList<T>>);
+    getChildAt(index: number): Vector<T> | null;
 }
 export declare class MapVector extends NestedVector<Map_> {
     constructor(data: Data<Map_>, view?: View<Map_>);

@@ -8,3 +8,4 @@ export { readBuffers, readBuffersAsync };
 export { readRecordBatches, readRecordBatchesAsync };
 export declare function read(sources: Iterable<Uint8Array | Buffer | string> | object | string): IterableIterator<RecordBatch>;
 export declare function readAsync(sources: AsyncIterable<Uint8Array | Buffer | string>): AsyncIterableIterator<RecordBatch>;
+export declare function readNodeStream(stream: NodeJS.ReadableStream): AsyncIterableIterator<RecordBatch>;

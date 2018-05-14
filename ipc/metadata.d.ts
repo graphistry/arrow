@@ -8,9 +8,9 @@ export declare class Footer {
 }
 export declare class FileBlock {
     metaDataLength: number;
-    bodyLength: Long;
-    offset: Long;
-    constructor(metaDataLength: number, bodyLength: Long, offset: Long);
+    offset: number;
+    bodyLength: number;
+    constructor(metaDataLength: number, bodyLength: Long | number, offset: Long | number);
 }
 export declare class Message {
     bodyLength: number;

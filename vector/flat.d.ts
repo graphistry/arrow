@@ -1,7 +1,7 @@
 import { Data } from '../data';
 import { View } from '../vector';
+import { FlatType, PrimitiveType, IterableArrayLike } from '../type';
 import { Bool, Float16, Date_, Interval, Null, Int32, Timestamp } from '../type';
-import { DataType, FlatType, PrimitiveType, IterableArrayLike } from '../type';
 export declare class FlatView<T extends FlatType> implements View<T> {
     length: number;
     values: T['TArray'];
@@ -32,21 +32,6 @@ export declare class BoolView extends FlatView<Bool> {
     get(index: number): boolean;
     set(index: number, value: boolean): void;
     [Symbol.iterator](): IterableIterator<boolean>;
-}
-export declare class ValidityView<T extends DataType> implements View<T> {
-    protected view: View<T>;
-    protected length: number;
-    protected offset: number;
-    protected nullBitmap: Uint8Array;
-    constructor(data: Data<T>, view: View<T>);
-    clone(data: Data<T>): this;
-    toArray(): IterableArrayLike<T['TValue'] | null>;
-    indexOf(search: T['TValue']): number;
-    isValid(index: number): boolean;
-    get(index: number): T['TValue'] | null;
-    set(index: number, value: T['TValue'] | null): void;
-    [Symbol.iterator](): IterableIterator<T['TValue'] | null>;
-    protected getNullable(view: View<T>, index: number, byte: number, bit: number): T["TValue"];
 }
 export declare class PrimitiveView<T extends PrimitiveType> extends FlatView<T> {
     size: number;

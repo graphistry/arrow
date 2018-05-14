@@ -1,0 +1,7 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var node_1 = require("../util/node");
+var arrow_1 = require("../ipc/reader/arrow");
+new node_1.AsyncPipeIterator(arrow_1.readNodeStream(process.stdin), 'binary').pipe(process.stdout);
+
+//# sourceMappingURL=data:application/json;charset=utf8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImFycm93LXN0cmVhbS50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOztBQUFBLHFDQUFpRDtBQUNqRCw2Q0FBcUQ7QUFFckQsSUFBSSx3QkFBaUIsQ0FBQyxzQkFBYyxDQUFDLE9BQU8sQ0FBQyxLQUFLLENBQUMsRUFBRSxRQUFRLENBQUMsQ0FBQyxJQUFJLENBQUMsT0FBTyxDQUFDLE1BQU0sQ0FBQyxDQUFDIiwiZmlsZSI6ImFycm93LXN0cmVhbS5qcyIsInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7IEFzeW5jUGlwZUl0ZXJhdG9yIH0gZnJvbSAnLi4vdXRpbC9ub2RlJztcbmltcG9ydCB7IHJlYWROb2RlU3RyZWFtIH0gZnJvbSAnLi4vaXBjL3JlYWRlci9hcnJvdyc7XG5cbm5ldyBBc3luY1BpcGVJdGVyYXRvcihyZWFkTm9kZVN0cmVhbShwcm9jZXNzLnN0ZGluKSwgJ2JpbmFyeScpLnBpcGUocHJvY2Vzcy5zdGRvdXQpO1xuIl19

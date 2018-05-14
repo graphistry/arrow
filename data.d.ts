@@ -1,6 +1,6 @@
 import { VectorLike, Vector } from './vector';
+import { Int, Bool, FlatListType, List, Struct, Map_ } from './type';
 import { TypedArray, TypedArrayConstructor, Dictionary } from './type';
-import { Int, Bool, FlatListType, List, FixedSizeList, Struct, Map_ } from './type';
 import { DataType, FlatType, ListType, NestedType, SingleNestedType, DenseUnion, SparseUnion } from './type';
 export declare function toTypedArray<T extends TypedArray>(ArrayType: TypedArrayConstructor<T>, values?: T | ArrayLike<number> | Iterable<number> | null): T;
 export declare type Data<T extends DataType> = DataTypes<T>[T['TType']] & BaseData<T>;
@@ -21,7 +21,7 @@ export interface DataTypes<T extends DataType> {
     13: NestedData<Struct>;
     14: UnionData;
     15: FlatData<T>;
-    16: SingleNestedData<FixedSizeList<T>>;
+    16: SingleNestedData<any>;
     17: NestedData<Map_>;
     DenseUnion: DenseUnionData;
     SparseUnion: SparseUnionData;

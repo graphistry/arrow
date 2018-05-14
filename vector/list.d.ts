@@ -1,10 +1,10 @@
 import { Data } from '../data';
 import { View, Vector } from '../vector';
 import { List, Binary, Utf8, FixedSizeList, FlatListType } from '../type';
-import { ListType, DataType, IterableArrayLike } from '../type';
+import { ListType, SingleNestedType, DataType, IterableArrayLike } from '../type';
 export declare const encodeUtf8: (input?: string | undefined) => Uint8Array;
 export declare const decodeUtf8: (input?: SharedArrayBuffer | ArrayBuffer | ArrayBufferView | undefined) => string;
-export declare abstract class ListViewBase<T extends (ListType | FlatListType | FixedSizeList)> implements View<T> {
+export declare abstract class ListViewBase<T extends (FlatListType | SingleNestedType)> implements View<T> {
     length: number;
     values: T['TArray'];
     valueOffsets?: Int32Array;
@@ -23,13 +23,17 @@ export declare abstract class VariableListViewBase<T extends (ListType | FlatLis
     constructor(data: Data<T>);
 }
 export declare class ListView<T extends DataType> extends VariableListViewBase<List<T>> {
-    constructor(data: Data<List<T>>);
+    values: Vector<T>;
+    constructor(data: Data<T>);
+    getChildAt<R extends T = T>(index: number): Vector<R> | null;
     protected getList(values: Vector<T>, index: number, valueOffsets: Int32Array): Vector<T>;
     protected setList(values: Vector<T>, index: number, value: Vector<T>, valueOffsets: Int32Array): void;
 }
 export declare class FixedSizeListView<T extends DataType> extends ListViewBase<FixedSizeList<T>> {
     size: number;
+    values: Vector<T>;
     constructor(data: Data<FixedSizeList<T>>);
+    getChildAt<R extends T = T>(index: number): Vector<R> | null;
     protected getList(values: Vector<T>, index: number): Vector<T>;
     protected setList(values: Vector<T>, index: number, value: Vector<T>): void;
 }
