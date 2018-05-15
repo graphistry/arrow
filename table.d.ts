@@ -39,7 +39,7 @@ export declare class Table implements DataFrame {
     select(...columnNames: string[]): Table;
     toString(separator?: string): string;
     serialize(encoding?: string, stream?: boolean): Uint8Array;
-    rowsToString(separator?: string): PipeIterator<string>;
+    rowsToString(separator?: string): PipeIterator<string | undefined>;
 }
 export declare class CountByResult extends Table implements DataFrame {
     constructor(values: Vector, counts: IntVector<any>);

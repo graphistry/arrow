@@ -1,2 +1,2 @@
 /// <reference types="node" />
-export declare function fromNodeStream(stream: NodeJS.ReadableStream): AsyncIterableIterator<Uint8Array>;
+export declare function fromReadableStream(stream: NodeJS.ReadableStream): AsyncIterableIterator<any>;

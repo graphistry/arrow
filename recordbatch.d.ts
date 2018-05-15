@@ -3,6 +3,7 @@ import { Schema, Struct, DataType } from './type';
 import { flatbuffers } from 'flatbuffers';
 import { View, Vector, StructVector } from './vector';
 import { Data } from './data';
+import { PipeIterator } from './util/node';
 import Long = flatbuffers.Long;
 export declare class RecordBatch extends StructVector {
     static from(vectors: Vector[]): RecordBatch;
@@ -14,4 +15,5 @@ export declare class RecordBatch extends StructVector {
     clone<R extends Struct>(data: Data<R>, view?: View<R>): this;
     getChildAt<R extends DataType = DataType>(index: number): Vector<R> | null;
     select(...columnNames: string[]): RecordBatch;
+    rowsToString(separator?: string, rowOffset?: number, maxColumnWidths?: number[]): PipeIterator<string>;
 }
