@@ -53,7 +53,7 @@ export declare class RecordBatchSerializer extends VectorVisitor {
     protected visitFlatListVector<T extends FlatListType>(vector: Vector<T>): this;
     protected visitListVector<T extends SingleNestedType>(vector: Vector<T>): any;
     protected visitNestedVector<T extends NestedType>(vector: Vector<T>): this;
-    protected addBuffer(values: TypedArray, alignment?: number): this;
+    protected addBuffer(values: TypedArray): this;
     protected getTruncatedBitmap(offset: number, length: number, bitmap: Uint8Array): Uint8Array;
     protected getZeroBasedValueOffsets(offset: number, length: number, valueOffsets: Int32Array): Int32Array;
 }
