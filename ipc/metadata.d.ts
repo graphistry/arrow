@@ -25,7 +25,7 @@ export declare class RecordBatchMetadata extends Message {
     length: number;
     nodes: FieldMetadata[];
     buffers: BufferMetadata[];
-    constructor(version: MetadataVersion, length: Long | number, nodes: FieldMetadata[], buffers: BufferMetadata[]);
+    constructor(version: MetadataVersion, length: Long | number, nodes: FieldMetadata[], buffers: BufferMetadata[], bodyLength?: Long | number);
 }
 export declare class DictionaryBatch extends Message {
     id: number;
