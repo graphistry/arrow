@@ -24,19 +24,30 @@ export declare abstract class NestedView<T extends NestedType> implements View<T
 export declare class UnionView<T extends (DenseUnion | SparseUnion) = SparseUnion> extends NestedView<T> {
     typeIds: Int8Array;
     valueOffsets?: Int32Array;
+    protected typeIdToChildIndex: {
+        [key: number]: number;
+    };
     constructor(data: Data<T>, children?: Vector<any>[]);
     protected getNested(self: UnionView<T>, index: number): T['TValue'];
     protected setNested(self: UnionView<T>, index: number, value: T['TValue']): void;
-    protected getChildValue(self: NestedView<T>, index: number, typeIds: Int8Array, _valueOffsets?: any): any | null;
-    protected setChildValue(self: NestedView<T>, index: number, value: T['TValue'], typeIds: Int8Array, _valueOffsets?: any): any | null;
+    protected getChildValue(self: NestedView<T>, index: number, typeIds: Int8Array, _valueOffsets: any, typeIdToChildIndex: {
+        [key: number]: number;
+    }): any | null;
+    protected setChildValue(self: NestedView<T>, index: number, value: T['TValue'], typeIds: Int8Array, _valueOffsets: any, typeIdToChildIndex: {
+        [key: number]: number;
+    }): any | null;
     [Symbol.iterator](): IterableIterator<T['TValue']>;
 }
 export declare class DenseUnionView extends UnionView<DenseUnion> {
     valueOffsets: Int32Array;
     constructor(data: Data<DenseUnion>, children?: Vector<any>[]);
     protected getNested(self: DenseUnionView, index: number): any | null;
-    protected getChildValue(self: NestedView<DenseUnion>, index: number, typeIds: Int8Array, valueOffsets: any): any | null;
-    protected setChildValue(self: NestedView<DenseUnion>, index: number, value: any, typeIds: Int8Array, valueOffsets?: any): any | null;
+    protected getChildValue(self: NestedView<DenseUnion>, index: number, typeIds: Int8Array, valueOffsets: any, typeIdToChildIndex: {
+        [key: number]: number;
+    }): any | null;
+    protected setChildValue(self: NestedView<DenseUnion>, index: number, value: any, typeIds: Int8Array, valueOffsets: any, typeIdToChildIndex: {
+        [key: number]: number;
+    }): any | null;
 }
 export declare class StructView extends NestedView<Struct> {
     protected getNested(self: StructView, index: number): RowView;

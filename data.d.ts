@@ -101,6 +101,9 @@ export declare class ListData<T extends ListType> extends SingleNestedData<T> {
 export declare class UnionData<T extends (DenseUnion | SparseUnion) = any> extends NestedData<T> {
     3: T['TArray'];
     readonly typeIds: T["TArray"];
+    readonly typeIdToChildIndex: {
+        [key: number]: number;
+    };
     constructor(type: T, length: number, nullBitmap: Uint8Array | null | undefined, typeIds: Iterable<number>, childData: Data<any>[], offset?: number, nullCount?: number);
     clone<R extends T>(type: R, length?: number, offset?: number, nullCount?: number): UnionData<R>;
 }
