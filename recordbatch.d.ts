@@ -1,4 +1,3 @@
-/// <reference types="flatbuffers" />
 import { Schema, Struct, DataType } from './type';
 import { flatbuffers } from 'flatbuffers';
 import { View, Vector, StructVector } from './vector';

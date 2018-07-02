@@ -1,4 +1,3 @@
-/// <reference types="flatbuffers" />
 import { flatbuffers } from 'flatbuffers';
 /**
  * @enum
@@ -20,7 +19,7 @@ export declare namespace org.apache.arrow.flatbuf {
         /**
          * >= 0.8.0
          */
-        V4 = 3,
+        V4 = 3
     }
 }
 /**
@@ -29,7 +28,7 @@ export declare namespace org.apache.arrow.flatbuf {
 export declare namespace org.apache.arrow.flatbuf {
     enum UnionMode {
         Sparse = 0,
-        Dense = 1,
+        Dense = 1
     }
 }
 /**
@@ -39,7 +38,7 @@ export declare namespace org.apache.arrow.flatbuf {
     enum Precision {
         HALF = 0,
         SINGLE = 1,
-        DOUBLE = 2,
+        DOUBLE = 2
     }
 }
 /**
@@ -48,7 +47,7 @@ export declare namespace org.apache.arrow.flatbuf {
 export declare namespace org.apache.arrow.flatbuf {
     enum DateUnit {
         DAY = 0,
-        MILLISECOND = 1,
+        MILLISECOND = 1
     }
 }
 /**
@@ -59,7 +58,7 @@ export declare namespace org.apache.arrow.flatbuf {
         SECOND = 0,
         MILLISECOND = 1,
         MICROSECOND = 2,
-        NANOSECOND = 3,
+        NANOSECOND = 3
     }
 }
 /**
@@ -68,7 +67,7 @@ export declare namespace org.apache.arrow.flatbuf {
 export declare namespace org.apache.arrow.flatbuf {
     enum IntervalUnit {
         YEAR_MONTH = 0,
-        DAY_TIME = 1,
+        DAY_TIME = 1
     }
 }
 /**
@@ -97,7 +96,7 @@ export declare namespace org.apache.arrow.flatbuf {
         Union = 14,
         FixedSizeBinary = 15,
         FixedSizeList = 16,
-        Map = 17,
+        Map = 17
     }
 }
 /**
@@ -123,7 +122,7 @@ export declare namespace org.apache.arrow.flatbuf {
         /**
          * Type vector used in Union type
          */
-        TYPE = 3,
+        TYPE = 3
     }
 }
 /**
@@ -135,7 +134,7 @@ export declare namespace org.apache.arrow.flatbuf {
 export declare namespace org.apache.arrow.flatbuf {
     enum Endianness {
         Little = 0,
-        Big = 1,
+        Big = 1
     }
 }
 /**

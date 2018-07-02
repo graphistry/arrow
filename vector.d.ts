@@ -23,8 +23,8 @@ export declare class Vector<T extends DataType = any> implements VectorLike, Vie
     readonly data: Data<T>;
     readonly view: View<T>;
     constructor(data: Data<T>, view: View<T>);
-    readonly nullCount: any;
-    readonly nullBitmap: any;
+    readonly nullCount: number;
+    readonly nullBitmap: Uint8Array | undefined;
     readonly [Symbol.toStringTag]: string;
     toJSON(): any;
     clone<R extends T>(data: Data<R>, view?: View<R>): this;
@@ -131,7 +131,7 @@ export declare class Utf8Vector extends ListVectorBase<Utf8> {
 }
 export declare class ListVector<T extends DataType = DataType> extends ListVectorBase<List<T>> {
     readonly view: ListView<T>;
-    constructor(data: Data<T>, view?: View<List<T>>);
+    constructor(data: Data<List<T>>, view?: ListView<T>);
     getChildAt(index: number): Vector<T> | null;
 }
 export declare class FixedSizeListVector<T extends DataType = DataType> extends Vector<FixedSizeList<T>> {

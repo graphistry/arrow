@@ -1,4 +1,3 @@
-/// <reference types="flatbuffers" />
 import { Table } from '../../table';
 import { RecordBatch } from '../../recordbatch';
 import { VectorVisitor, TypeVisitor } from '../../visitor';

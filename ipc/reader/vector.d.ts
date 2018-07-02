@@ -24,7 +24,7 @@ export declare abstract class TypeDataLoader extends TypeVisitor {
     visitFields(fields: Field[]): any[];
     visitNull(type: Null): FlatData<any>;
     visitInt(type: Int): FlatData<Int<any, Int8Array | Uint8Array | Int16Array | Uint16Array | Int32Array | Uint32Array>>;
-    visitFloat(type: Float): FlatData<Float<Uint16Array | Float32Array | Float64Array>>;
+    visitFloat(type: Float): FlatData<Float<import("../../type").FloatArray>>;
     visitBinary(type: Binary): FlatListData<Binary>;
     visitUtf8(type: Utf8): FlatListData<Utf8>;
     visitBool(type: Bool): BoolData;
@@ -46,12 +46,12 @@ export declare abstract class TypeDataLoader extends TypeVisitor {
     protected abstract readData<T extends DataType>(type: T, buffer?: BufferMetadata): any;
     protected abstract readOffsets<T extends DataType>(type: T, buffer?: BufferMetadata): any;
     protected abstract readTypeIds<T extends DataType>(type: T, buffer?: BufferMetadata): any;
-    protected visitNullType(type: Null, {length, nullCount}?: FieldMetadata): FlatData<any>;
-    protected visitFlatType<T extends FlatType>(type: T, {length, nullCount}?: FieldMetadata): FlatData<T>;
-    protected visitBoolType(type: Bool, {length, nullCount}?: FieldMetadata, data?: Uint8Array): BoolData;
-    protected visitFlatList<T extends FlatListType>(type: T, {length, nullCount}?: FieldMetadata): FlatListData<T>;
-    protected visitListType<T extends ListType>(type: T, {length, nullCount}?: FieldMetadata): ListData<T>;
-    protected visitFixedSizeListType<T extends FixedSizeList>(type: T, {length, nullCount}?: FieldMetadata): SingleNestedData<T>;
-    protected visitNestedType<T extends NestedType>(type: T, {length, nullCount}?: FieldMetadata): NestedData<T>;
-    protected visitUnionType(type: DenseUnion | SparseUnion, {length, nullCount}?: FieldMetadata): DenseUnionData | SparseUnionData;
+    protected visitNullType(type: Null, { length, nullCount }?: FieldMetadata): FlatData<any>;
+    protected visitFlatType<T extends FlatType>(type: T, { length, nullCount }?: FieldMetadata): FlatData<T>;
+    protected visitBoolType(type: Bool, { length, nullCount }?: FieldMetadata, data?: Uint8Array): BoolData;
+    protected visitFlatList<T extends FlatListType>(type: T, { length, nullCount }?: FieldMetadata): FlatListData<T>;
+    protected visitListType<T extends ListType>(type: T, { length, nullCount }?: FieldMetadata): ListData<T>;
+    protected visitFixedSizeListType<T extends FixedSizeList>(type: T, { length, nullCount }?: FieldMetadata): SingleNestedData<T>;
+    protected visitNestedType<T extends NestedType>(type: T, { length, nullCount }?: FieldMetadata): NestedData<T>;
+    protected visitUnionType(type: DenseUnion | SparseUnion, { length, nullCount }?: FieldMetadata): DenseUnionData | SparseUnionData;
 }

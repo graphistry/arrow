@@ -1,4 +1,3 @@
-/// <reference types="flatbuffers" />
 import { flatbuffers } from 'flatbuffers';
 import ByteBuffer = flatbuffers.ByteBuffer;
 export declare const PADDING = 4;

@@ -14,8 +14,8 @@ export declare function readJSON(json: any): IterableIterator<{
 export declare class JSONDataLoader extends TypeDataLoader {
     private sources;
     constructor(sources: any[][], nodes: Iterator<FieldMetadata>, buffers: Iterator<BufferMetadata>, dictionaries: Map<number, Vector>);
-    protected readNullBitmap<T extends DataType>(_type: T, nullCount: number, {offset}?: BufferMetadata): Uint8Array;
-    protected readOffsets<T extends DataType>(_type: T, {offset}?: BufferMetadata): Int32Array;
-    protected readTypeIds<T extends DataType>(_type: T, {offset}?: BufferMetadata): Int8Array;
-    protected readData<T extends DataType>(type: T, {offset}?: BufferMetadata): any;
+    protected readNullBitmap<T extends DataType>(_type: T, nullCount: number, { offset }?: BufferMetadata): Uint8Array;
+    protected readOffsets<T extends DataType>(_type: T, { offset }?: BufferMetadata): Int32Array;
+    protected readTypeIds<T extends DataType>(_type: T, { offset }?: BufferMetadata): Int8Array;
+    protected readData<T extends DataType>(type: T, { offset }?: BufferMetadata): any;
 }

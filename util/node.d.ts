@@ -1,7 +1,7 @@
 /// <reference types="node" />
 export declare class PipeIterator<T> implements IterableIterator<T> {
     protected iterator: IterableIterator<T>;
-    protected encoding: any;
+    protected encoding?: any;
     constructor(iterator: IterableIterator<T>, encoding?: any);
     [Symbol.iterator](): IterableIterator<T>;
     next(value?: any): IteratorResult<T>;
@@ -17,7 +17,7 @@ export declare class PipeIterator<T> implements IterableIterator<T> {
 }
 export declare class AsyncPipeIterator<T> implements AsyncIterableIterator<T> {
     protected iterator: AsyncIterableIterator<T>;
-    protected encoding: any;
+    protected encoding?: any;
     constructor(iterator: AsyncIterableIterator<T>, encoding?: any);
     [Symbol.asyncIterator](): AsyncIterableIterator<T>;
     next(value?: any): Promise<IteratorResult<T>>;

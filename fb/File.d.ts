@@ -1,4 +1,3 @@
-/// <reference types="flatbuffers" />
 import { flatbuffers } from 'flatbuffers';
 import * as NS16187549871986683199 from './Schema';
 /**

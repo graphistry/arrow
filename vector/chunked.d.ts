@@ -1,4 +1,4 @@
-import { ChunkedData } from '../data';
+import { ChunkedData, Data } from '../data';
 import { View, Vector } from '../vector';
 import { DataType, IterableArrayLike } from '../type';
 export declare class ChunkedView<T extends DataType> implements View<T> {
@@ -6,7 +6,7 @@ export declare class ChunkedView<T extends DataType> implements View<T> {
     chunkOffsets: Uint32Array;
     protected _children: Vector<any>[];
     constructor(data: ChunkedData<T>);
-    clone(data: ChunkedData<T>): this;
+    clone(data: ChunkedData<T> & Data<T>): this;
     [Symbol.iterator](): IterableIterator<T['TValue'] | null>;
     getChildAt<R extends DataType = DataType>(index: number): Vector<any> | null;
     isValid(index: number): boolean;

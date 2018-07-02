@@ -1,4 +1,3 @@
-/// <reference types="flatbuffers" />
 /// <reference types="node" />
 import { Vector } from '../../vector';
 import { flatbuffers } from 'flatbuffers';
@@ -22,5 +21,5 @@ export declare class BinaryDataLoader extends TypeDataLoader {
     constructor(bb: ByteBuffer, nodes: Iterator<FieldMetadata>, buffers: Iterator<BufferMetadata>, dictionaries: Map<number, Vector>);
     protected readOffsets<T extends DataType>(type: T, buffer?: BufferMetadata): Uint8Array;
     protected readTypeIds<T extends DataType>(type: T, buffer?: BufferMetadata): Uint8Array;
-    protected readData<T extends DataType>(_type: T, {length, offset}?: BufferMetadata): Uint8Array;
+    protected readData<T extends DataType>(_type: T, { length, offset }?: BufferMetadata): Uint8Array;
 }

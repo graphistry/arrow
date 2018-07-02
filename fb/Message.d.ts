@@ -1,4 +1,3 @@
-/// <reference types="flatbuffers" />
 import { flatbuffers } from 'flatbuffers';
 import * as NS16187549871986683199 from './Schema';
 export declare namespace org.apache.arrow.flatbuf {
@@ -22,7 +21,7 @@ export declare namespace org.apache.arrow.flatbuf {
         Schema = 1,
         DictionaryBatch = 2,
         RecordBatch = 3,
-        Tensor = 4,
+        Tensor = 4
     }
 }
 /**

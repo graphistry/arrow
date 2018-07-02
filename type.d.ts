@@ -1,4 +1,3 @@
-/// <reference types="flatbuffers" />
 import * as Schema_ from './fb/Schema';
 import * as Message_ from './fb/Message';
 import { Vector, View } from './vector';
@@ -79,7 +78,7 @@ export declare enum Type {
     Map = 17,
     Dictionary = "Dictionary",
     DenseUnion = "DenseUnion",
-    SparseUnion = "SparseUnion",
+    SparseUnion = "SparseUnion"
 }
 export interface DataType<TType extends Type = any> {
     readonly TType: TType;
@@ -89,7 +88,7 @@ export interface DataType<TType extends Type = any> {
 }
 export declare abstract class DataType<TType extends Type = any> implements Partial<VisitorNode> {
     readonly TType: TType;
-    readonly children: Field<DataType<any>>[] | undefined;
+    readonly children?: Field<DataType<any>>[] | undefined;
     [Symbol.toStringTag]: string;
     static isNull(x: any): x is Null;
     static isInt(x: any): x is Int;
@@ -245,7 +244,7 @@ export interface Timestamp extends DataType<Type.Timestamp> {
 }
 export declare class Timestamp extends DataType<Type.Timestamp> {
     unit: TimeUnit;
-    timezone: string | null | undefined;
+    timezone?: string | null | undefined;
     constructor(unit: TimeUnit, timezone?: string | null | undefined);
     toString(): string;
     protected static [Symbol.toStringTag]: string;
