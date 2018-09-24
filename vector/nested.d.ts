@@ -49,8 +49,13 @@ export declare class DenseUnionView extends UnionView<DenseUnion> {
         [key: number]: number;
     }): any | null;
 }
+declare type RowProxy = {
+    [name: string]: any;
+};
 export declare class StructView extends NestedView<Struct> {
-    protected getNested(self: StructView, index: number): RowView;
+    private RowView;
+    constructor(data: Data<Struct>, children?: Vector<any>[]);
+    protected getNested(self: StructView, index: number): RowProxy & RowView;
     protected setNested(self: StructView, index: number, value: any): void;
 }
 export declare class MapView extends NestedView<Map_> {
@@ -78,3 +83,4 @@ export declare class MapRowView extends RowView {
     protected getChildValue(self: MapRowView, key: any, typeIds: any, _valueOffsets: any): any | null;
     protected setChildValue(self: MapRowView, key: any, value: any, typeIds: any, _valueOffsets?: any): any | null;
 }
+export {};

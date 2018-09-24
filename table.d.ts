@@ -7,10 +7,11 @@ import { Vector, IntVector, StructVector } from './vector';
 export declare type NextFunc = (idx: number, batch: RecordBatch) => void;
 export declare type BindFunc = (batch: RecordBatch) => void;
 export interface DataFrame {
+    count(): number;
     filter(predicate: Predicate): DataFrame;
     scan(next: NextFunc, bind?: BindFunc): void;
-    count(): number;
     countBy(col: (Col | string)): CountByResult;
+    [Symbol.iterator](): IterableIterator<Struct['TValue']>;
 }
 export declare class Table implements DataFrame {
     static empty(): Table;
@@ -34,8 +35,8 @@ export declare class Table implements DataFrame {
     [Symbol.iterator](): IterableIterator<Struct['TValue']>;
     filter(predicate: Predicate): DataFrame;
     scan(next: NextFunc, bind?: BindFunc): void;
-    count(): number;
     countBy(name: Col | string): CountByResult;
+    count(): number;
     select(...columnNames: string[]): Table;
     toString(separator?: string): string;
     serialize(encoding?: string, stream?: boolean): Uint8Array;

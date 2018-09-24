@@ -23,10 +23,9 @@ export declare class Col<T = any> extends Value<T> {
 }
 export declare abstract class Predicate {
     abstract bind(batch: RecordBatch): PredicateFunc;
-    and(expr: Predicate): Predicate;
-    or(expr: Predicate): Predicate;
+    and(...expr: Predicate[]): And;
+    or(...expr: Predicate[]): Or;
     not(): Predicate;
-    ands(): Predicate[];
 }
 export declare abstract class ComparisonPredicate<T = any> extends Predicate {
     readonly left: Value<T>;
@@ -39,15 +38,15 @@ export declare abstract class ComparisonPredicate<T = any> extends Predicate {
     protected abstract _bindLitCol(batch: RecordBatch, lit: Literal, col: Col): PredicateFunc;
 }
 export declare abstract class CombinationPredicate extends Predicate {
-    readonly left: Predicate;
-    readonly right: Predicate;
-    constructor(left: Predicate, right: Predicate);
+    readonly children: Predicate[];
+    constructor(...children: Predicate[]);
 }
 export declare class And extends CombinationPredicate {
+    constructor(...children: Predicate[]);
     bind(batch: RecordBatch): (idx: number, batch: RecordBatch) => boolean;
-    ands(): Predicate[];
 }
 export declare class Or extends CombinationPredicate {
+    constructor(...children: Predicate[]);
     bind(batch: RecordBatch): (idx: number, batch: RecordBatch) => boolean;
 }
 export declare class Equals extends ComparisonPredicate {
@@ -83,4 +82,6 @@ export declare class CustomPredicate extends Predicate {
 }
 export declare function lit(v: any): Value<any>;
 export declare function col(n: string): Col<any>;
+export declare function and(...p: Predicate[]): And;
+export declare function or(...p: Predicate[]): Or;
 export declare function custom(next: PredicateFunc, bind: (batch: RecordBatch) => void): CustomPredicate;

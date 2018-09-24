@@ -2,17 +2,17 @@
 import { Vector } from '../../vector';
 import { flatbuffers } from 'flatbuffers';
 import { TypeDataLoader } from './vector';
-import { RecordBatchMetadata, DictionaryBatch, BufferMetadata, FieldMetadata } from '../metadata';
+import { Message, BufferMetadata, FieldMetadata } from '../metadata';
 import { Schema, DataType } from '../../type';
 import ByteBuffer = flatbuffers.ByteBuffer;
 export declare function readBuffers<T extends Uint8Array | Buffer | string>(sources: Iterable<T> | Uint8Array | Buffer | string): IterableIterator<{
     schema: Schema;
-    message: RecordBatchMetadata | DictionaryBatch;
+    message: Message;
     loader: BinaryDataLoader;
 }>;
 export declare function readBuffersAsync<T extends Uint8Array | Buffer | string>(sources: AsyncIterable<T>): AsyncIterableIterator<{
     schema: Schema;
-    message: RecordBatchMetadata | DictionaryBatch;
+    message: Message;
     loader: BinaryDataLoader;
 }>;
 export declare class BinaryDataLoader extends TypeDataLoader {
