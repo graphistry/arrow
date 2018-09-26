@@ -8,14 +8,17 @@ export declare function serializeStream(table: Table): IterableIterator<Uint8Arr
 export declare function serializeFile(table: Table): IterableIterator<Uint8Array>;
 export declare function serializeRecordBatch(recordBatch: RecordBatch): {
     metadataLength: number;
+    bodyLength: number;
     buffer: Uint8Array;
 };
 export declare function serializeDictionaryBatch(dictionary: Vector, id: Long | number, isDelta?: boolean): {
     metadataLength: number;
+    bodyLength: number;
     buffer: Uint8Array;
 };
 export declare function serializeMessage(message: Message, data?: Uint8Array): {
     metadataLength: number;
+    bodyLength: number;
     buffer: Uint8Array;
 };
 export declare function serializeFooter(footer: Footer): {

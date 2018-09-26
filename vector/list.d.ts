@@ -3,7 +3,7 @@ import { View, Vector } from '../vector';
 import { List, Binary, Utf8, FixedSizeList, FlatListType } from '../type';
 import { ListType, SingleNestedType, DataType, IterableArrayLike } from '../type';
 export declare const encodeUtf8: (input?: string | undefined) => Uint8Array;
-export declare const decodeUtf8: (input?: ArrayBuffer | SharedArrayBuffer | ArrayBufferView | undefined) => string;
+export declare const decodeUtf8: (input?: SharedArrayBuffer | ArrayBuffer | ArrayBufferView | undefined) => string;
 export declare abstract class ListViewBase<T extends (FlatListType | SingleNestedType)> implements View<T> {
     length: number;
     values: T['TArray'];
