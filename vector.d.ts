@@ -1,7 +1,7 @@
 import { Data } from './data';
 import { VisitorNode, TypeVisitor, VectorVisitor } from './visitor';
 import { DataType, ListType, FlatType, NestedType, FlatListType } from './type';
-import { IterableArrayLike } from './type';
+import { IterableArrayLike, DateUnit } from './type';
 export interface VectorLike {
     length: number;
     nullCount: number;
@@ -93,11 +93,13 @@ export declare class FloatVector<T extends Float = Float<any>> extends FlatVecto
     constructor(data: Data<T>, view?: View<T>);
 }
 export declare class DateVector extends FlatVector<Date_> {
+    static from(data: Date[], unit?: DateUnit): DateVector;
     static defaultView<T extends Date_>(data: Data<T>): DateDayView | DateMillisecondView;
     constructor(data: Data<Date_>, view?: View<Date_>);
     lows(): IntVector<Int32>;
     highs(): IntVector<Int32>;
     asEpochMilliseconds(): IntVector<Int32>;
+    indexOf(search: Date): number;
 }
 export declare class DecimalVector extends FlatVector<Decimal> {
     constructor(data: Data<Decimal>, view?: View<Decimal>);
