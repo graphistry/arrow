@@ -13,7 +13,17 @@ export declare class BaseInt64 {
 export declare class Uint64 extends BaseInt64 {
     times(other: Uint64): Uint64;
     plus(other: Uint64): Uint64;
+    /** @nocollapse */
+    static from(val: any, out_buffer?: Uint32Array): Uint64;
+    /** @nocollapse */
+    static fromNumber(num: number, out_buffer?: Uint32Array): Uint64;
+    /** @nocollapse */
+    static fromString(str: string, out_buffer?: Uint32Array): Uint64;
+    /** @nocollapse */
+    static convertArray(values: (string | number)[]): Uint32Array;
+    /** @nocollapse */
     static multiply(left: Uint64, right: Uint64): Uint64;
+    /** @nocollapse */
     static add(left: Uint64, right: Uint64): Uint64;
 }
 export declare class Int64 extends BaseInt64 {
@@ -21,8 +31,17 @@ export declare class Int64 extends BaseInt64 {
     times(other: Int64): Int64;
     plus(other: Int64): Int64;
     lessThan(other: Int64): boolean;
+    /** @nocollapse */
+    static from(val: any, out_buffer?: Uint32Array): Int64;
+    /** @nocollapse */
+    static fromNumber(num: number, out_buffer?: Uint32Array): Int64;
+    /** @nocollapse */
     static fromString(str: string, out_buffer?: Uint32Array): Int64;
+    /** @nocollapse */
+    static convertArray(values: (string | number)[]): Uint32Array;
+    /** @nocollapse */
     static multiply(left: Int64, right: Int64): Int64;
+    /** @nocollapse */
     static add(left: Int64, right: Int64): Int64;
 }
 export declare class Int128 {
@@ -34,7 +53,16 @@ export declare class Int128 {
     times(other: Int128): Int128;
     plus(other: Int128): Int128;
     hex(): string;
+    /** @nocollapse */
     static multiply(left: Int128, right: Int128): Int128;
+    /** @nocollapse */
     static add(left: Int128, right: Int128): Int128;
+    /** @nocollapse */
+    static from(val: any, out_buffer?: Uint32Array): Int128;
+    /** @nocollapse */
+    static fromNumber(num: number, out_buffer?: Uint32Array): Int128;
+    /** @nocollapse */
     static fromString(str: string, out_buffer?: Uint32Array): Int128;
+    /** @nocollapse */
+    static convertArray(values: (string | number)[]): Uint32Array;
 }

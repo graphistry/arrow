@@ -1,0 +1,34 @@
+import { Data } from '../data';
+import { Vector } from '../vector';
+import { DataType } from '../type';
+export declare abstract class BaseVector<T extends DataType = any> extends Vector<T> {
+    protected _data: Data<T>;
+    protected _stride: number;
+    protected _numChildren: number;
+    protected _children?: Vector[];
+    constructor(data: Data<T>, children?: Vector[], stride?: number);
+    readonly data: Data<T>;
+    readonly stride: number;
+    readonly numChildren: number;
+    readonly type: T;
+    readonly length: number;
+    readonly offset: number;
+    readonly nullCount: number;
+    readonly VectorName: string;
+    readonly TType: T['TType'];
+    readonly TArray: T['TArray'];
+    readonly TValue: T['TValue'];
+    readonly ArrayType: T['ArrayType'];
+    readonly values: NonNullable<T["TArray"]>;
+    readonly typeIds: NonNullable<T["TArray"]>;
+    readonly nullBitmap: Uint8Array;
+    readonly valueOffsets: Int32Array;
+    readonly [Symbol.toStringTag]: string;
+    clone<R extends DataType = T>(data: Data<R>, children?: Vector<any>[] | undefined, stride?: number): import("../interfaces").Vector<R>;
+    concat(...others: Vector<T>[]): Vector<T>;
+    isValid(index: number): boolean;
+    getChildAt<R extends DataType = any>(index: number): Vector<R> | null;
+    toJSON(): any;
+    slice(begin?: number, end?: number): this;
+    protected sliceInternal(vector: BaseVector<T>, offset: number, length: number): import("../interfaces").Vector<T>;
+}

@@ -1,0 +1,38 @@
+"use strict";
+// Licensed to the Apache Software Foundation (ASF) under one
+// or more contributor license agreements.  See the NOTICE file
+// distributed with this work for additional information
+// regarding copyright ownership.  The ASF licenses this file
+// to you under the Apache License, Version 2.0 (the
+// "License"); you may not use this file except in compliance
+// with the License.  You may obtain a copy of the License at
+//
+//   http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing,
+// software distributed under the License is distributed on an
+// "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+// KIND, either express or implied.  See the License for the
+// specific language governing permissions and limitations
+// under the License.
+Object.defineProperty(exports, "__esModule", { value: true });
+const data_1 = require("../data");
+const vector_1 = require("../vector");
+const base_1 = require("./base");
+const type_1 = require("../type");
+const set_1 = require("../visitor/set");
+class Utf8Vector extends base_1.BaseVector {
+    /** @nocollapse */
+    static from(values) {
+        const length = values.length;
+        const data = set_1.encodeUtf8(values.join(''));
+        const offsets = values.reduce((offsets, str, idx) => ((!(offsets[idx + 1] = offsets[idx] + str.length) || true) && offsets), new Uint32Array(values.length + 1));
+        return vector_1.Vector.new(data_1.Data.Utf8(new type_1.Utf8(), 0, length, 0, null, offsets, data));
+    }
+    asBinary() {
+        return vector_1.Vector.new(this.data.clone(new type_1.Binary()));
+    }
+}
+exports.Utf8Vector = Utf8Vector;
+
+//# sourceMappingURL=data:application/json;charset=utf8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInZlY3Rvci91dGY4LnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7QUFBQSw2REFBNkQ7QUFDN0QsK0RBQStEO0FBQy9ELHdEQUF3RDtBQUN4RCw2REFBNkQ7QUFDN0Qsb0RBQW9EO0FBQ3BELDZEQUE2RDtBQUM3RCw2REFBNkQ7QUFDN0QsRUFBRTtBQUNGLCtDQUErQztBQUMvQyxFQUFFO0FBQ0YsNkRBQTZEO0FBQzdELDhEQUE4RDtBQUM5RCx5REFBeUQ7QUFDekQsNERBQTREO0FBQzVELDBEQUEwRDtBQUMxRCxxQkFBcUI7O0FBRXJCLGtDQUErQjtBQUMvQixzQ0FBbUM7QUFDbkMsaUNBQW9DO0FBQ3BDLGtDQUF1QztBQUN2Qyx3Q0FBNEM7QUFFNUMsTUFBYSxVQUFXLFNBQVEsaUJBQWdCO0lBQzVDLGtCQUFrQjtJQUNYLE1BQU0sQ0FBQyxJQUFJLENBQUMsTUFBZ0I7UUFDL0IsTUFBTSxNQUFNLEdBQUcsTUFBTSxDQUFDLE1BQU0sQ0FBQztRQUM3QixNQUFNLElBQUksR0FBRyxnQkFBVSxDQUFDLE1BQU0sQ0FBQyxJQUFJLENBQUMsRUFBRSxDQUFDLENBQUMsQ0FBQztRQUN6QyxNQUFNLE9BQU8sR0FBRyxNQUFNLENBQUMsTUFBTSxDQUFDLENBQUMsT0FBTyxFQUFFLEdBQUcsRUFBRSxHQUFHLEVBQUUsRUFBRSxDQUFDLENBQ2pELENBQUMsQ0FBQyxDQUFDLE9BQU8sQ0FBQyxHQUFHLEdBQUcsQ0FBQyxDQUFDLEdBQUcsT0FBTyxDQUFDLEdBQUcsQ0FBQyxHQUFHLEdBQUcsQ0FBQyxNQUFNLENBQUMsSUFBSSxJQUFJLENBQUMsSUFBSSxPQUFPLENBQ3ZFLEVBQUUsSUFBSSxXQUFXLENBQUMsTUFBTSxDQUFDLE1BQU0sR0FBRyxDQUFDLENBQUMsQ0FBQyxDQUFDO1FBQ3ZDLE9BQU8sZUFBTSxDQUFDLEdBQUcsQ0FBQyxXQUFJLENBQUMsSUFBSSxDQUFDLElBQUksV0FBSSxFQUFFLEVBQUUsQ0FBQyxFQUFFLE1BQU0sRUFBRSxDQUFDLEVBQUUsSUFBSSxFQUFFLE9BQU8sRUFBRSxJQUFJLENBQUMsQ0FBQyxDQUFDO0lBQ2hGLENBQUM7SUFDTSxRQUFRO1FBQ1gsT0FBTyxlQUFNLENBQUMsR0FBRyxDQUFDLElBQUksQ0FBQyxJQUFJLENBQUMsS0FBSyxDQUFDLElBQUksYUFBTSxFQUFFLENBQUMsQ0FBQyxDQUFDO0lBQ3JELENBQUM7Q0FDSjtBQWJELGdDQWFDIiwiZmlsZSI6InZlY3Rvci91dGY4LmpzIiwic291cmNlc0NvbnRlbnQiOlsiLy8gTGljZW5zZWQgdG8gdGhlIEFwYWNoZSBTb2Z0d2FyZSBGb3VuZGF0aW9uIChBU0YpIHVuZGVyIG9uZVxuLy8gb3IgbW9yZSBjb250cmlidXRvciBsaWNlbnNlIGFncmVlbWVudHMuICBTZWUgdGhlIE5PVElDRSBmaWxlXG4vLyBkaXN0cmlidXRlZCB3aXRoIHRoaXMgd29yayBmb3IgYWRkaXRpb25hbCBpbmZvcm1hdGlvblxuLy8gcmVnYXJkaW5nIGNvcHlyaWdodCBvd25lcnNoaXAuICBUaGUgQVNGIGxpY2Vuc2VzIHRoaXMgZmlsZVxuLy8gdG8geW91IHVuZGVyIHRoZSBBcGFjaGUgTGljZW5zZSwgVmVyc2lvbiAyLjAgKHRoZVxuLy8gXCJMaWNlbnNlXCIpOyB5b3UgbWF5IG5vdCB1c2UgdGhpcyBmaWxlIGV4Y2VwdCBpbiBjb21wbGlhbmNlXG4vLyB3aXRoIHRoZSBMaWNlbnNlLiAgWW91IG1heSBvYnRhaW4gYSBjb3B5IG9mIHRoZSBMaWNlbnNlIGF0XG4vL1xuLy8gICBodHRwOi8vd3d3LmFwYWNoZS5vcmcvbGljZW5zZXMvTElDRU5TRS0yLjBcbi8vXG4vLyBVbmxlc3MgcmVxdWlyZWQgYnkgYXBwbGljYWJsZSBsYXcgb3IgYWdyZWVkIHRvIGluIHdyaXRpbmcsXG4vLyBzb2Z0d2FyZSBkaXN0cmlidXRlZCB1bmRlciB0aGUgTGljZW5zZSBpcyBkaXN0cmlidXRlZCBvbiBhblxuLy8gXCJBUyBJU1wiIEJBU0lTLCBXSVRIT1VUIFdBUlJBTlRJRVMgT1IgQ09ORElUSU9OUyBPRiBBTllcbi8vIEtJTkQsIGVpdGhlciBleHByZXNzIG9yIGltcGxpZWQuICBTZWUgdGhlIExpY2Vuc2UgZm9yIHRoZVxuLy8gc3BlY2lmaWMgbGFuZ3VhZ2UgZ292ZXJuaW5nIHBlcm1pc3Npb25zIGFuZCBsaW1pdGF0aW9uc1xuLy8gdW5kZXIgdGhlIExpY2Vuc2UuXG5cbmltcG9ydCB7IERhdGEgfSBmcm9tICcuLi9kYXRhJztcbmltcG9ydCB7IFZlY3RvciB9IGZyb20gJy4uL3ZlY3Rvcic7XG5pbXBvcnQgeyBCYXNlVmVjdG9yIH0gZnJvbSAnLi9iYXNlJztcbmltcG9ydCB7IEJpbmFyeSwgVXRmOCB9IGZyb20gJy4uL3R5cGUnO1xuaW1wb3J0IHsgZW5jb2RlVXRmOCB9IGZyb20gJy4uL3Zpc2l0b3Ivc2V0JztcblxuZXhwb3J0IGNsYXNzIFV0ZjhWZWN0b3IgZXh0ZW5kcyBCYXNlVmVjdG9yPFV0Zjg+IHtcbiAgICAvKiogQG5vY29sbGFwc2UgKi9cbiAgICBwdWJsaWMgc3RhdGljIGZyb20odmFsdWVzOiBzdHJpbmdbXSkge1xuICAgICAgICBjb25zdCBsZW5ndGggPSB2YWx1ZXMubGVuZ3RoO1xuICAgICAgICBjb25zdCBkYXRhID0gZW5jb2RlVXRmOCh2YWx1ZXMuam9pbignJykpO1xuICAgICAgICBjb25zdCBvZmZzZXRzID0gdmFsdWVzLnJlZHVjZSgob2Zmc2V0cywgc3RyLCBpZHgpID0+IChcbiAgICAgICAgICAgICghKG9mZnNldHNbaWR4ICsgMV0gPSBvZmZzZXRzW2lkeF0gKyBzdHIubGVuZ3RoKSB8fCB0cnVlKSAmJiBvZmZzZXRzXG4gICAgICAgICksIG5ldyBVaW50MzJBcnJheSh2YWx1ZXMubGVuZ3RoICsgMSkpO1xuICAgICAgICByZXR1cm4gVmVjdG9yLm5ldyhEYXRhLlV0ZjgobmV3IFV0ZjgoKSwgMCwgbGVuZ3RoLCAwLCBudWxsLCBvZmZzZXRzLCBkYXRhKSk7XG4gICAgfVxuICAgIHB1YmxpYyBhc0JpbmFyeSgpIHtcbiAgICAgICAgcmV0dXJuIFZlY3Rvci5uZXcodGhpcy5kYXRhLmNsb25lKG5ldyBCaW5hcnkoKSkpO1xuICAgIH1cbn1cbiJdfQ==
