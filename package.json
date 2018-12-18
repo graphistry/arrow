@@ -1,7 +1,8 @@
 {
   "name": "apache-arrow",
-  "types": "Arrow.node.d.ts",
+  "browser": "Arrow.dom",
   "main": "Arrow.node",
+  "types": "Arrow.node.d.ts",
   "version": "0.3.0",
   "unpkg": "Arrow.es5.min.js",
   "esm": {

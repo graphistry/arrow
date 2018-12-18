@@ -32,19 +32,19 @@ export declare class DataType<TType extends Type = Type, TChildren extends {
     protected _children?: Field<TChildren[keyof TChildren]>[] | undefined;
     [Symbol.toStringTag]: string;
     /** @nocollapse */ static isNull(x: any): x is Null;
-    /** @nocollapse */ static isInt(x: any): x is Int;
+    /** @nocollapse */ static isInt(x: any): x is Int_;
     /** @nocollapse */ static isFloat(x: any): x is Float;
     /** @nocollapse */ static isBinary(x: any): x is Binary;
     /** @nocollapse */ static isUtf8(x: any): x is Utf8;
     /** @nocollapse */ static isBool(x: any): x is Bool;
     /** @nocollapse */ static isDecimal(x: any): x is Decimal;
     /** @nocollapse */ static isDate(x: any): x is Date_;
-    /** @nocollapse */ static isTime(x: any): x is Time;
-    /** @nocollapse */ static isTimestamp(x: any): x is Timestamp;
-    /** @nocollapse */ static isInterval(x: any): x is Interval;
+    /** @nocollapse */ static isTime(x: any): x is Time_;
+    /** @nocollapse */ static isTimestamp(x: any): x is Timestamp_;
+    /** @nocollapse */ static isInterval(x: any): x is Interval_;
     /** @nocollapse */ static isList(x: any): x is List;
     /** @nocollapse */ static isStruct(x: any): x is Struct;
-    /** @nocollapse */ static isUnion(x: any): x is Union;
+    /** @nocollapse */ static isUnion(x: any): x is Union_;
     /** @nocollapse */ static isFixedSizeBinary(x: any): x is FixedSizeBinary;
     /** @nocollapse */ static isFixedSizeList(x: any): x is FixedSizeList;
     /** @nocollapse */ static isMap(x: any): x is Map_;
@@ -120,11 +120,11 @@ declare type IType = {
         TValue: Uint32Array;
     };
 };
-export interface Int<T extends Ints = Ints> extends DataType<T> {
+interface Int_<T extends Ints = Ints> extends DataType<T> {
     TArray: IType[T]['TArray'];
     TValue: IType[T]['TValue'];
 }
-export declare class Int<T extends Ints = Ints> extends DataType<T> {
+declare class Int_<T extends Ints = Ints> extends DataType<T> {
     protected _isSigned: IType[T]['isSigned'];
     protected _bitWidth: IType[T]['bitWidth'];
     constructor(_isSigned: IType[T]['isSigned'], _bitWidth: IType[T]['bitWidth']);
@@ -134,28 +134,29 @@ export declare class Int<T extends Ints = Ints> extends DataType<T> {
     toString(): string;
     protected static [Symbol.toStringTag]: string;
 }
-export declare class Int8 extends Int<Type.Int8> {
+export { Int_ as Int };
+export declare class Int8 extends Int_<Type.Int8> {
     constructor();
 }
-export declare class Int16 extends Int<Type.Int16> {
+export declare class Int16 extends Int_<Type.Int16> {
     constructor();
 }
-export declare class Int32 extends Int<Type.Int32> {
+export declare class Int32 extends Int_<Type.Int32> {
     constructor();
 }
-export declare class Int64 extends Int<Type.Int64> {
+export declare class Int64 extends Int_<Type.Int64> {
     constructor();
 }
-export declare class Uint8 extends Int<Type.Uint8> {
+export declare class Uint8 extends Int_<Type.Uint8> {
     constructor();
 }
-export declare class Uint16 extends Int<Type.Uint16> {
+export declare class Uint16 extends Int_<Type.Uint16> {
     constructor();
 }
-export declare class Uint32 extends Int<Type.Uint32> {
+export declare class Uint32 extends Int_<Type.Uint32> {
     constructor();
 }
-export declare class Uint64 extends Int<Type.Uint64> {
+export declare class Uint64 extends Int_<Type.Uint64> {
     constructor();
 }
 declare type Floats = Type.Float | Type.Float16 | Type.Float32 | Type.Float64;
@@ -287,12 +288,12 @@ declare type TimesType = {
         TValue: Uint32Array;
     };
 };
-export interface Time<T extends Times = Times> extends DataType<T> {
+interface Time_<T extends Times = Times> extends DataType<T> {
     TArray: Uint32Array;
     TValue: TimesType[T]['TValue'];
     ArrayType: typeof Uint32Array;
 }
-export declare class Time<T extends Times = Times> extends DataType<T> {
+declare class Time_<T extends Times = Times> extends DataType<T> {
     protected _unit: TimesType[T]['unit'];
     protected _bitWidth: TimeBitWidth;
     constructor(_unit: TimesType[T]['unit'], _bitWidth: TimeBitWidth);
@@ -301,25 +302,26 @@ export declare class Time<T extends Times = Times> extends DataType<T> {
     toString(): string;
     protected static [Symbol.toStringTag]: string;
 }
-export declare class TimeSecond extends Time<Type.TimeSecond> {
+export { Time_ as Time };
+export declare class TimeSecond extends Time_<Type.TimeSecond> {
     constructor(bitWidth: TimeBitWidth);
 }
-export declare class TimeMillisecond extends Time<Type.TimeMillisecond> {
+export declare class TimeMillisecond extends Time_<Type.TimeMillisecond> {
     constructor(bitWidth: TimeBitWidth);
 }
-export declare class TimeMicrosecond extends Time<Type.TimeMicrosecond> {
+export declare class TimeMicrosecond extends Time_<Type.TimeMicrosecond> {
     constructor(bitWidth: TimeBitWidth);
 }
-export declare class TimeNanosecond extends Time<Type.TimeNanosecond> {
+export declare class TimeNanosecond extends Time_<Type.TimeNanosecond> {
     constructor(bitWidth: TimeBitWidth);
 }
 declare type Timestamps = Type.Timestamp | Type.TimestampSecond | Type.TimestampMillisecond | Type.TimestampMicrosecond | Type.TimestampNanosecond;
-export interface Timestamp<T extends Timestamps = Timestamps> extends DataType<T> {
+interface Timestamp_<T extends Timestamps = Timestamps> extends DataType<T> {
     TArray: Int32Array;
     TValue: number;
     ArrayType: typeof Int32Array;
 }
-export declare class Timestamp<T extends Timestamps = Timestamps> extends DataType<T> {
+declare class Timestamp_<T extends Timestamps = Timestamps> extends DataType<T> {
     protected _unit: TimeUnit;
     protected _timezone?: string | null | undefined;
     constructor(_unit: TimeUnit, _timezone?: string | null | undefined);
@@ -328,35 +330,37 @@ export declare class Timestamp<T extends Timestamps = Timestamps> extends DataTy
     toString(): string;
     protected static [Symbol.toStringTag]: string;
 }
-export declare class TimestampSecond extends Timestamp<Type.TimestampSecond> {
+export { Timestamp_ as Timestamp };
+export declare class TimestampSecond extends Timestamp_<Type.TimestampSecond> {
     constructor(timezone?: string | null);
 }
-export declare class TimestampMillisecond extends Timestamp<Type.TimestampMillisecond> {
+export declare class TimestampMillisecond extends Timestamp_<Type.TimestampMillisecond> {
     constructor(timezone?: string | null);
 }
-export declare class TimestampMicrosecond extends Timestamp<Type.TimestampMicrosecond> {
+export declare class TimestampMicrosecond extends Timestamp_<Type.TimestampMicrosecond> {
     constructor(timezone?: string | null);
 }
-export declare class TimestampNanosecond extends Timestamp<Type.TimestampNanosecond> {
+export declare class TimestampNanosecond extends Timestamp_<Type.TimestampNanosecond> {
     constructor(timezone?: string | null);
 }
 declare type Intervals = Type.Interval | Type.IntervalDayTime | Type.IntervalYearMonth;
-export interface Interval<T extends Intervals = Intervals> extends DataType<T> {
+interface Interval_<T extends Intervals = Intervals> extends DataType<T> {
     TArray: Int32Array;
     TValue: Int32Array;
     ArrayType: typeof Int32Array;
 }
-export declare class Interval<T extends Intervals = Intervals> extends DataType<T> {
+declare class Interval_<T extends Intervals = Intervals> extends DataType<T> {
     protected _unit: IntervalUnit;
     constructor(_unit: IntervalUnit);
     readonly unit: IntervalUnit;
     toString(): string;
     protected static [Symbol.toStringTag]: string;
 }
-export declare class IntervalDayTime extends Interval<Type.IntervalDayTime> {
+export { Interval_ as Interval };
+export declare class IntervalDayTime extends Interval_<Type.IntervalDayTime> {
     constructor();
 }
-export declare class IntervalYearMonth extends Interval<Type.IntervalYearMonth> {
+export declare class IntervalYearMonth extends Interval_<Type.IntervalYearMonth> {
     constructor();
 }
 export interface List<T extends DataType = any> extends DataType<Type.List> {
@@ -392,11 +396,11 @@ export declare class Struct<T extends {
     protected static [Symbol.toStringTag]: string;
 }
 declare type Unions = Type.Union | Type.DenseUnion | Type.SparseUnion;
-export interface Union<T extends Unions = Unions> extends DataType<T> {
+interface Union_<T extends Unions = Unions> extends DataType<T> {
     TArray: Int8Array;
     TValue: any[];
 }
-export declare class Union<T extends Unions = Unions> extends DataType<T> {
+declare class Union_<T extends Unions = Unions> extends DataType<T> {
     protected _mode: UnionMode;
     protected _typeIds: ArrowType[];
     protected _children: Field<any>[];
@@ -409,10 +413,11 @@ export declare class Union<T extends Unions = Unions> extends DataType<T> {
     toString(): string;
     protected static [Symbol.toStringTag]: string;
 }
-export declare class DenseUnion extends Union<Type.DenseUnion> {
+export { Union_ as Union };
+export declare class DenseUnion extends Union_<Type.DenseUnion> {
     constructor(typeIds: ArrowType[], children: Field[]);
 }
-export declare class SparseUnion extends Union<Type.SparseUnion> {
+export declare class SparseUnion extends Union_<Type.SparseUnion> {
     constructor(typeIds: ArrowType[], children: Field[]);
 }
 export interface FixedSizeBinary extends DataType<Type.FixedSizeBinary> {
@@ -489,4 +494,3 @@ export interface IterableArrayLike<T = any> extends ArrayLike<T>, Iterable<T> {
 }
 export declare type FloatArray = Uint16Array | Float32Array | Float64Array;
 export declare type IntArray = Int8Array | Int16Array | Int32Array | Uint8Array | Uint16Array | Uint32Array;
-export {};

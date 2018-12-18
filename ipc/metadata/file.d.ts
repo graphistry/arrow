@@ -6,13 +6,13 @@ import _Block = File_.org.apache.arrow.flatbuf.Block;
 import { Schema } from '../../schema';
 import { MetadataVersion } from '../../enum';
 import { ArrayBufferViewInput } from '../../util/buffer';
-export declare class Footer {
+declare class Footer_ {
     schema: Schema;
     version: MetadataVersion;
     /** @nocollapse */
-    static decode(buf: ArrayBufferViewInput): Footer;
+    static decode(buf: ArrayBufferViewInput): Footer_;
     /** @nocollapse */
-    static encode(footer: Footer): Uint8Array;
+    static encode(footer: Footer_): Uint8Array;
     protected _recordBatches: FileBlock[];
     protected _dictionaryBatches: FileBlock[];
     readonly numRecordBatches: number;
@@ -23,6 +23,7 @@ export declare class Footer {
     getRecordBatch(index: number): FileBlock | null;
     getDictionaryBatch(index: number): FileBlock | null;
 }
+export { Footer_ as Footer };
 export declare class FileBlock {
     /** @nocollapse */
     static decode(block: _Block): FileBlock;
