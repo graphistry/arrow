@@ -6,7 +6,7 @@ import { Visitor } from '../visitor';
 import { BufferRegion, FieldNode } from '../ipc/metadata/message';
 export interface VectorLoader extends Visitor {
     visitMany<T extends DataType>(nodes: (Field<T> | T)[]): Data<T>[];
-    visit<T extends DataType>(node: T): Data<T>;
+    visit<T extends DataType>(node: Field<T> | T): Data<T>;
 }
 export declare class VectorLoader extends Visitor {
     private bytes;

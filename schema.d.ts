@@ -27,9 +27,9 @@ export declare class Field<T extends DataType = DataType> {
     constructor(name: string, type: T, nullable?: true | false, metadata?: Map<string, string> | null);
     readonly type: T;
     readonly name: string;
-    readonly typeId: import("./enum").Type;
     readonly nullable: boolean;
     readonly metadata: Map<string, string> | null | undefined;
+    readonly typeId: import("./enum").Type;
     readonly [Symbol.toStringTag]: string;
     readonly indices: T | import("./type").Int8 | import("./type").Int16 | import("./type").Int32 | import("./type").Uint8 | import("./type").Uint16 | import("./type").Uint32;
     toString(): string;

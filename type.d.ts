@@ -4,7 +4,7 @@ import { flatbuffers } from 'flatbuffers';
 import { Vector as VType } from './interfaces';
 import { ArrayBufferViewConstructor } from './interfaces';
 import Long = flatbuffers.Long;
-import { Type, ArrowType, Precision, UnionMode, DateUnit, TimeUnit, IntervalUnit } from './enum';
+import { Type, Precision, UnionMode, DateUnit, TimeUnit, IntervalUnit } from './enum';
 export declare type TimeBitWidth = 32 | 64;
 export declare type IntBitWidth = 8 | 16 | 32 | 64;
 export declare type IsSigned = {
@@ -21,6 +21,7 @@ export declare type RowLike<T extends {
     get<K extends keyof T>(key: K): T[K]['TValue'];
 };
 export interface DataType<TType extends Type = Type> {
+    readonly TType: TType;
     readonly TArray: any;
     readonly TValue: any;
     readonly ArrayType: any;
@@ -28,7 +29,6 @@ export interface DataType<TType extends Type = Type> {
 export declare class DataType<TType extends Type = Type, TChildren extends {
     [key: string]: DataType;
 } = any> {
-    protected _TType: TType;
     protected _children?: Field<TChildren[keyof TChildren]>[] | undefined;
     [Symbol.toStringTag]: string;
     /** @nocollapse */ static isNull(x: any): x is Null;
@@ -49,9 +49,9 @@ export declare class DataType<TType extends Type = Type, TChildren extends {
     /** @nocollapse */ static isFixedSizeList(x: any): x is FixedSizeList;
     /** @nocollapse */ static isMap(x: any): x is Map_;
     /** @nocollapse */ static isDictionary(x: any): x is Dictionary;
-    readonly TType: TType;
     readonly children: Field<TChildren[keyof TChildren]>[] | undefined;
-    constructor(_TType?: TType, _children?: Field<TChildren[keyof TChildren]>[] | undefined);
+    readonly typeId: TType;
+    constructor(_children?: Field<TChildren[keyof TChildren]>[] | undefined);
     protected static [Symbol.toStringTag]: string;
 }
 export interface Null extends DataType<Type.Null> {
@@ -59,8 +59,8 @@ export interface Null extends DataType<Type.Null> {
     TValue: null;
 }
 export declare class Null extends DataType<Type.Null> {
-    constructor();
     toString(): string;
+    readonly typeId: Type.Null;
     protected static [Symbol.toStringTag]: string;
 }
 declare type Ints = Type.Int | Type.Int8 | Type.Int16 | Type.Int32 | Type.Int64 | Type.Uint8 | Type.Uint16 | Type.Uint32 | Type.Uint64;
@@ -128,6 +128,7 @@ declare class Int_<T extends Ints = Ints> extends DataType<T> {
     protected _isSigned: IType[T]['isSigned'];
     protected _bitWidth: IType[T]['bitWidth'];
     constructor(_isSigned: IType[T]['isSigned'], _bitWidth: IType[T]['bitWidth']);
+    readonly typeId: T;
     readonly isSigned: IType[T]["isSigned"];
     readonly bitWidth: IType[T]["bitWidth"];
     readonly ArrayType: ArrayBufferViewConstructor<IType[T]['TArray']>;
@@ -189,6 +190,7 @@ export interface Float<T extends Floats = Floats> extends DataType<T> {
 export declare class Float<T extends Floats = Floats> extends DataType<T> {
     protected _precision: Precision;
     constructor(_precision: Precision);
+    readonly typeId: T;
     readonly precision: Precision;
     readonly ArrayType: ArrayBufferViewConstructor<FType[T]['TArray']>;
     toString(): string;
@@ -209,6 +211,7 @@ export interface Binary extends DataType<Type.Binary> {
 }
 export declare class Binary extends DataType<Type.Binary> {
     constructor();
+    readonly typeId: Type.Binary;
     toString(): string;
     protected static [Symbol.toStringTag]: string;
 }
@@ -219,6 +222,7 @@ export interface Utf8 extends DataType<Type.Utf8> {
 }
 export declare class Utf8 extends DataType<Type.Utf8> {
     constructor();
+    readonly typeId: Type.Utf8;
     toString(): string;
     protected static [Symbol.toStringTag]: string;
 }
@@ -229,6 +233,7 @@ export interface Bool extends DataType<Type.Bool> {
 }
 export declare class Bool extends DataType<Type.Bool> {
     constructor();
+    readonly typeId: Type.Bool;
     toString(): string;
     protected static [Symbol.toStringTag]: string;
 }
@@ -241,6 +246,7 @@ export declare class Decimal extends DataType<Type.Decimal> {
     protected _scale: number;
     protected _precision: number;
     constructor(_scale: number, _precision: number);
+    readonly typeId: Type.Decimal;
     readonly scale: number;
     readonly precision: number;
     toString(): string;
@@ -255,6 +261,7 @@ export interface Date_<T extends Dates = Dates> extends DataType<T> {
 export declare class Date_<T extends Dates = Dates> extends DataType<T> {
     protected _unit: DateUnit;
     constructor(_unit: DateUnit);
+    readonly typeId: T;
     readonly unit: DateUnit;
     toString(): string;
     protected static [Symbol.toStringTag]: string;
@@ -297,6 +304,7 @@ declare class Time_<T extends Times = Times> extends DataType<T> {
     protected _unit: TimesType[T]['unit'];
     protected _bitWidth: TimeBitWidth;
     constructor(_unit: TimesType[T]['unit'], _bitWidth: TimeBitWidth);
+    readonly typeId: T;
     readonly unit: TimesType[T]["unit"];
     readonly bitWidth: TimeBitWidth;
     toString(): string;
@@ -304,16 +312,16 @@ declare class Time_<T extends Times = Times> extends DataType<T> {
 }
 export { Time_ as Time };
 export declare class TimeSecond extends Time_<Type.TimeSecond> {
-    constructor(bitWidth: TimeBitWidth);
+    constructor();
 }
 export declare class TimeMillisecond extends Time_<Type.TimeMillisecond> {
-    constructor(bitWidth: TimeBitWidth);
+    constructor();
 }
 export declare class TimeMicrosecond extends Time_<Type.TimeMicrosecond> {
-    constructor(bitWidth: TimeBitWidth);
+    constructor();
 }
 export declare class TimeNanosecond extends Time_<Type.TimeNanosecond> {
-    constructor(bitWidth: TimeBitWidth);
+    constructor();
 }
 declare type Timestamps = Type.Timestamp | Type.TimestampSecond | Type.TimestampMillisecond | Type.TimestampMicrosecond | Type.TimestampNanosecond;
 interface Timestamp_<T extends Timestamps = Timestamps> extends DataType<T> {
@@ -325,6 +333,7 @@ declare class Timestamp_<T extends Timestamps = Timestamps> extends DataType<T> 
     protected _unit: TimeUnit;
     protected _timezone?: string | null | undefined;
     constructor(_unit: TimeUnit, _timezone?: string | null | undefined);
+    readonly typeId: T;
     readonly unit: TimeUnit;
     readonly timezone: string | null | undefined;
     toString(): string;
@@ -352,6 +361,7 @@ interface Interval_<T extends Intervals = Intervals> extends DataType<T> {
 declare class Interval_<T extends Intervals = Intervals> extends DataType<T> {
     protected _unit: IntervalUnit;
     constructor(_unit: IntervalUnit);
+    readonly typeId: T;
     readonly unit: IntervalUnit;
     toString(): string;
     protected static [Symbol.toStringTag]: string;
@@ -363,15 +373,18 @@ export declare class IntervalDayTime extends Interval_<Type.IntervalDayTime> {
 export declare class IntervalYearMonth extends Interval_<Type.IntervalYearMonth> {
     constructor();
 }
-export interface List<T extends DataType = any> extends DataType<Type.List> {
+export interface List<T extends DataType = any> extends DataType<Type.List, {
+    [0]: T;
+}> {
     TArray: IterableArrayLike<T>;
     TValue: VType<T>;
 }
 export declare class List<T extends DataType = any> extends DataType<Type.List, {
     [0]: T;
 }> {
+    constructor(child: Field<T>);
+    readonly typeId: Type.List;
     protected _children: Field<T>[];
-    constructor(_children: Field<T>[]);
     toString(): string;
     readonly children: Field<T>[];
     readonly valueType: T;
@@ -391,34 +404,40 @@ export declare class Struct<T extends {
 } = any> extends DataType<Type.Struct, T> {
     protected _children: Field<T[keyof T]>[];
     constructor(_children: Field<T[keyof T]>[]);
+    readonly typeId: Type.Struct;
     readonly children: Field<T[keyof T]>[];
     toString(): string;
     protected static [Symbol.toStringTag]: string;
 }
 declare type Unions = Type.Union | Type.DenseUnion | Type.SparseUnion;
 interface Union_<T extends Unions = Unions> extends DataType<T> {
-    TArray: Int8Array;
+    TArray: Int32Array;
     TValue: any[];
 }
 declare class Union_<T extends Unions = Unions> extends DataType<T> {
     protected _mode: UnionMode;
-    protected _typeIds: ArrowType[];
+    protected _typeIds: Int32Array;
     protected _children: Field<any>[];
-    protected _typeIdToChildIndex: Record<Type, number>;
-    constructor(_mode: UnionMode, _typeIds: ArrowType[], _children: Field<any>[]);
+    protected _typeIdToChildIndex: {
+        [key: number]: number;
+    };
+    constructor(_mode: UnionMode, _typeIds: number[] | Int32Array, _children: Field<any>[]);
+    readonly typeId: T;
     readonly mode: UnionMode;
-    readonly typeIds: ArrowType[];
+    readonly typeIds: Int32Array;
     readonly children: Field<any>[];
-    readonly typeIdToChildIndex: Record<Type, number>;
+    readonly typeIdToChildIndex: {
+        [key: number]: number;
+    };
     toString(): string;
     protected static [Symbol.toStringTag]: string;
 }
 export { Union_ as Union };
 export declare class DenseUnion extends Union_<Type.DenseUnion> {
-    constructor(typeIds: ArrowType[], children: Field[]);
+    constructor(typeIds: number[] | Int32Array, children: Field[]);
 }
 export declare class SparseUnion extends Union_<Type.SparseUnion> {
-    constructor(typeIds: ArrowType[], children: Field[]);
+    constructor(typeIds: number[] | Int32Array, children: Field[]);
 }
 export interface FixedSizeBinary extends DataType<Type.FixedSizeBinary> {
     TArray: Uint8Array;
@@ -428,6 +447,7 @@ export interface FixedSizeBinary extends DataType<Type.FixedSizeBinary> {
 export declare class FixedSizeBinary extends DataType<Type.FixedSizeBinary> {
     protected _byteWidth: number;
     constructor(_byteWidth: number);
+    readonly typeId: Type.FixedSizeBinary;
     readonly byteWidth: number;
     toString(): string;
     protected static [Symbol.toStringTag]: string;
@@ -440,8 +460,9 @@ export declare class FixedSizeList<T extends DataType = any> extends DataType<Ty
     [0]: T;
 }> {
     protected _listSize: number;
+    constructor(_listSize: number, child: Field<T>);
+    readonly typeId: Type.FixedSizeList;
     protected _children: Field<T>[];
-    constructor(_listSize: number, _children: Field<T>[]);
     readonly listSize: number;
     readonly children: Field<T>[];
     readonly valueType: T;
@@ -463,6 +484,7 @@ export declare class Map_<T extends {
     protected _children: Field<T[keyof T]>[];
     protected _keysSorted: boolean;
     constructor(_children: Field<T[keyof T]>[], _keysSorted?: boolean);
+    readonly typeId: Type.Map;
     readonly children: Field<T[keyof T]>[];
     readonly keysSorted: boolean;
     toString(): string;
@@ -478,8 +500,10 @@ export declare class Dictionary<T extends DataType = any, TKey extends TKeys = T
     protected _indices: TKey;
     protected _dictionary: T;
     protected _isOrdered: boolean;
-    dictionaryVector: Vector<T>;
+    protected _dictionaryVector: Vector<T>;
+    dictionaryVector: any;
     constructor(dictionary: T, indices: TKey, id?: Long | number | null, isOrdered?: boolean | null, dictionaryVector?: Vector<T>);
+    readonly typeId: Type.Dictionary;
     readonly id: number;
     readonly indices: TKey;
     readonly dictionary: T;

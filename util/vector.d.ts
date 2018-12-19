@@ -8,4 +8,5 @@ export declare function clampIndex<T extends RangeLike>(source: T, index: number
 export declare function clampIndex<T extends RangeLike, N extends ClampThen<T> = ClampThen<T>>(source: T, index: number, then: N): ReturnType<N>;
 export declare function clampRange<T extends RangeLike>(source: T, begin: number | undefined, end: number | undefined): [number, number];
 export declare function clampRange<T extends RangeLike, N extends ClampRangeThen<T> = ClampRangeThen<T>>(source: T, begin: number | undefined, end: number | undefined, then: N): ReturnType<N>;
+export declare function createElementComparator(search: any): (value: any) => boolean;
 export {};

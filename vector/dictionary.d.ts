@@ -8,6 +8,7 @@ export declare class DictionaryVector<T extends DataType = any, TKey extends TKe
     static from<T extends DataType<any>, TKey extends TKeys = TKeys>(values: Vector<T>, indices: TKey, keys: ArrayLike<number> | TKey['TArray']): Dictionary<T, TKey> extends DataType<import("../enum").Type, any> ? Dictionary<T, TKey> extends Dictionary<any, TKeys> ? DictionaryVector<T, TKey> : BaseVector<Dictionary<T, TKey>> : never;
     protected _indices: V<TKey>;
     constructor(data: Data<Dictionary<T, TKey>>);
+    protected _bindDataAccessors(): void;
     readonly indices: V<TKey>;
     readonly dictionary: Vector<T>;
     getKey(index: number): TKey['TValue'] | null;

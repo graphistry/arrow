@@ -5,6 +5,7 @@ import { StructVector } from '../vector/struct';
 export declare class Row<T extends {
     [key: string]: DataType;
 }> implements Iterable<T[keyof T]['TValue']> {
+    [key: string]: T[keyof T]['TValue'];
     /** @nocollapse */
     static new<T extends {
         [key: string]: DataType;

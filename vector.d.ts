@@ -1,16 +1,18 @@
 import { Data } from './data';
 import { DataType } from './type';
+export interface Vector<T extends DataType = any> {
+    readonly TType: T['TType'];
+    readonly TArray: T['TArray'];
+    readonly TValue: T['TValue'];
+}
 export declare abstract class Vector<T extends DataType = any> implements Iterable<T['TValue'] | null> {
-    protected bindDataAccessors(data: Data<T>): void;
-    abstract readonly type: T;
     abstract readonly data: Data<T>;
+    abstract readonly type: T;
+    abstract readonly typeId: T['TType'];
     abstract readonly length: number;
     abstract readonly stride: number;
     abstract readonly nullCount: number;
     abstract readonly numChildren: number;
-    abstract readonly TType: T['TType'];
-    abstract readonly TArray: T['TArray'];
-    abstract readonly TValue: T['TValue'];
     abstract readonly ArrayType: T['ArrayType'];
     abstract isValid(index: number): boolean;
     abstract get(index: number): T['TValue'] | null;

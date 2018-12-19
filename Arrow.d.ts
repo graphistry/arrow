@@ -20,6 +20,23 @@ import * as util_buffer_ from './util/buffer';
 import * as predicate from './compute/predicate';
 export { predicate };
 export declare const util: {
+    clampIndex<T extends {
+        length: number;
+        stride?: number | undefined;
+    }>(source: T, index: number): number;
+    clampIndex<T extends {
+        length: number;
+        stride?: number | undefined;
+    }, N extends (source: T, index: number) => any = (source: T, index: number) => any>(source: T, index: number, then: N): ReturnType<N>;
+    clampRange<T extends {
+        length: number;
+        stride?: number | undefined;
+    }>(source: T, begin: number | undefined, end: number | undefined): [number, number];
+    clampRange<T extends {
+        length: number;
+        stride?: number | undefined;
+    }, N extends (source: T, offset: number, length: number) => any = (source: T, offset: number, length: number) => any>(source: T, begin: number | undefined, end: number | undefined, then: N): ReturnType<N>;
+    createElementComparator(search: any): (value: any) => boolean;
     memcpy<TTarget extends ArrayBufferView, TSource extends ArrayBufferView>(target: TTarget, source: TSource, targetByteOffset?: number, sourceByteLength?: number): TTarget;
     joinUint8Arrays(chunks: Uint8Array[], size?: number | null | undefined): [Uint8Array, Uint8Array[]];
     toArrayBufferView<T extends ArrayBufferView>(ArrayBufferViewCtor: import("./interfaces").ArrayBufferViewConstructor<T>, input: util_buffer_.ArrayBufferViewInput): T;

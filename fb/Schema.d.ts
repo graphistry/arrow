@@ -436,7 +436,7 @@ export declare namespace org.apache.arrow.flatbuf {
          * @param {Array.<number>} data
          * @returns {flatbuffers.Offset}
          */
-        static createTypeIdsVector(builder: flatbuffers.Builder, data: number[] | Uint8Array): flatbuffers.Offset;
+        static createTypeIdsVector(builder: flatbuffers.Builder, data: number[] | Int32Array): flatbuffers.Offset;
         /**
          * @param {flatbuffers.Builder} builder
          * @param {number} numElems

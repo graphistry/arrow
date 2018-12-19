@@ -14,13 +14,10 @@ export declare class ChunkedVector<T extends DataType = any> extends Vector<T> {
     protected _children?: ChunkedVector[];
     protected _chunkOffsets: Uint32Array;
     constructor(type: T, chunks?: Vector<T>[], offsets?: Uint32Array);
-    protected bindDataAccessors(): void;
     readonly type: T;
     readonly length: number;
     readonly chunks: Vector<T>[];
-    readonly TType: import("../enum").Type;
-    readonly TArray: any;
-    readonly TValue: any;
+    readonly typeId: import("../enum").Type;
     readonly ArrayType: any;
     readonly numChildren: number;
     readonly data: any;
@@ -37,9 +34,9 @@ export declare class ChunkedVector<T extends DataType = any> extends Vector<T> {
     indexOf(element: T['TValue'], offset?: number): number;
     toArray(): T['TArray'];
     slice(begin?: number, end?: number): ChunkedVector<T>;
-    protected getInternal({ chunks }: ChunkedVector<T>, i: number, j: number): T["TValue"] | null;
-    protected isValidInternal({ chunks }: ChunkedVector<T>, i: number, j: number): boolean;
-    protected indexOfInternal({ chunks }: ChunkedVector<T>, chunkIndex: number, fromIndex: number, element: T['TValue']): number;
+    protected getInternal({ _chunks }: ChunkedVector<T>, i: number, j: number): T["TValue"] | null;
+    protected isValidInternal({ _chunks }: ChunkedVector<T>, i: number, j: number): boolean;
+    protected indexOfInternal({ _chunks }: ChunkedVector<T>, chunkIndex: number, fromIndex: number, element: T['TValue']): number;
     protected sliceInternal(column: ChunkedVector<T>, offset: number, length: number): ChunkedVector<T>;
 }
 export {};

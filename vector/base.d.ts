@@ -11,13 +11,11 @@ export declare abstract class BaseVector<T extends DataType = any> extends Vecto
     readonly stride: number;
     readonly numChildren: number;
     readonly type: T;
+    readonly typeId: T["TType"];
     readonly length: number;
     readonly offset: number;
     readonly nullCount: number;
     readonly VectorName: string;
-    readonly TType: T['TType'];
-    readonly TArray: T['TArray'];
-    readonly TValue: T['TValue'];
     readonly ArrayType: T['ArrayType'];
     readonly values: NonNullable<T["TArray"]>;
     readonly typeIds: NonNullable<T["TArray"]>;
@@ -31,4 +29,5 @@ export declare abstract class BaseVector<T extends DataType = any> extends Vecto
     toJSON(): any;
     slice(begin?: number, end?: number): this;
     protected sliceInternal(vector: BaseVector<T>, offset: number, length: number): import("../interfaces").Vector<T>;
+    protected _bindDataAccessors(data: Data<T>): void;
 }
