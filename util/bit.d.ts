@@ -1,14 +1,6 @@
 /**
  * @ignore
  */
-export declare function align(value: number, alignment: number): number;
-/**
- * @ignore
- */
-export declare function padding(value: number, alignment: number): number;
-/**
- * @ignore
- */
 export declare function getBool(_data: any, _index: number, byte: number, bit: number): boolean;
 /**
  * @ignore

@@ -70,4 +70,5 @@ export declare class RecordBatchStreamWriter<T extends {
     static writeAll<T extends {
         [key: string]: DataType;
     } = any>(batches: AsyncIterable<RecordBatch<T>>): Promise<RecordBatchStreamWriter<T>>;
+    close(): void;
 }
