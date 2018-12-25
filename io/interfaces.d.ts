@@ -9,6 +9,7 @@ export declare type ArrowJSONLike = {
 export declare type ReadableDOMStreamOptions = {
     type: 'bytes' | undefined;
     autoAllocateChunkSize?: number;
+    highWaterMark?: number;
 };
 /**
  * @ignore
@@ -74,7 +75,7 @@ declare type Resolution<T> = {
  * @ignore
  */
 export declare class AsyncQueue<TReadable = Uint8Array, TWritable = TReadable> extends ReadableInterop<TReadable> implements AsyncIterableIterator<TReadable>, ReadableWritable<TReadable, TWritable> {
-    protected values: TWritable[];
+    protected _values: TWritable[];
     protected _error?: {
         error: any;
     };

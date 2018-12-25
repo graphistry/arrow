@@ -8,6 +8,8 @@ export declare type ReadableSource<T> = Readable<T> | PromiseLike<T> | AsyncIter
  */
 export declare class AsyncByteQueue<T extends ArrayBufferViewInput = Uint8Array> extends AsyncQueue<Uint8Array, T> {
     write(value: ArrayBufferViewInput | Uint8Array): void;
+    toString(sync: true): string;
+    toString(sync?: false): Promise<string>;
     toUint8Array(sync: true): Uint8Array;
     toUint8Array(sync?: false): Promise<Uint8Array>;
 }

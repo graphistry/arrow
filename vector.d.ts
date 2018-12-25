@@ -1,6 +1,16 @@
 import { Data } from './data';
 import { DataType } from './type';
-export interface Vector<T extends DataType = any> {
+import { Chunked } from './vector/chunked';
+export interface Clonable<R extends Vector> {
+    clone(...args: any[]): R;
+}
+export interface Sliceable<R extends Vector> {
+    slice(begin?: number, end?: number): R;
+}
+export interface Applicative<T extends DataType, R extends Chunked> {
+    concat(...others: Vector<T>[]): R;
+}
+export interface Vector<T extends DataType = any> extends Clonable<Vector<T>>, Sliceable<Vector<T>>, Applicative<T, Chunked<T>> {
     readonly TType: T['TType'];
     readonly TArray: T['TArray'];
     readonly TValue: T['TValue'];
@@ -18,9 +28,7 @@ export declare abstract class Vector<T extends DataType = any> implements Iterab
     abstract get(index: number): T['TValue'] | null;
     abstract set(index: number, value: T['TValue'] | null): void;
     abstract indexOf(value: T['TValue'] | null, fromIndex?: number): number;
-    abstract toArray(): T['TArray'];
     abstract [Symbol.iterator](): IterableIterator<T['TValue'] | null>;
-    abstract slice(begin?: number, end?: number): Vector<T>;
-    abstract concat(this: Vector<T>, ...others: Vector<T>[]): Vector<T>;
+    abstract toArray(): T['TArray'];
     abstract getChildAt<R extends DataType = any>(index: number): Vector<R> | null;
 }

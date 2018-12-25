@@ -276,7 +276,7 @@ declare type Times = Type.Time | Type.TimeSecond | Type.TimeMillisecond | Type.T
 declare type TimesType = {
     [Type.Time]: {
         unit: TimeUnit;
-        TValue: number | Uint32Array;
+        TValue: number | Int32Array;
     };
     [Type.TimeSecond]: {
         unit: TimeUnit.SECOND;
@@ -288,17 +288,17 @@ declare type TimesType = {
     };
     [Type.TimeMicrosecond]: {
         unit: TimeUnit.MICROSECOND;
-        TValue: Uint32Array;
+        TValue: Int32Array;
     };
     [Type.TimeNanosecond]: {
         unit: TimeUnit.NANOSECOND;
-        TValue: Uint32Array;
+        TValue: Int32Array;
     };
 };
 interface Time_<T extends Times = Times> extends DataType<T> {
-    TArray: Uint32Array;
+    TArray: Int32Array;
     TValue: TimesType[T]['TValue'];
-    ArrayType: typeof Uint32Array;
+    ArrayType: typeof Int32Array;
 }
 declare class Time_<T extends Times = Times> extends DataType<T> {
     protected _unit: TimesType[T]['unit'];

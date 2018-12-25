@@ -29,7 +29,8 @@ export declare class AsyncRandomAccessFile extends AsyncByteStream {
     size: number;
     position: number;
     protected file: FileHandle | null;
-    constructor(file: FileHandle, byteLength: number);
+    protected _pendingSize?: Promise<void>;
+    constructor(file: FileHandle, byteLength?: number);
     readInt32(position: number): Promise<number>;
     seek(position: number): Promise<boolean>;
     read(nBytes?: number | null): Promise<Uint8Array | null>;

@@ -47,6 +47,6 @@ export declare class JSONVectorLoader extends VectorLoader {
     constructor(sources: any[][], nodes: FieldNode[], buffers: BufferRegion[]);
     protected readNullBitmap<T extends DataType>(_type: T, nullCount: number, { offset }?: BufferRegion): Uint8Array;
     protected readOffsets<T extends DataType>(_type: T, { offset }?: BufferRegion): Uint8Array;
-    protected readTypeIds<T extends DataType>(_type: T, { offset }?: BufferRegion): Uint8Array;
+    protected readTypeIds<T extends DataType>(type: T, { offset }?: BufferRegion): Uint8Array;
     protected readData<T extends DataType>(type: T, { offset }?: BufferRegion): Uint8Array;
 }

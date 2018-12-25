@@ -13,11 +13,12 @@ import { RandomAccessFile, AsyncRandomAccessFile } from '../io/file';
 import { ArrowJSON, ArrowJSONLike, FileHandle, ReadableInterop } from '../io/interfaces';
 import { MessageReader, AsyncMessageReader } from './message';
 export declare type FromArg0 = ArrowJSONLike;
-export declare type FromArg1 = Iterable<ArrayBufferViewInput> | ArrayBufferViewInput;
-export declare type FromArg2 = PromiseLike<Iterable<ArrayBufferViewInput> | ArrayBufferViewInput>;
-export declare type FromArg3 = NodeJS.ReadableStream | ReadableStream<ArrayBufferViewInput> | AsyncIterable<ArrayBufferViewInput>;
-export declare type FromArg4 = Response | FileHandle | PromiseLike<FileHandle> | PromiseLike<Response>;
-export declare type FromArgs = FromArg0 | FromArg3 | FromArg1 | FromArg2 | FromArg4;
+export declare type FromArg1 = PromiseLike<ArrowJSONLike>;
+export declare type FromArg2 = Iterable<ArrayBufferViewInput> | ArrayBufferViewInput;
+export declare type FromArg3 = PromiseLike<Iterable<ArrayBufferViewInput> | ArrayBufferViewInput>;
+export declare type FromArg4 = NodeJS.ReadableStream | ReadableStream<ArrayBufferViewInput> | AsyncIterable<ArrayBufferViewInput>;
+export declare type FromArg5 = Response | FileHandle | PromiseLike<FileHandle> | PromiseLike<Response>;
+export declare type FromArgs = FromArg0 | FromArg1 | FromArg2 | FromArg3 | FromArg4 | FromArg5;
 export declare abstract class RecordBatchReader<T extends {
     [key: string]: DataType;
 } = any> extends ReadableInterop<RecordBatch<T>> {
@@ -58,16 +59,19 @@ export declare abstract class RecordBatchReader<T extends {
     } = any>(source: FromArg0): RecordBatchStreamReader<T>;
     static from<T extends {
         [key: string]: DataType;
-    } = any>(source: FromArg1): RecordBatchFileReader<T> | RecordBatchStreamReader<T>;
+    } = any>(source: FromArg1): Promise<RecordBatchStreamReader<T>>;
     static from<T extends {
         [key: string]: DataType;
-    } = any>(source: FromArg2): Promise<RecordBatchFileReader<T> | RecordBatchStreamReader<T>>;
+    } = any>(source: FromArg2): RecordBatchFileReader<T> | RecordBatchStreamReader<T>;
     static from<T extends {
         [key: string]: DataType;
-    } = any>(source: FromArg3): Promise<RecordBatchFileReader<T> | AsyncRecordBatchStreamReader<T>>;
+    } = any>(source: FromArg3): Promise<RecordBatchFileReader<T> | RecordBatchStreamReader<T>>;
     static from<T extends {
         [key: string]: DataType;
-    } = any>(source: FromArg4): Promise<AsyncRecordBatchFileReader<T> | AsyncRecordBatchStreamReader<T>>;
+    } = any>(source: FromArg4): Promise<RecordBatchFileReader<T> | AsyncRecordBatchStreamReader<T>>;
+    static from<T extends {
+        [key: string]: DataType;
+    } = any>(source: FromArg5): Promise<AsyncRecordBatchFileReader<T> | AsyncRecordBatchStreamReader<T>>;
     private static fromJSON;
     private static fromByteStream;
     private static fromAsyncByteStream;

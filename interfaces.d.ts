@@ -2,7 +2,7 @@ import { Data } from './data';
 import { Type } from './enum';
 import * as type from './type';
 import { DataType } from './type';
-import * as vecs from './vector/all';
+import * as vecs from './vector/index';
 export interface ArrayBufferViewConstructor<T extends ArrayBufferView> {
     readonly prototype: T;
     new (length: number): T;

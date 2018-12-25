@@ -32,6 +32,7 @@ export declare class Data<T extends DataType = DataType> {
     readonly typeId: import("./enum").Type;
     readonly childData: Data<DataType<import("./enum").Type, any>>[];
     readonly ArrayType: any;
+    readonly buffers: Buffers<T>;
     readonly values: NonNullable<T["TArray"]>;
     readonly typeIds: NonNullable<T["TArray"]>;
     readonly nullBitmap: Uint8Array;

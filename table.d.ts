@@ -1,21 +1,27 @@
+import { Column } from './column';
 import { Schema } from './schema';
 import { RecordBatch } from './recordbatch';
 import { Vector as VType } from './interfaces';
+import { DataFrame } from './compute/dataframe';
 import { RecordBatchReader } from './ipc/reader';
+import { Vector, Chunked } from './vector/index';
 import { DataType, RowLike, Struct } from './type';
-import { Vector } from './vector/index';
-export interface DataFrame<T extends {
+import { Clonable, Sliceable, Applicative } from './vector';
+export interface Table<T extends {
     [key: string]: DataType;
 } = any> {
-    count(): number;
-    filter(predicate: import('./compute/predicate').Predicate): DataFrame<T>;
-    countBy(name: import('./compute/predicate').Col | string): import('./compute/dataframe').CountByResult;
-    scan(next: import('./compute/dataframe').NextFunc, bind?: import('./compute/dataframe').BindFunc): void;
+    get(index: number): Struct<T>['TValue'];
     [Symbol.iterator](): IterableIterator<RowLike<T>>;
+    slice(begin?: number, end?: number): Table<T>;
+    concat(...others: Vector<Struct<T>>[]): Table<T>;
+    clone(chunks?: RecordBatch<T>[], offsets?: Uint32Array): Table<T>;
+    scan(next: import('./compute/dataframe').NextFunc, bind?: import('./compute/dataframe').BindFunc): void;
+    countBy(name: import('./compute/predicate').Col | string): import('./compute/dataframe').CountByResult;
+    filter(predicate: import('./compute/predicate').Predicate): import('./compute/dataframe').FilteredDataFrame<T>;
 }
 export declare class Table<T extends {
     [key: string]: DataType;
-} = any> implements DataFrame<T> {
+} = any> extends Chunked<Struct<T>> implements DataFrame<T>, Clonable<Table<T>>, Sliceable<Table<T>>, Applicative<Struct<T>, Table<T>> {
     /** @nocollapse */
     static empty<T extends {
         [key: string]: DataType;
@@ -31,16 +37,19 @@ export declare class Table<T extends {
     } = any>(source: import('./ipc/reader').FromArg0): Table<T>;
     static from<T extends {
         [key: string]: DataType;
-    } = any>(source: import('./ipc/reader').FromArg1): Table<T>;
+    } = any>(source: import('./ipc/reader').FromArg2): Table<T>;
     static from<T extends {
         [key: string]: DataType;
-    } = any>(source: import('./ipc/reader').FromArg2): Promise<Table<T>>;
+    } = any>(source: import('./ipc/reader').FromArg1): Promise<Table<T>>;
     static from<T extends {
         [key: string]: DataType;
     } = any>(source: import('./ipc/reader').FromArg3): Promise<Table<T>>;
     static from<T extends {
         [key: string]: DataType;
     } = any>(source: import('./ipc/reader').FromArg4): Promise<Table<T>>;
+    static from<T extends {
+        [key: string]: DataType;
+    } = any>(source: import('./ipc/reader').FromArg5): Promise<Table<T>>;
     static from<T extends {
         [key: string]: DataType;
     } = any>(source: PromiseLike<RecordBatchReader<T>>): Promise<Table<T>>;
@@ -56,26 +65,21 @@ export declare class Table<T extends {
     static fromStruct<T extends {
         [key: string]: DataType;
     } = any>(struct: Vector<Struct<T>>): Table<T>;
-    protected _schema: Schema;
-    protected _length: number;
-    protected _numCols: number;
-    protected _batches: RecordBatch<T>[];
-    protected readonly _columns: Vector<any>[];
-    protected _batchesUnion: Vector<Struct<T>>;
     constructor(batches: RecordBatch<T>[]);
     constructor(...batches: RecordBatch<T>[]);
     constructor(schema: Schema, batches: RecordBatch<T>[]);
     constructor(schema: Schema, ...batches: RecordBatch<T>[]);
+    protected _schema: Schema;
+    protected _chunks: RecordBatch<T>[];
+    protected _children?: Column<T[keyof T]>[];
     readonly schema: Schema<any>;
     readonly length: number;
+    readonly chunks: RecordBatch<T>[];
     readonly numCols: number;
-    readonly batches: RecordBatch<T>[];
-    readonly batchesUnion: Vector<Struct<T>>;
-    get(index: number): Struct<T>['TValue'];
-    getColumn<R extends keyof T>(name: R): Vector<T[R]> | null;
-    getColumnAt<T extends DataType = any>(index: number): Vector<T> | null;
+    getColumnAt<R extends DataType = any>(index: number): Column<R> | null;
+    getColumn<R extends keyof T>(name: R): Column<T[R]> | null;
     getColumnIndex<R extends keyof T>(name: R): number;
-    [Symbol.iterator](): IterableIterator<RowLike<T>>;
+    getChildAt<R extends DataType = any>(index: number): Column<R> | null;
     serialize(encoding?: string, stream?: boolean): Uint8Array;
     count(): number;
     select(...columnNames: string[]): Table<{
