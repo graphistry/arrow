@@ -55,6 +55,7 @@ export declare class RecordBatchWriter<T extends {
     protected _writeBodyBuffers(buffers: ArrayBufferView[]): this;
     protected _writeDictionaries(dictionaryFields: Map<number, Field<Dictionary<any, any>>[]>): this;
 }
+/** @ignore */
 export declare class RecordBatchFileWriter<T extends {
     [key: string]: DataType;
 } = any> extends RecordBatchWriter<T> {
@@ -73,6 +74,7 @@ export declare class RecordBatchFileWriter<T extends {
     close(): void;
     protected _writeSchema(schema: Schema<T>): this;
 }
+/** @ignore */
 export declare class RecordBatchStreamWriter<T extends {
     [key: string]: DataType;
 } = any> extends RecordBatchWriter<T> {
@@ -90,6 +92,7 @@ export declare class RecordBatchStreamWriter<T extends {
     } = any>(this: typeof RecordBatchWriter, input: PromiseLike<Table<T> | Iterable<RecordBatch<T>>>): Promise<RecordBatchStreamWriter<T>>;
     close(): void;
 }
+/** @ignore */
 export declare class RecordBatchJSONWriter<T extends {
     [key: string]: DataType;
 } = any> extends RecordBatchWriter<T> {

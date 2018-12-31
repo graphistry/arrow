@@ -2,6 +2,7 @@ import { Field } from '../schema';
 import { MapVector } from '../vector/map';
 import { DataType, RowLike } from '../type';
 import { StructVector } from '../vector/struct';
+/** @ignore */
 export declare class Row<T extends {
     [key: string]: DataType;
 }> implements Iterable<T[keyof T]['TValue']> {

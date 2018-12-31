@@ -3,10 +3,12 @@ import { Duplex } from 'stream';
 import { DataType } from '../../type';
 import { AsyncByteQueue } from '../../io/stream';
 import { RecordBatchReader } from '../../ipc/reader';
+/** @ignore */
 export declare function recordBatchReaderThroughNodeStream<T extends {
     [key: string]: DataType;
 } = any>(): RecordBatchReaderDuplex<T>;
 declare type CB = (error?: Error | null | undefined) => void;
+/** @ignore */
 declare class RecordBatchReaderDuplex<T extends {
     [key: string]: DataType;
 } = any> extends Duplex {

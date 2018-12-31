@@ -1,6 +1,7 @@
 /// <reference types="flatbuffers" />
 import { DataType } from '../../type';
 import { RecordBatch } from '../../recordbatch';
+/** @ignore */
 export declare function recordBatchReaderThroughDOMStream<T extends {
     [key: string]: DataType;
 } = any>(): {

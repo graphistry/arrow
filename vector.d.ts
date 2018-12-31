@@ -1,12 +1,15 @@
 import { Data } from './data';
 import { DataType } from './type';
 import { Chunked } from './vector/chunked';
+/** @ignore */
 export interface Clonable<R extends Vector> {
     clone(...args: any[]): R;
 }
+/** @ignore */
 export interface Sliceable<R extends Vector> {
     slice(begin?: number, end?: number): R;
 }
+/** @ignore */
 export interface Applicative<T extends DataType, R extends Chunked> {
     concat(...others: Vector<T>[]): R;
 }

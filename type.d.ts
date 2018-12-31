@@ -5,12 +5,16 @@ import { Vector as VType } from './interfaces';
 import { ArrayBufferViewConstructor } from './interfaces';
 import Long = flatbuffers.Long;
 import { Type, Precision, UnionMode, DateUnit, TimeUnit, IntervalUnit } from './enum';
+/** @ignore */
 export declare type TimeBitWidth = 32 | 64;
+/** @ignore */
 export declare type IntBitWidth = 8 | 16 | 32 | 64;
+/** @ignore */
 export declare type IsSigned = {
     'true': true;
     'false': false;
 };
+/** @ignore */
 export declare type RowLike<T extends {
     [key: string]: DataType;
 }> = {
@@ -63,7 +67,9 @@ export declare class Null extends DataType<Type.Null> {
     readonly typeId: Type.Null;
     protected static [Symbol.toStringTag]: string;
 }
+/** @ignore */
 declare type Ints = Type.Int | Type.Int8 | Type.Int16 | Type.Int32 | Type.Int64 | Type.Uint8 | Type.Uint16 | Type.Uint32 | Type.Uint64;
+/** @ignore */
 declare type IType = {
     [Type.Int]: {
         bitWidth: IntBitWidth;
@@ -160,7 +166,9 @@ export declare class Uint32 extends Int_<Type.Uint32> {
 export declare class Uint64 extends Int_<Type.Uint64> {
     constructor();
 }
+/** @ignore */
 declare type Floats = Type.Float | Type.Float16 | Type.Float32 | Type.Float64;
+/** @ignore */
 declare type FType = {
     [Type.Float]: {
         precision: Precision;
@@ -252,6 +260,7 @@ export declare class Decimal extends DataType<Type.Decimal> {
     toString(): string;
     protected static [Symbol.toStringTag]: string;
 }
+/** @ignore */
 export declare type Dates = Type.Date | Type.DateDay | Type.DateMillisecond;
 export interface Date_<T extends Dates = Dates> extends DataType<T> {
     TArray: Int32Array;
@@ -272,7 +281,9 @@ export declare class DateDay extends Date_<Type.DateDay> {
 export declare class DateMillisecond extends Date_<Type.DateMillisecond> {
     constructor();
 }
+/** @ignore */
 declare type Times = Type.Time | Type.TimeSecond | Type.TimeMillisecond | Type.TimeMicrosecond | Type.TimeNanosecond;
+/** @ignore */
 declare type TimesType = {
     [Type.Time]: {
         unit: TimeUnit;
@@ -323,6 +334,7 @@ export declare class TimeMicrosecond extends Time_<Type.TimeMicrosecond> {
 export declare class TimeNanosecond extends Time_<Type.TimeNanosecond> {
     constructor();
 }
+/** @ignore */
 declare type Timestamps = Type.Timestamp | Type.TimestampSecond | Type.TimestampMillisecond | Type.TimestampMicrosecond | Type.TimestampNanosecond;
 interface Timestamp_<T extends Timestamps = Timestamps> extends DataType<T> {
     TArray: Int32Array;
@@ -352,6 +364,7 @@ export declare class TimestampMicrosecond extends Timestamp_<Type.TimestampMicro
 export declare class TimestampNanosecond extends Timestamp_<Type.TimestampNanosecond> {
     constructor(timezone?: string | null);
 }
+/** @ignore */
 declare type Intervals = Type.Interval | Type.IntervalDayTime | Type.IntervalYearMonth;
 interface Interval_<T extends Intervals = Intervals> extends DataType<T> {
     TArray: Int32Array;
@@ -409,6 +422,7 @@ export declare class Struct<T extends {
     toString(): string;
     protected static [Symbol.toStringTag]: string;
 }
+/** @ignore */
 declare type Unions = Type.Union | Type.DenseUnion | Type.SparseUnion;
 interface Union_<T extends Unions = Unions> extends DataType<T> {
     TArray: Int32Array;
@@ -490,6 +504,7 @@ export declare class Map_<T extends {
     toString(): string;
     protected static [Symbol.toStringTag]: string;
 }
+/** @ignore */
 export declare type TKeys = Int8 | Int16 | Int32 | Uint8 | Uint16 | Uint32;
 export interface Dictionary<T extends DataType = any, TKey extends TKeys = TKeys> extends DataType<Type.Dictionary> {
     TArray: TKey['TArray'];
@@ -514,7 +529,10 @@ export declare class Dictionary<T extends DataType = any, TKey extends TKeys = T
     toString(): string;
     protected static [Symbol.toStringTag]: string;
 }
+/** @ignore */
 export interface IterableArrayLike<T = any> extends ArrayLike<T>, Iterable<T> {
 }
+/** @ignore */
 export declare type FloatArray = Uint16Array | Float32Array | Float64Array;
+/** @ignore */
 export declare type IntArray = Int8Array | Int16Array | Int32Array | Uint8Array | Uint16Array | Uint32Array;

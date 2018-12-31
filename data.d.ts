@@ -2,12 +2,13 @@ import { DataType } from './type';
 import { Vector } from './vector';
 import { VectorType as BufferType } from './enum';
 import { Dictionary, Null, Int, Float, Binary, Bool, Utf8, Decimal, Date_, Time, Timestamp, Interval, List, Struct, Union, FixedSizeBinary, FixedSizeList, Map_ } from './type';
-export declare type kUnknownNullCount = -1;
-export declare const kUnknownNullCount = -1;
-export declare type NullBuffer = Uint8Array | null | undefined;
-export declare type TypeIdsBuffer = Int8Array | ArrayLike<number> | Iterable<number>;
-export declare type ValueOffsetsBuffer = Int32Array | ArrayLike<number> | Iterable<number>;
-export declare type DataBuffer<T extends DataType> = T['TArray'] | ArrayLike<number> | Iterable<number>;
+/** @ignore */ export declare type kUnknownNullCount = -1;
+/** @ignore */ export declare const kUnknownNullCount = -1;
+/** @ignore */ export declare type NullBuffer = Uint8Array | null | undefined;
+/** @ignore */ export declare type TypeIdsBuffer = Int8Array | ArrayLike<number> | Iterable<number>;
+/** @ignore */ export declare type ValueOffsetsBuffer = Int32Array | ArrayLike<number> | Iterable<number>;
+/** @ignore */ export declare type DataBuffer<T extends DataType> = T['TArray'] | ArrayLike<number> | Iterable<number>;
+/** @ignore */
 export interface Buffers<T extends DataType> {
     [BufferType.OFFSET]?: Int32Array;
     [BufferType.DATA]?: T['TArray'];
@@ -19,6 +20,7 @@ export interface Data<T extends DataType = DataType> {
     readonly TArray: T['TArray'];
     readonly TValue: T['TValue'];
 }
+/** @ignore */
 export declare class Data<T extends DataType = DataType> {
     protected _type: T;
     protected _length: number;

@@ -38,4 +38,5 @@ declare module './base' {
         [Symbol.iterator](): IterableIterator<T['TValue'] | null>;
     }
 }
+/** @ignore */
 declare function newVector<T extends DataType>(data: Data<T>, ...args: VectorCtorArgs<V<T>>): V<T>;

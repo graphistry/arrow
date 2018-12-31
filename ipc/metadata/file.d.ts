@@ -6,6 +6,7 @@ import _Block = File_.org.apache.arrow.flatbuf.Block;
 import { Schema } from '../../schema';
 import { MetadataVersion } from '../../enum';
 import { ArrayBufferViewInput } from '../../util/buffer';
+/** @ignore */
 declare class Footer_ {
     schema: Schema;
     version: MetadataVersion;
@@ -24,6 +25,7 @@ declare class Footer_ {
     getDictionaryBatch(index: number): FileBlock | null;
 }
 export { Footer_ as Footer };
+/** @ignore */
 export declare class FileBlock {
     /** @nocollapse */
     static decode(block: _Block): FileBlock;

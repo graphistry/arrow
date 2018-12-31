@@ -1,14 +1,17 @@
 /// <reference types="node" />
 import { ArrowJSONLike } from '../io/interfaces';
+/** @ignore */
 export interface Subscription {
     unsubscribe: () => void;
 }
+/** @ignore */
 export interface Observer<T> {
     closed?: boolean;
     next: (value: T) => void;
     error: (err: any) => void;
     complete: () => void;
 }
+/** @ignore */
 export interface Observable<T> {
     subscribe: (observer: Observer<T>) => Subscription;
 }

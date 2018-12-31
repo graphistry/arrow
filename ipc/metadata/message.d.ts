@@ -14,9 +14,7 @@ import _FieldNode = Message_.org.apache.arrow.flatbuf.FieldNode;
 import _RecordBatch = Message_.org.apache.arrow.flatbuf.RecordBatch;
 import _DictionaryBatch = Message_.org.apache.arrow.flatbuf.DictionaryBatch;
 import { DataType, Dictionary } from '../../type';
-/**
- * @ignore
- */
+/** @ignore */
 export declare class Message<T extends MessageHeader = any> {
     /** @nocollapse */
     static fromJSON<T extends MessageHeader>(msg: any, headerType: T): Message<T>;
@@ -41,9 +39,7 @@ export declare class Message<T extends MessageHeader = any> {
     isDictionaryBatch(): this is Message<MessageHeader.DictionaryBatch>;
     constructor(bodyLength: Long | number, version: MetadataVersion, headerType: T, header?: any);
 }
-/**
- * @ignore
- */
+/** @ignore */
 export declare class RecordBatch {
     protected _length: number;
     protected _nodes: FieldNode[];
@@ -53,9 +49,7 @@ export declare class RecordBatch {
     readonly buffers: BufferRegion[];
     constructor(length: Long | number, nodes: FieldNode[], buffers: BufferRegion[]);
 }
-/**
- * @ignore
- */
+/** @ignore */
 export declare class DictionaryBatch {
     protected _id: number;
     protected _isDelta: boolean;
@@ -68,17 +62,13 @@ export declare class DictionaryBatch {
     readonly buffers: BufferRegion[];
     constructor(data: RecordBatch, id: Long | number, isDelta?: boolean);
 }
-/**
- * @ignore
- */
+/** @ignore */
 export declare class BufferRegion {
     offset: number;
     length: number;
     constructor(offset: Long | number, length: Long | number);
 }
-/**
- * @ignore
- */
+/** @ignore */
 export declare class FieldNode {
     length: number;
     nullCount: number;
@@ -116,17 +106,30 @@ declare module './message' {
         export { decodeBufferRegion as decode };
     }
 }
+/** @ignore */
 declare function decodeSchema(_schema: _Schema, dictionaries?: Map<number, DataType>, dictionaryFields?: Map<number, Field<Dictionary>[]>): Schema<any>;
+/** @ignore */
 declare function decodeRecordBatch(batch: _RecordBatch, version?: MetadataVersion): RecordBatch;
+/** @ignore */
 declare function decodeDictionaryBatch(batch: _DictionaryBatch, version?: MetadataVersion): DictionaryBatch;
+/** @ignore */
 declare function decodeBufferRegion(b: _Buffer): BufferRegion;
+/** @ignore */
 declare function decodeFieldNode(f: _FieldNode): FieldNode;
+/** @ignore */
 declare function decodeField(f: _Field, dictionaries?: Map<number, DataType>, dictionaryFields?: Map<number, Field<Dictionary>[]>): Field<DataType<import("../../enum").Type, any>>;
+/** @ignore */
 declare function encodeSchema(b: Builder, schema: Schema): number;
+/** @ignore */
 declare function encodeField(b: Builder, field: Field): number;
+/** @ignore */
 declare function encodeRecordBatch(b: Builder, recordBatch: RecordBatch): number;
+/** @ignore */
 declare function encodeDictionaryBatch(b: Builder, dictionaryBatch: DictionaryBatch): number;
+/** @ignore */
 declare function encodeFieldNode(b: Builder, node: FieldNode): number;
+/** @ignore */
 declare function encodeBufferRegion(b: Builder, node: BufferRegion): number;
+/** @ignore */
 declare type MessageHeaderDecoder = <T extends MessageHeader>() => T extends MessageHeader.Schema ? Schema : T extends MessageHeader.RecordBatch ? RecordBatch : T extends MessageHeader.DictionaryBatch ? DictionaryBatch : never;
 export {};

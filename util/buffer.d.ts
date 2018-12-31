@@ -1,18 +1,13 @@
 import { flatbuffers } from 'flatbuffers';
 import ByteBuffer = flatbuffers.ByteBuffer;
 import { ArrayBufferViewConstructor } from '../interfaces';
-/**
- * @ignore
- */
+/** @ignore */
 export declare function memcpy<TTarget extends ArrayBufferView, TSource extends ArrayBufferView>(target: TTarget, source: TSource, targetByteOffset?: number, sourceByteLength?: number): TTarget;
-/**
- * @ignore
- */
+/** @ignore */
 export declare function joinUint8Arrays(chunks: Uint8Array[], size?: number | null): [Uint8Array, Uint8Array[]];
+/** @ignore */
 export declare type ArrayBufferViewInput = ArrayBufferView | ArrayBufferLike | ArrayBufferView | Iterable<number> | ArrayLike<number> | ByteBuffer | string | null | undefined | IteratorResult<ArrayBufferView | ArrayBufferLike | ArrayBufferView | Iterable<number> | ArrayLike<number> | ByteBuffer | string | null | undefined> | ReadableStreamReadResult<ArrayBufferView | ArrayBufferLike | ArrayBufferView | Iterable<number> | ArrayLike<number> | ByteBuffer | string | null | undefined>;
-/**
- * @ignore
- */
+/** @ignore */
 export declare function toArrayBufferView<T extends ArrayBufferView>(ArrayBufferViewCtor: ArrayBufferViewConstructor<T>, input: ArrayBufferViewInput): T;
 /** @ignore */ export declare const toInt8Array: (input: ArrayBufferViewInput) => Int8Array;
 /** @ignore */ export declare const toInt16Array: (input: ArrayBufferViewInput) => Int16Array;
@@ -23,6 +18,7 @@ export declare function toArrayBufferView<T extends ArrayBufferView>(ArrayBuffer
 /** @ignore */ export declare const toFloat32Array: (input: ArrayBufferViewInput) => Float32Array;
 /** @ignore */ export declare const toFloat64Array: (input: ArrayBufferViewInput) => Float64Array;
 /** @ignore */ export declare const toUint8ClampedArray: (input: ArrayBufferViewInput) => Uint8ClampedArray;
+/** @ignore */
 declare type ArrayBufferViewIteratorInput = Iterable<ArrayBufferViewInput> | ArrayBufferViewInput;
 /** @ignore */
 export declare function toArrayBufferViewIterator<T extends ArrayBufferView>(ArrayCtor: ArrayBufferViewConstructor<T>, source: ArrayBufferViewIteratorInput): IterableIterator<T>;
@@ -35,6 +31,7 @@ export declare function toArrayBufferViewIterator<T extends ArrayBufferView>(Arr
 /** @ignore */ export declare const toFloat32ArrayIterator: (input: ArrayBufferViewIteratorInput) => IterableIterator<Float32Array>;
 /** @ignore */ export declare const toFloat64ArrayIterator: (input: ArrayBufferViewIteratorInput) => IterableIterator<Float64Array>;
 /** @ignore */ export declare const toUint8ClampedArrayIterator: (input: ArrayBufferViewIteratorInput) => IterableIterator<Uint8ClampedArray>;
+/** @ignore */
 declare type ArrayBufferViewAsyncIteratorInput = AsyncIterable<ArrayBufferViewInput> | Iterable<ArrayBufferViewInput> | PromiseLike<ArrayBufferViewInput> | ArrayBufferViewInput;
 /** @ignore */
 export declare function toArrayBufferViewAsyncIterator<T extends ArrayBufferView>(ArrayCtor: ArrayBufferViewConstructor<T>, source: ArrayBufferViewAsyncIteratorInput): AsyncIterableIterator<T>;
@@ -47,8 +44,6 @@ export declare function toArrayBufferViewAsyncIterator<T extends ArrayBufferView
 /** @ignore */ export declare const toFloat32ArrayAsyncIterator: (input: ArrayBufferViewAsyncIteratorInput) => AsyncIterableIterator<Float32Array>;
 /** @ignore */ export declare const toFloat64ArrayAsyncIterator: (input: ArrayBufferViewAsyncIteratorInput) => AsyncIterableIterator<Float64Array>;
 /** @ignore */ export declare const toUint8ClampedArrayAsyncIterator: (input: ArrayBufferViewAsyncIteratorInput) => AsyncIterableIterator<Uint8ClampedArray>;
-/**
- * @ignore
- */
+/** @ignore */
 export declare function rebaseValueOffsets(offset: number, length: number, valueOffsets: Int32Array): Int32Array;
 export {};

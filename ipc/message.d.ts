@@ -1,10 +1,9 @@
 import { MessageHeader } from '../enum';
-import { flatbuffers } from 'flatbuffers';
-import ByteBuffer = flatbuffers.ByteBuffer;
 import { Message } from './metadata/message';
 import { ArrayBufferViewInput } from '../util/buffer';
 import { ByteStream, ReadableSource, AsyncByteStream } from '../io/stream';
 import { ArrowJSON, ArrowJSONLike, FileHandle } from '../io/interfaces';
+/** @ignore */
 export declare class MessageReader implements IterableIterator<Message> {
     protected source: ByteStream;
     constructor(source: ByteStream | ArrayBufferViewInput | Iterable<ArrayBufferViewInput>);
@@ -18,6 +17,7 @@ export declare class MessageReader implements IterableIterator<Message> {
     protected readMetadataLength(): IteratorResult<number>;
     protected readMetadata(metadataLength: number): IteratorResult<Message>;
 }
+/** @ignore */
 export declare class AsyncMessageReader implements AsyncIterableIterator<Message> {
     protected source: AsyncByteStream;
     constructor(source: ReadableSource<Uint8Array>);
@@ -32,6 +32,7 @@ export declare class AsyncMessageReader implements AsyncIterableIterator<Message
     protected readMetadataLength(): Promise<IteratorResult<number>>;
     protected readMetadata(metadataLength: number): Promise<IteratorResult<Message>>;
 }
+/** @ignore */
 export declare class JSONMessageReader extends MessageReader {
     private _schema;
     private _json;
@@ -44,11 +45,17 @@ export declare class JSONMessageReader extends MessageReader {
     readMessage<T extends MessageHeader>(type?: T | null): Message<T> | null;
     readSchema(): import("../schema").Schema<any>;
 }
+/** @ignore */
 export declare const PADDING = 4;
+/** @ignore */
 export declare const MAGIC_STR = "ARROW1";
+/** @ignore */
 export declare const MAGIC: Uint8Array;
+/** @ignore */
 export declare function checkForMagicArrowString(buffer: Uint8Array, index?: number): boolean;
-export declare function isValidArrowFile(bb: ByteBuffer): boolean;
+/** @ignore */
 export declare const magicLength: number;
+/** @ignore */
 export declare const magicAndPadding: number;
+/** @ignore */
 export declare const magicX2AndPadding: number;

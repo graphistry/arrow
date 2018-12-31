@@ -4,7 +4,9 @@ import { Vector as V } from '../interfaces';
 import { Predicate, Col } from './predicate';
 import { RecordBatch } from '../recordbatch';
 import { DataType, Int, Struct } from '../type';
+/** @ignore */
 export declare type BindFunc = (batch: RecordBatch) => void;
+/** @ignore */
 export declare type NextFunc = (idx: number, batch: RecordBatch) => void;
 export declare class DataFrame<T extends {
     [key: string]: DataType;

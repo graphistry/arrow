@@ -1,8 +1,6 @@
 import { FileHandle } from './interfaces';
 import { ByteStream, AsyncByteStream } from './stream';
-/**
- * @ignore
- */
+/** @ignore */
 export declare class RandomAccessFile extends ByteStream {
     size: number;
     position: number;
@@ -22,9 +20,7 @@ export declare class RandomAccessFile extends ByteStream {
         value: any;
     };
 }
-/**
- * @ignore
- */
+/** @ignore */
 export declare class AsyncRandomAccessFile extends AsyncByteStream {
     size: number;
     position: number;

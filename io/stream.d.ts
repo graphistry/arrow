@@ -1,11 +1,11 @@
 /// <reference types="node" />
 import { Readable, Writable, AsyncQueue } from './interfaces';
 import { ArrayBufferViewInput } from '../util/buffer';
+/** @ignore */
 export declare type WritableSink<T> = Writable<T> | WritableStream<T> | NodeJS.WritableStream | null;
+/** @ignore */
 export declare type ReadableSource<T> = Readable<T> | PromiseLike<T> | AsyncIterable<T> | ReadableStream<T> | NodeJS.ReadableStream | null;
-/**
- * @ignore
- */
+/** @ignore */
 export declare class AsyncByteQueue<T extends ArrayBufferViewInput = Uint8Array> extends AsyncQueue<Uint8Array, T> {
     write(value: ArrayBufferViewInput | Uint8Array): void;
     toString(sync: true): string;
@@ -13,9 +13,7 @@ export declare class AsyncByteQueue<T extends ArrayBufferViewInput = Uint8Array>
     toUint8Array(sync: true): Uint8Array;
     toUint8Array(sync?: false): Promise<Uint8Array>;
 }
-/**
- * @ignore
- */
+/** @ignore */
 export declare class ByteStream {
     private source;
     constructor(source?: Iterable<ArrayBufferViewInput> | ArrayBufferViewInput);
@@ -24,9 +22,7 @@ export declare class ByteStream {
     peek(size?: number | null): Uint8Array | null;
     read(size?: number | null): Uint8Array | null;
 }
-/**
- * @ignore
- */
+/** @ignore */
 export declare class AsyncByteStream implements Readable<Uint8Array> {
     private source;
     constructor(source?: PromiseLike<ArrayBufferViewInput> | Response | ReadableStream<ArrayBufferViewInput> | NodeJS.ReadableStream | AsyncIterable<ArrayBufferViewInput> | Iterable<ArrayBufferViewInput>);

@@ -12,13 +12,13 @@ import { ArrayBufferViewInput } from '../util/buffer';
 import { RandomAccessFile, AsyncRandomAccessFile } from '../io/file';
 import { ArrowJSON, ArrowJSONLike, FileHandle, ReadableInterop } from '../io/interfaces';
 import { MessageReader, AsyncMessageReader } from './message';
-export declare type FromArg0 = ArrowJSONLike;
-export declare type FromArg1 = PromiseLike<ArrowJSONLike>;
-export declare type FromArg2 = Iterable<ArrayBufferViewInput> | ArrayBufferViewInput;
-export declare type FromArg3 = PromiseLike<Iterable<ArrayBufferViewInput> | ArrayBufferViewInput>;
-export declare type FromArg4 = NodeJS.ReadableStream | ReadableStream<ArrayBufferViewInput> | AsyncIterable<ArrayBufferViewInput>;
-export declare type FromArg5 = Response | FileHandle | PromiseLike<FileHandle> | PromiseLike<Response>;
-export declare type FromArgs = FromArg0 | FromArg1 | FromArg2 | FromArg3 | FromArg4 | FromArg5;
+/** @ignore */ export declare type FromArg0 = ArrowJSONLike;
+/** @ignore */ export declare type FromArg1 = PromiseLike<ArrowJSONLike>;
+/** @ignore */ export declare type FromArg2 = Iterable<ArrayBufferViewInput> | ArrayBufferViewInput;
+/** @ignore */ export declare type FromArg3 = PromiseLike<Iterable<ArrayBufferViewInput> | ArrayBufferViewInput>;
+/** @ignore */ export declare type FromArg4 = NodeJS.ReadableStream | ReadableStream<ArrayBufferViewInput> | AsyncIterable<ArrayBufferViewInput>;
+/** @ignore */ export declare type FromArg5 = Response | FileHandle | PromiseLike<FileHandle> | PromiseLike<Response>;
+/** @ignore */ export declare type FromArgs = FromArg0 | FromArg1 | FromArg2 | FromArg3 | FromArg4 | FromArg5;
 export declare abstract class RecordBatchReader<T extends {
     [key: string]: DataType;
 } = any> extends ReadableInterop<RecordBatch<T>> {
@@ -77,6 +77,7 @@ export declare abstract class RecordBatchReader<T extends {
     private static fromAsyncByteStream;
     private static fromFileHandle;
 }
+/** @ignore */
 export declare class RecordBatchFileReader<T extends {
     [key: string]: DataType;
 } = any> extends RecordBatchReader<T> {
@@ -88,6 +89,7 @@ export declare class RecordBatchFileReader<T extends {
     [Symbol.iterator](): IterableIterator<RecordBatch<T>>;
     [Symbol.asyncIterator](): AsyncIterableIterator<RecordBatch<T>>;
 }
+/** @ignore */
 export declare class RecordBatchStreamReader<T extends {
     [key: string]: DataType;
 } = any> extends RecordBatchReader<T> {
@@ -96,6 +98,7 @@ export declare class RecordBatchStreamReader<T extends {
     [Symbol.iterator](): IterableIterator<RecordBatch<T>>;
     [Symbol.asyncIterator](): AsyncIterableIterator<RecordBatch<T>>;
 }
+/** @ignore */
 export declare class AsyncRecordBatchStreamReader<T extends {
     [key: string]: DataType;
 } = any> extends RecordBatchReader<T> {
@@ -104,6 +107,7 @@ export declare class AsyncRecordBatchStreamReader<T extends {
     [Symbol.asyncIterator](): AsyncIterableIterator<RecordBatch<T>>;
     [Symbol.iterator](): IterableIterator<RecordBatch<T>>;
 }
+/** @ignore */
 export declare class AsyncRecordBatchFileReader<T extends {
     [key: string]: DataType;
 } = any> extends RecordBatchReader<T> {
@@ -115,6 +119,7 @@ export declare class AsyncRecordBatchFileReader<T extends {
     [Symbol.asyncIterator](): AsyncIterableIterator<RecordBatch<T>>;
     [Symbol.iterator](): IterableIterator<RecordBatch<T>>;
 }
+/** @ignore */
 declare abstract class RecordBatchReaderImplBase<T extends {
     [key: string]: DataType;
 } = any> {
@@ -132,6 +137,7 @@ declare abstract class RecordBatchReaderImplBase<T extends {
     protected _loadDictionaryBatch(header: metadata.DictionaryBatch, body: any): Vector<any>;
     protected _loadVectors(header: metadata.RecordBatch, body: any, types: (Field | DataType)[]): import("../data").Data<DataType<import("../enum").Type, any>>[];
 }
+/** @ignore */
 declare class RecordBatchStreamReaderImpl<T extends {
     [key: string]: DataType;
 } = any> extends RecordBatchReaderImplBase<T> implements IRecordBatchReaderImpl<T>, IterableIterator<RecordBatch<T>> {
@@ -145,6 +151,7 @@ declare class RecordBatchStreamReaderImpl<T extends {
     next(): IteratorResult<RecordBatch<T>>;
     protected readNextMessageAndValidate<T extends MessageHeader>(type?: T | null): Message<T> | null;
 }
+/** @ignore */
 declare class AsyncRecordBatchStreamReaderImpl<T extends {
     [key: string]: DataType;
 } = any> extends RecordBatchReaderImplBase<T> implements IRecordBatchReaderImpl<T>, AsyncIterableIterator<RecordBatch<T>> {
@@ -158,6 +165,7 @@ declare class AsyncRecordBatchStreamReaderImpl<T extends {
     next(): Promise<any>;
     protected readNextMessageAndValidate<T extends MessageHeader>(type?: T | null): Promise<Message<T> | null>;
 }
+/** @ignore */
 declare class RecordBatchFileReaderImpl<T extends {
     [key: string]: DataType;
 } = any> extends RecordBatchStreamReaderImpl<T> implements IRecordBatchFileReaderImpl<T>, IterableIterator<RecordBatch<T>> {
@@ -172,6 +180,7 @@ declare class RecordBatchFileReaderImpl<T extends {
     protected readFooter(): Footer;
     protected readNextMessageAndValidate<T extends MessageHeader>(type?: T | null): Message<T> | null;
 }
+/** @ignore */
 declare class AsyncRecordBatchFileReaderImpl<T extends {
     [key: string]: DataType;
 } = any> extends AsyncRecordBatchStreamReaderImpl<T> implements IRecordBatchFileReaderImpl<T>, AsyncIterableIterator<RecordBatch<T>> {
@@ -186,6 +195,7 @@ declare class AsyncRecordBatchFileReaderImpl<T extends {
     protected readFooter(): Promise<Footer>;
     protected readNextMessageAndValidate<T extends MessageHeader>(type?: T | null): Promise<Message<T> | null>;
 }
+/** @ignore */
 interface IRecordBatchReaderImpl<T extends {
     [key: string]: DataType;
 } = any> {
@@ -204,6 +214,7 @@ interface IRecordBatchReaderImpl<T extends {
     return(value?: any): IteratorResult<any> | Promise<IteratorResult<any>>;
     next(value?: any): IteratorResult<RecordBatch<T>> | Promise<IteratorResult<RecordBatch<T>>>;
 }
+/** @ignore */
 interface IRecordBatchFileReaderImpl<T extends {
     [key: string]: DataType;
 } = any> extends IRecordBatchReaderImpl<T> {

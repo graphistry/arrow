@@ -2,7 +2,9 @@ import { Data } from '../data';
 import { Vector } from '../vector';
 import { DataType } from '../type';
 import { Clonable, Sliceable, Applicative } from '../vector';
+/** @ignore */
 declare type SearchContinuation<T extends Chunked> = (column: T, chunkIndex: number, valueIndex: number) => any;
+/** @ignore */
 export declare class Chunked<T extends DataType = any> extends Vector<T> implements Clonable<Chunked<T>>, Sliceable<Chunked<T>>, Applicative<T, Chunked<T>> {
     /** @nocollapse */
     static flatten<T extends DataType>(...vectors: Vector<T>[]): Vector<T>[];

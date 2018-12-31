@@ -9,7 +9,5 @@ declare const _default: {
     toReadableDOMStream<T>(source: Iterable<T> | AsyncIterable<T>, options?: ReadableDOMStreamOptions | undefined): ReadableStream<T>;
     toReadableNodeStream<T>(source: Iterable<T> | AsyncIterable<T>, options?: import("stream").ReadableOptions | undefined): import("stream").Readable;
 };
-/**
- * @ignore
- */
+/** @ignore */
 export default _default;
