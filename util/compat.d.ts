@@ -27,6 +27,6 @@ export interface Observable<T> {
 /** @ignore */ export declare const isFSReadStream: (x: any) => x is import("fs").ReadStream;
 /** @ignore */ export declare const isFetchResponse: (x: any) => x is Response;
 /** @ignore */ export declare const isWritableDOMStream: <T = any>(x: any) => x is WritableStream<T>;
-/** @ignore */ export declare const isWritableNodeStream: (x: any) => x is NodeJS.WritableStream;
 /** @ignore */ export declare const isReadableDOMStream: <T = any>(x: any) => x is ReadableStream<T>;
+/** @ignore */ export declare const isWritableNodeStream: (x: any) => x is NodeJS.WritableStream;
 /** @ignore */ export declare const isReadableNodeStream: (x: any) => x is NodeJS.ReadableStream;

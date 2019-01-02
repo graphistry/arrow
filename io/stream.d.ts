@@ -14,18 +14,21 @@ export declare class AsyncByteQueue<T extends ArrayBufferViewInput = Uint8Array>
     toUint8Array(sync?: false): Promise<Uint8Array>;
 }
 /** @ignore */
-export declare class ByteStream {
+export declare class ByteStream implements IterableIterator<Uint8Array> {
     private source;
     constructor(source?: Iterable<ArrayBufferViewInput> | ArrayBufferViewInput);
+    [Symbol.iterator](): this;
+    next(value?: any): IteratorResult<Uint8Array>;
     throw(value?: any): any;
     return(value?: any): any;
     peek(size?: number | null): Uint8Array | null;
     read(size?: number | null): Uint8Array | null;
 }
 /** @ignore */
-export declare class AsyncByteStream implements Readable<Uint8Array> {
+export declare class AsyncByteStream implements Readable<Uint8Array>, AsyncIterableIterator<Uint8Array> {
     private source;
     constructor(source?: PromiseLike<ArrayBufferViewInput> | Response | ReadableStream<ArrayBufferViewInput> | NodeJS.ReadableStream | AsyncIterable<ArrayBufferViewInput> | Iterable<ArrayBufferViewInput>);
+    [Symbol.asyncIterator](): this;
     next(value?: any): Promise<IteratorResult<Uint8Array>>;
     throw(value?: any): Promise<any>;
     return(value?: any): Promise<any>;
