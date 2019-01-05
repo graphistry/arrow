@@ -1,7 +1,9 @@
 import { Data } from '../data';
 import { Vector } from '../vector';
-import { DataType } from '../type';
+import { DataType, Dictionary } from '../type';
 import { Clonable, Sliceable, Applicative } from '../vector';
+declare type ChunkedDict<T extends DataType> = T extends Dictionary ? T['dictionaryVector'] : null | never;
+declare type ChunkedKeys<T extends DataType> = T extends Dictionary ? Vector<T['indices']> | Chunked<T['indices']> : null | never;
 /** @ignore */
 declare type SearchContinuation<T extends Chunked> = (column: T, chunkIndex: number, valueIndex: number) => any;
 /** @ignore */
@@ -27,6 +29,9 @@ export declare class Chunked<T extends DataType = any> extends Vector<T> impleme
     readonly numChildren: number;
     readonly stride: number;
     readonly nullCount: number;
+    protected _indices?: ChunkedKeys<T>;
+    readonly indices: ChunkedKeys<T> | null;
+    readonly dictionary: ChunkedDict<T> | null;
     [Symbol.iterator](): IterableIterator<T['TValue'] | null>;
     clone(chunks?: Vector<T>[]): Chunked<T>;
     concat(...others: Vector<T>[]): Chunked<T>;
