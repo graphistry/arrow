@@ -1,21 +1,26 @@
 /// <reference types="node" />
-import { Duplex } from 'stream';
+import { Duplex, DuplexOptions } from 'stream';
 import { DataType } from '../../type';
 import { AsyncByteQueue } from '../../io/stream';
 import { RecordBatchReader } from '../../ipc/reader';
 /** @ignore */
 export declare function recordBatchReaderThroughNodeStream<T extends {
     [key: string]: DataType;
-} = any>(): RecordBatchReaderDuplex<T>;
+} = any>(options?: DuplexOptions & {
+    autoDestroy: boolean;
+}): RecordBatchReaderDuplex<T>;
 declare type CB = (error?: Error | null | undefined) => void;
 /** @ignore */
 declare class RecordBatchReaderDuplex<T extends {
     [key: string]: DataType;
 } = any> extends Duplex {
     private _pulling;
+    private _autoDestroy;
     private _reader;
     private _asyncQueue;
-    constructor();
+    constructor(options?: DuplexOptions & {
+        autoDestroy: boolean;
+    });
     _final(cb?: CB): void;
     _write(x: any, _: string, cb: CB): boolean;
     _read(size: number): void;

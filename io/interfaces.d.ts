@@ -43,13 +43,13 @@ export interface Writable<T> {
 /** @ignore */
 export interface ReadableWritable<TReadable, TWritable> extends Readable<TReadable>, Writable<TWritable> {
     [Symbol.asyncIterator](): AsyncIterableIterator<TReadable>;
-    toReadableDOMStream(options?: ReadableDOMStreamOptions): ReadableStream<TReadable>;
-    toReadableNodeStream(options?: import('stream').ReadableOptions): import('stream').Readable;
+    toDOMStream(options?: ReadableDOMStreamOptions): ReadableStream<TReadable>;
+    toNodeStream(options?: import('stream').ReadableOptions): import('stream').Readable;
 }
 /** @ignore */
 export declare abstract class ReadableInterop<T> {
-    abstract toReadableDOMStream(options?: ReadableDOMStreamOptions): ReadableStream<T>;
-    abstract toReadableNodeStream(options?: import('stream').ReadableOptions): import('stream').Readable;
+    abstract toDOMStream(options?: ReadableDOMStreamOptions): ReadableStream<T>;
+    abstract toNodeStream(options?: import('stream').ReadableOptions): import('stream').Readable;
     tee(): [ReadableStream<T>, ReadableStream<T>];
     pipe<R extends NodeJS.WritableStream>(writable: R, options?: {
         end?: boolean;
@@ -59,10 +59,10 @@ export declare abstract class ReadableInterop<T> {
         writable: WritableStream<T>;
         readable: R;
     }, options?: PipeOptions): ReadableStream<any>;
-    private _readableDOMStream?;
-    private _getReadableDOMStream;
-    private _readableNodeStream?;
-    private _getReadableNodeStream;
+    private _DOMStream?;
+    private _getDOMStream;
+    private _nodeStream?;
+    private _getNodeStream;
 }
 /** @ignore */
 declare type Resolution<T> = {
@@ -85,8 +85,8 @@ export declare class AsyncQueue<TReadable = Uint8Array, TWritable = TReadable> e
     abort(value?: any): void;
     close(): void;
     [Symbol.asyncIterator](): this;
-    toReadableDOMStream(options?: ReadableDOMStreamOptions): ReadableStream<TReadable>;
-    toReadableNodeStream(options?: import('stream').ReadableOptions): import("stream").Readable;
+    toDOMStream(options?: ReadableDOMStreamOptions): ReadableStream<TReadable>;
+    toNodeStream(options?: import('stream').ReadableOptions): import("stream").Readable;
     throw(_?: any): Promise<any>;
     return(_?: any): Promise<any>;
     read(size?: number | null): Promise<TReadable | null>;

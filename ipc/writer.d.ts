@@ -14,16 +14,27 @@ export declare class RecordBatchWriter<T extends {
     [key: string]: DataType;
 } = any> extends ReadableInterop<Uint8Array> implements Writable<RecordBatch<T>> {
     /** @nocollapse */
-    static throughNode(): import('stream').Duplex;
+    static throughNode(options?: import('stream').DuplexOptions & {
+        autoDestroy: boolean;
+    }): import('stream').Duplex;
     /** @nocollapse */
     static throughDOM<T extends {
         [key: string]: DataType;
-    }>(): {
-        writable: WritableStream<RecordBatch<T>>;
+    }>(writableStrategy?: QueuingStrategy<RecordBatch<T>> & {
+        autoDestroy: boolean;
+    }, readableStrategy?: {
+        highWaterMark?: number;
+        size?: any;
+    }): {
+        writable: WritableStream<Table<T> | RecordBatch<T>>;
         readable: ReadableStream<Uint8Array>;
     };
+    constructor(options?: {
+        autoDestroy: boolean;
+    });
     protected _position: number;
     protected _started: boolean;
+    protected _autoDestroy: boolean;
     protected _sink: AsyncByteQueue<Uint8Array>;
     protected _schema: Schema | null;
     protected _dictionaryBlocks: FileBlock[];
@@ -38,12 +49,13 @@ export declare class RecordBatchWriter<T extends {
     writeAll(input: PromiseLike<Table<T> | Iterable<RecordBatch<T>>>): Promise<this>;
     readonly closed: Promise<void>;
     [Symbol.asyncIterator](): AsyncByteQueue<Uint8Array>;
-    toReadableDOMStream(options?: ReadableDOMStreamOptions): ReadableStream<Uint8Array>;
-    toReadableNodeStream(options?: import('stream').ReadableOptions): import("stream").Readable;
+    toDOMStream(options?: ReadableDOMStreamOptions): ReadableStream<Uint8Array>;
+    toNodeStream(options?: import('stream').ReadableOptions): import("stream").Readable;
     close(): void;
     abort(reason?: any): void;
-    reset(sink?: WritableSink<ArrayBufferViewInput>, schema?: Schema<T>): this;
-    write(chunk: RecordBatch<T>): void;
+    finish(): this;
+    reset(sink?: WritableSink<ArrayBufferViewInput>, schema?: Schema<T> | null): this;
+    write(chunk?: Table<T> | RecordBatch<T> | null): void;
     protected _writeMessage<T extends MessageHeader>(message: Message<T>, alignment?: number): this;
     protected _write(chunk: ArrayBufferViewInput): this;
     protected _writeSchema(schema: Schema<T>): this;
@@ -54,6 +66,31 @@ export declare class RecordBatchWriter<T extends {
     protected _writeDictionaryBatch(dictionary: Vector, id: number, isDelta?: boolean): this;
     protected _writeBodyBuffers(buffers: ArrayBufferView[]): this;
     protected _writeDictionaries(dictionaryFields: Map<number, Field<Dictionary<any, any>>[]>): this;
+}
+/** @ignore */
+export declare class RecordBatchStreamWriter<T extends {
+    [key: string]: DataType;
+} = any> extends RecordBatchWriter<T> {
+    static writeAll<T extends {
+        [key: string]: DataType;
+    } = any>(this: typeof RecordBatchWriter, input: Table<T> | Iterable<RecordBatch<T>>, options?: {
+        autoDestroy: true;
+    }): RecordBatchStreamWriter<T>;
+    static writeAll<T extends {
+        [key: string]: DataType;
+    } = any>(this: typeof RecordBatchWriter, input: AsyncIterable<RecordBatch<T>>, options?: {
+        autoDestroy: true;
+    }): Promise<RecordBatchStreamWriter<T>>;
+    static writeAll<T extends {
+        [key: string]: DataType;
+    } = any>(this: typeof RecordBatchWriter, input: PromiseLike<AsyncIterable<RecordBatch<T>>>, options?: {
+        autoDestroy: true;
+    }): Promise<RecordBatchStreamWriter<T>>;
+    static writeAll<T extends {
+        [key: string]: DataType;
+    } = any>(this: typeof RecordBatchWriter, input: PromiseLike<Table<T> | Iterable<RecordBatch<T>>>, options?: {
+        autoDestroy: true;
+    }): Promise<RecordBatchStreamWriter<T>>;
 }
 /** @ignore */
 export declare class RecordBatchFileWriter<T extends {
@@ -71,26 +108,9 @@ export declare class RecordBatchFileWriter<T extends {
     static writeAll<T extends {
         [key: string]: DataType;
     } = any>(this: typeof RecordBatchWriter, input: PromiseLike<Table<T> | Iterable<RecordBatch<T>>>): Promise<RecordBatchFileWriter<T>>;
-    close(): void;
+    constructor();
     protected _writeSchema(schema: Schema<T>): this;
-}
-/** @ignore */
-export declare class RecordBatchStreamWriter<T extends {
-    [key: string]: DataType;
-} = any> extends RecordBatchWriter<T> {
-    static writeAll<T extends {
-        [key: string]: DataType;
-    } = any>(this: typeof RecordBatchWriter, input: Table<T> | Iterable<RecordBatch<T>>): RecordBatchStreamWriter<T>;
-    static writeAll<T extends {
-        [key: string]: DataType;
-    } = any>(this: typeof RecordBatchWriter, input: AsyncIterable<RecordBatch<T>>): Promise<RecordBatchStreamWriter<T>>;
-    static writeAll<T extends {
-        [key: string]: DataType;
-    } = any>(this: typeof RecordBatchWriter, input: PromiseLike<AsyncIterable<RecordBatch<T>>>): Promise<RecordBatchStreamWriter<T>>;
-    static writeAll<T extends {
-        [key: string]: DataType;
-    } = any>(this: typeof RecordBatchWriter, input: PromiseLike<Table<T> | Iterable<RecordBatch<T>>>): Promise<RecordBatchStreamWriter<T>>;
-    close(): void;
+    protected _writeFooter(): this;
 }
 /** @ignore */
 export declare class RecordBatchJSONWriter<T extends {
@@ -108,6 +128,7 @@ export declare class RecordBatchJSONWriter<T extends {
     static writeAll<T extends {
         [key: string]: DataType;
     } = any>(this: typeof RecordBatchWriter, input: PromiseLike<Table<T> | Iterable<RecordBatch<T>>>): Promise<RecordBatchJSONWriter<T>>;
+    constructor();
     protected _writeMessage(): this;
     protected _writeSchema(schema: Schema<T>): this;
     protected _writeDictionaries(dictionaryFields: Map<number, Field<Dictionary<any, any>>[]>): this;
