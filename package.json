@@ -1,5 +1,5 @@
 {
-  "name": "@apache-arrow/es2015-cjs",
+  "name": "apache-arrow",
   "browser": "Arrow.dom",
   "main": "Arrow.node",
   "types": "Arrow.node.d.ts",
