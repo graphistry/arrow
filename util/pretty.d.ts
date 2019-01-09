@@ -1,2 +1,2 @@
 /** @ignore */
-export declare function valueToString(x: any): string;
+export declare function valueToString(x: any): any;

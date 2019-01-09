@@ -4,12 +4,10 @@ import { Vector } from '../interfaces';
 import { Type } from '../enum';
 import { DataType, Dictionary, Bool, Null, Utf8, Binary, Decimal, FixedSizeBinary, List, FixedSizeList, Map_, Struct, Float, Float16, Float32, Float64, Int, Uint8, Uint16, Uint32, Uint64, Int8, Int16, Int32, Int64, Date_, DateDay, DateMillisecond, Interval, IntervalDayTime, IntervalYearMonth, Time, TimeSecond, TimeMillisecond, TimeMicrosecond, TimeNanosecond, Timestamp, TimestampSecond, TimestampMillisecond, TimestampMicrosecond, TimestampNanosecond, Union, DenseUnion, SparseUnion } from '../type';
 export interface GetVisitor extends Visitor {
-    visitMany<T extends Vector>(nodes: T[], indices: number[]): T['TValue'][];
     visit<T extends Vector>(node: T, index: number): T['TValue'];
+    visitMany<T extends Vector>(nodes: T[], indices: number[]): T['TValue'][];
     getVisitFn<T extends Type>(node: T): (vector: Vector<T>, index: number) => Vector<T>['TValue'];
-    getVisitFn<T extends DataType>(node: Vector<T>): (vector: Vector<T>, index: number) => Vector<T>['TValue'];
-    getVisitFn<T extends DataType>(node: Data<T>): (vector: Vector<T>, index: number) => Vector<T>['TValue'];
-    getVisitFn<T extends DataType>(node: T): (vector: Vector<T>, index: number) => Vector<T>['TValue'];
+    getVisitFn<T extends DataType>(node: Vector<T> | Data<T> | T): (vector: Vector<T>, index: number) => Vector<T>['TValue'];
     visitNull<T extends Null>(vector: Vector<T>, index: number): T['TValue'];
     visitBool<T extends Bool>(vector: Vector<T>, index: number): T['TValue'];
     visitInt<T extends Int>(vector: Vector<T>, index: number): T['TValue'];

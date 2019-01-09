@@ -7,12 +7,10 @@ import { Vector as VType } from '../interfaces';
 import { BufferRegion, FieldNode } from '../ipc/metadata/message';
 import { DataType, Dictionary, Float, Int, Date_, Interval, Time, Timestamp, Union, Bool, Null, Utf8, Binary, Decimal, FixedSizeBinary, List, FixedSizeList, Map_, Struct } from '../type';
 export interface VectorAssembler extends Visitor {
-    visitMany<T extends Vector>(nodes: T[]): this[];
     visit<T extends Vector>(node: T): this;
+    visitMany<T extends Vector>(nodes: T[]): this[];
     getVisitFn<T extends Type>(node: T): (vector: VType<T>) => this;
-    getVisitFn<T extends DataType>(node: VType<T>): (vector: VType<T>) => this;
-    getVisitFn<T extends DataType>(node: Data<T>): (vector: VType<T>) => this;
-    getVisitFn<T extends DataType>(node: T): (vector: VType<T>) => this;
+    getVisitFn<T extends DataType>(node: VType<T> | Data<T> | T): (vector: VType<T>) => this;
     visitBool<T extends Bool>(vector: VType<T>): this;
     visitInt<T extends Int>(vector: VType<T>): this;
     visitFloat<T extends Float>(vector: VType<T>): this;

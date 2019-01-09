@@ -1,0 +1,72 @@
+import { ArrayBufferViewInput } from './buffer';
+declare type BigNumArray = IntArray | UintArray;
+declare type IntArray = Int8Array | Int16Array | Int32Array;
+declare type UintArray = Uint8Array | Uint16Array | Uint32Array | Uint8ClampedArray;
+/** @ignore */
+export declare class BN<T extends BigNumArray> {
+    static new<T extends BigNumArray>(input: ArrayBufferViewInput, signed?: boolean): T;
+    /** @nocollapse */
+    static signed<T extends IntArray>(input: ArrayBufferViewInput): T;
+    /** @nocollapse */
+    static unsigned<T extends UintArray>(input: ArrayBufferViewInput): T;
+    constructor(input: ArrayBufferViewInput, signed?: boolean);
+}
+/** @ignore */
+export interface BN<T extends BigNumArray> extends TypedArrayLike<T> {
+    new <T extends ArrayBufferViewInput>(buffer: T, signed?: boolean): T;
+    readonly signed: boolean;
+    [Symbol.toStringTag]: 'Int8Array' | 'Int16Array' | 'Int32Array' | 'Uint8Array' | 'Uint16Array' | 'Uint32Array' | 'Uint8ClampedArray';
+    /**
+     * Convert the bytes to their (positive) decimal representation for printing
+     */
+    toString(): string;
+    /**
+     * Down-convert the bytes to a 53-bit precision integer. Invoked by JS for
+     * arithmatic operators, like `+`. Easy (and unsafe) way to convert BN to
+     * number via `+bn_inst`
+     */
+    valueOf(): number;
+    /**
+     * Return the JSON representation of the bytes. Must be wrapped in double-quotes,
+     * so it's compatible with JSON.stringify().
+     */
+    toJSON(): string;
+    [Symbol.toPrimitive](hint: any): number | string | bigint;
+}
+/** @ignore */
+interface TypedArrayLike<T extends BigNumArray> {
+    readonly length: number;
+    readonly buffer: ArrayBuffer;
+    readonly byteLength: number;
+    readonly byteOffset: number;
+    readonly BYTES_PER_ELEMENT: number;
+    includes(searchElement: number, fromIndex?: number | undefined): boolean;
+    copyWithin(target: number, start: number, end?: number | undefined): this;
+    every(callbackfn: (value: number, index: number, array: T) => boolean, thisArg?: any): boolean;
+    fill(value: number, start?: number | undefined, end?: number | undefined): this;
+    filter(callbackfn: (value: number, index: number, array: T) => boolean, thisArg?: any): T;
+    find(predicate: (value: number, index: number, obj: T) => boolean, thisArg?: any): number | undefined;
+    findIndex(predicate: (value: number, index: number, obj: T) => boolean, thisArg?: any): number;
+    forEach(callbackfn: (value: number, index: number, array: T) => void, thisArg?: any): void;
+    indexOf(searchElement: number, fromIndex?: number | undefined): number;
+    join(separator?: string | undefined): string;
+    lastIndexOf(searchElement: number, fromIndex?: number | undefined): number;
+    map(callbackfn: (value: number, index: number, array: T) => number, thisArg?: any): T;
+    reduce(callbackfn: (previousValue: number, currentValue: number, currentIndex: number, array: T) => number): number;
+    reduce(callbackfn: (previousValue: number, currentValue: number, currentIndex: number, array: T) => number, initialValue: number): number;
+    reduce<U>(callbackfn: (previousValue: U, currentValue: number, currentIndex: number, array: T) => U, initialValue: U): U;
+    reduceRight(callbackfn: (previousValue: number, currentValue: number, currentIndex: number, array: T) => number): number;
+    reduceRight(callbackfn: (previousValue: number, currentValue: number, currentIndex: number, array: T) => number, initialValue: number): number;
+    reduceRight<U>(callbackfn: (previousValue: U, currentValue: number, currentIndex: number, array: T) => U, initialValue: U): U;
+    reverse(): T;
+    set(array: ArrayLike<number>, offset?: number | undefined): void;
+    slice(start?: number | undefined, end?: number | undefined): T;
+    some(callbackfn: (value: number, index: number, array: T) => boolean, thisArg?: any): boolean;
+    sort(compareFn?: ((a: number, b: number) => number) | undefined): this;
+    subarray(begin: number, end?: number | undefined): T;
+    toLocaleString(): string;
+    entries(): IterableIterator<[number, number]>;
+    keys(): IterableIterator<number>;
+    values(): IterableIterator<number>;
+}
+export {};

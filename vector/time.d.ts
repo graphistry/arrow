@@ -1,8 +1,6 @@
-import { Data } from '../data';
 import { BaseVector } from './base';
 import { Time, TimeSecond, TimeMillisecond, TimeMicrosecond, TimeNanosecond } from '../type';
 export declare class TimeVector<T extends Time = Time> extends BaseVector<T> {
-    constructor(data: Data<T>);
 }
 export declare class TimeSecondVector extends TimeVector<TimeSecond> {
 }

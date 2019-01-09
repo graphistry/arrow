@@ -1,8 +1,8 @@
 import { Field } from './schema';
 import { Vector } from './vector';
 import { DataType } from './type';
-import { Chunked } from './vector/chunked';
 import { Clonable, Sliceable, Applicative } from './vector';
+import { Chunked } from './vector/chunked';
 export interface Column<T extends DataType = any> {
     typeId: T['TType'];
     concat(...others: Vector<T>[]): Column<T>;

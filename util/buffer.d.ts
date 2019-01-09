@@ -46,4 +46,6 @@ export declare function toArrayBufferViewAsyncIterator<T extends ArrayBufferView
 /** @ignore */ export declare const toUint8ClampedArrayAsyncIterator: (input: ArrayBufferViewAsyncIteratorInput) => AsyncIterableIterator<Uint8ClampedArray>;
 /** @ignore */
 export declare function rebaseValueOffsets(offset: number, length: number, valueOffsets: Int32Array): Int32Array;
+/** @ignore */
+export declare function compareArrayLike<T extends ArrayLike<any>>(a: T, b: T): boolean;
 export {};

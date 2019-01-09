@@ -5,7 +5,7 @@ import { Clonable, Sliceable, Applicative } from '../vector';
 declare type ChunkedDict<T extends DataType> = T extends Dictionary ? T['dictionaryVector'] : null | never;
 declare type ChunkedKeys<T extends DataType> = T extends Dictionary ? Vector<T['indices']> | Chunked<T['indices']> : null | never;
 /** @ignore */
-declare type SearchContinuation<T extends Chunked> = (column: T, chunkIndex: number, valueIndex: number) => any;
+export declare type SearchContinuation<T extends Chunked> = (column: T, chunkIndex: number, valueIndex: number) => any;
 /** @ignore */
 export declare class Chunked<T extends DataType = any> extends Vector<T> implements Clonable<Chunked<T>>, Sliceable<Chunked<T>>, Applicative<T, Chunked<T>> {
     /** @nocollapse */
@@ -47,6 +47,6 @@ export declare class Chunked<T extends DataType = any> extends Vector<T> impleme
     protected getInternal({ _chunks }: Chunked<T>, i: number, j: number): T["TValue"] | null;
     protected isValidInternal({ _chunks }: Chunked<T>, i: number, j: number): boolean;
     protected indexOfInternal({ _chunks }: Chunked<T>, chunkIndex: number, fromIndex: number, element: T['TValue']): number;
-    protected _sliceInternal(self: Chunked<T>, offset: number, length: number): Chunked<T>;
+    protected _sliceInternal(self: Chunked<T>, begin: number, end: number): Chunked<T>;
 }
 export {};

@@ -1,7 +1,7 @@
-import { DataType } from './type';
 import { Vector } from './vector';
+import { DataType, SparseUnion, DenseUnion } from './type';
 import { VectorType as BufferType } from './enum';
-import { Dictionary, Null, Int, Float, Binary, Bool, Utf8, Decimal, Date_, Time, Timestamp, Interval, List, Struct, Union, FixedSizeBinary, FixedSizeList, Map_ } from './type';
+import { Dictionary, Null, Int, Float, Binary, Bool, Utf8, Decimal, Date_, Time, Timestamp, Interval, List, Struct, FixedSizeBinary, FixedSizeList, Map_ } from './type';
 /** @ignore */ export declare type kUnknownNullCount = -1;
 /** @ignore */ export declare const kUnknownNullCount = -1;
 /** @ignore */ export declare type NullBuffer = Uint8Array | null | undefined;
@@ -10,11 +10,12 @@ import { Dictionary, Null, Int, Float, Binary, Bool, Utf8, Decimal, Date_, Time,
 /** @ignore */ export declare type DataBuffer<T extends DataType> = T['TArray'] | ArrayLike<number> | Iterable<number>;
 /** @ignore */
 export interface Buffers<T extends DataType> {
-    [BufferType.OFFSET]?: Int32Array;
-    [BufferType.DATA]?: T['TArray'];
-    [BufferType.VALIDITY]?: Uint8Array;
-    [BufferType.TYPE]?: T['TArray'];
+    [BufferType.OFFSET]: Int32Array;
+    [BufferType.DATA]: T['TArray'];
+    [BufferType.VALIDITY]: Uint8Array;
+    [BufferType.TYPE]: T['TArray'];
 }
+/** @ignore */
 export interface Data<T extends DataType = DataType> {
     readonly TType: T['TType'];
     readonly TArray: T['TArray'];
@@ -22,31 +23,25 @@ export interface Data<T extends DataType = DataType> {
 }
 /** @ignore */
 export declare class Data<T extends DataType = DataType> {
-    protected _type: T;
-    protected _length: number;
-    protected _offset: number;
-    protected _childData: Data[];
-    protected _buffers: Buffers<T>;
-    protected _nullCount: number | kUnknownNullCount;
     readonly type: T;
     readonly length: number;
     readonly offset: number;
-    readonly typeId: import("./enum").Type;
-    readonly childData: Data<DataType<import("./enum").Type, any>>[];
+    readonly stride: number;
+    readonly childData: Data[];
+    readonly values: Buffers<T>[BufferType.DATA];
+    readonly typeIds: Buffers<T>[BufferType.TYPE];
+    readonly nullBitmap: Buffers<T>[BufferType.VALIDITY];
+    readonly valueOffsets: Buffers<T>[BufferType.OFFSET];
     readonly ArrayType: any;
+    readonly typeId: T['TType'];
     readonly buffers: Buffers<T>;
-    readonly values: NonNullable<T["TArray"]>;
-    readonly typeIds: NonNullable<T["TArray"]>;
-    readonly nullBitmap: Uint8Array;
-    readonly valueOffsets: Int32Array;
+    protected _nullCount: number | kUnknownNullCount;
     readonly nullCount: number;
-    constructor(type: T, offset: number, length: number, nullCount?: number, buffers?: Buffers<T>, childData?: (Data | Vector)[]);
+    constructor(type: T, offset: number, length: number, nullCount?: number, buffers?: Partial<Buffers<T>> | Data<T>, childData?: (Data | Vector)[]);
     clone<R extends DataType>(type: R, offset?: number, length?: number, nullCount?: number, buffers?: Buffers<R>, childData?: (Data | Vector)[]): Data<R>;
     slice(offset: number, length: number): Data<T>;
-    protected sliceBuffers(offset: number, length: number): Buffers<T>;
-    protected sliceChildren(offset: number, length: number): Data[];
-    protected sliceData(data: T['TArray'] & ArrayBufferView, offset: number, length: number): any;
-    protected sliceOffsets(valueOffsets: Int32Array, offset: number, length: number): Int32Array;
+    protected _sliceBuffers(offset: number, length: number, stride: number, typeId: T['TType']): Buffers<T>;
+    protected _sliceChildren(childData: Data[], offset: number, length: number): Data[];
     /** @nocollapse */
     static Null<T extends Null>(type: T, offset: number, length: number, nullCount: number, nullBitmap: NullBuffer): Data<T>;
     /** @nocollapse */
@@ -74,13 +69,13 @@ export declare class Data<T extends DataType = DataType> {
     /** @nocollapse */
     static Utf8<T extends Utf8>(type: T, offset: number, length: number, nullCount: number, nullBitmap: NullBuffer, valueOffsets: ValueOffsetsBuffer, data: Uint8Array): Data<T>;
     /** @nocollapse */
-    static List<T extends List>(type: T, offset: number, length: number, nullCount: number, nullBitmap: NullBuffer, valueOffsets: ValueOffsetsBuffer, childData: Data | Vector): Data<T>;
+    static List<T extends List>(type: T, offset: number, length: number, nullCount: number, nullBitmap: NullBuffer, valueOffsets: ValueOffsetsBuffer, child: Data<T['valueType']> | Vector<T['valueType']>): Data<T>;
     /** @nocollapse */
-    static FixedSizeList<T extends FixedSizeList>(type: T, offset: number, length: number, nullCount: number, nullBitmap: NullBuffer, childData: Data | Vector): Data<T>;
+    static FixedSizeList<T extends FixedSizeList>(type: T, offset: number, length: number, nullCount: number, nullBitmap: NullBuffer, child: Data | Vector): Data<T>;
     /** @nocollapse */
-    static Struct<T extends Struct>(type: T, offset: number, length: number, nullCount: number, nullBitmap: NullBuffer, childData: (Data | Vector)[]): Data<T>;
+    static Struct<T extends Struct>(type: T, offset: number, length: number, nullCount: number, nullBitmap: NullBuffer, children: (Data | Vector)[]): Data<T>;
     /** @nocollapse */
-    static Map<T extends Map_>(type: T, offset: number, length: number, nullCount: number, nullBitmap: NullBuffer, childData: (Data | Vector)[]): Data<T>;
-    /** @nocollapse */
-    static Union<T extends Union>(type: T, offset: number, length: number, nullCount: number, nullBitmap: NullBuffer, typeIds: TypeIdsBuffer, valueOffsetsOrChildData: ValueOffsetsBuffer | (Data | Vector)[], childData?: (Data | Vector)[]): Data<T>;
+    static Map<T extends Map_>(type: T, offset: number, length: number, nullCount: number, nullBitmap: NullBuffer, children: (Data | Vector)[]): Data<T>;
+    static Union<T extends SparseUnion>(type: T, offset: number, length: number, nullCount: number, nullBitmap: NullBuffer, typeIds: TypeIdsBuffer, children: (Data | Vector)[]): Data<T>;
+    static Union<T extends DenseUnion>(type: T, offset: number, length: number, nullCount: number, nullBitmap: NullBuffer, typeIds: TypeIdsBuffer, valueOffsets: ValueOffsetsBuffer, children: (Data | Vector)[]): Data<T>;
 }
