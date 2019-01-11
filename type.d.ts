@@ -187,7 +187,7 @@ declare type FType = {
     };
     [Type.Float64]: {
         precision: Precision.DOUBLE;
-        TArray: Float32Array;
+        TArray: Float64Array;
         TValue: number;
     };
 };
