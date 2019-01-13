@@ -1,6 +1,6 @@
 export declare abstract class Visitor {
     visitMany(nodes: any[], ...args: any[][]): any[];
-    visit(node: any, ...args: any[]): any;
+    visit(...args: any[]): any;
     getVisitFn(node: any, throwIfNotFound?: boolean): any;
 }
 export interface Visitor {

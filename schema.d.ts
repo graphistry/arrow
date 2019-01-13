@@ -16,8 +16,9 @@ export declare class Schema<T extends {
     readonly dictionaries: Map<number, DataType>;
     readonly dictionaryFields: Map<number, Field<Dictionary>[]>;
     constructor(fields: Field[], metadata?: Map<string, string>, dictionaries?: Map<number, DataType>, dictionaryFields?: Map<number, Field<Dictionary>[]>);
+    readonly [Symbol.toStringTag]: string;
+    toString(): string;
     select<K extends keyof T = any>(...columnNames: K[]): Schema<{ [P in K]: T[P]; }>;
-    static [Symbol.toStringTag]: string;
 }
 export declare class Field<T extends DataType = DataType> {
     protected _type: T;
