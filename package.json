@@ -4,6 +4,11 @@
   "main": "Arrow.node",
   "types": "Arrow.node.d.ts",
   "version": "0.3.0",
+  "unpkg": "Arrow.es5.min.js",
+  "esm": {
+    "mode": "all",
+    "sourceMap": true
+  },
   "license": "Apache-2.0",
   "description": "Apache Arrow columnar in-memory format",
   "author": "Apache Software Foundation",
