@@ -32,4 +32,5 @@ export declare class ByteWidthVisitor extends Visitor {
     visitFields(fields: Field[]): number[];
     visitSchema(schema: Schema): number;
 }
+/** @ignore */
 export declare const instance: ByteWidthVisitor;

@@ -54,4 +54,5 @@ export interface IndexOfVisitor extends Visitor {
 }
 export declare class IndexOfVisitor extends Visitor {
 }
+/** @ignore */
 export declare const instance: IndexOfVisitor;

@@ -25,4 +25,5 @@ export declare class TypeAssembler extends Visitor {
     visitFixedSizeList<T extends type.FixedSizeList>(node: T, b: Builder): number;
     visitMap<T extends type.Map_>(node: T, b: Builder): number;
 }
+/** @ignore */
 export declare const instance: TypeAssembler;

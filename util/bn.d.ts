@@ -1,6 +1,9 @@
 import { ArrayBufferViewInput } from './buffer';
+/** @ignore */
 declare type BigNumArray = IntArray | UintArray;
+/** @ignore */
 declare type IntArray = Int8Array | Int16Array | Int32Array;
+/** @ignore */
 declare type UintArray = Uint8Array | Uint16Array | Uint32Array | Uint8ClampedArray;
 /** @ignore */
 export declare class BN<T extends BigNumArray> {

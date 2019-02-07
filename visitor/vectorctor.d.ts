@@ -72,4 +72,5 @@ export declare class GetVectorConstructor extends Visitor {
     visitFixedSizeList(): typeof FixedSizeListVector;
     visitMap(): typeof MapVector;
 }
+/** @ignore */
 export declare const instance: GetVectorConstructor;

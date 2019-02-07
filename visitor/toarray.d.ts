@@ -54,4 +54,5 @@ export interface ToArrayVisitor extends Visitor {
 }
 export declare class ToArrayVisitor extends Visitor {
 }
+/** @ignore */
 export declare const instance: ToArrayVisitor;

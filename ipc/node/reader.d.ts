@@ -9,6 +9,7 @@ export declare function recordBatchReaderThroughNodeStream<T extends {
 } = any>(options?: DuplexOptions & {
     autoDestroy: boolean;
 }): RecordBatchReaderDuplex<T>;
+/** @ignore */
 declare type CB = (error?: Error | null | undefined) => void;
 /** @ignore */
 declare class RecordBatchReaderDuplex<T extends {

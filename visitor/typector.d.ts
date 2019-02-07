@@ -56,4 +56,5 @@ export declare class GetDataTypeConstructor extends Visitor {
     visitFixedSizeList(): typeof type.FixedSizeList;
     visitMap(): typeof type.Map_;
 }
+/** @ignore */
 export declare const instance: GetDataTypeConstructor;

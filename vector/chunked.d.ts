@@ -2,7 +2,9 @@ import { Data } from '../data';
 import { Vector } from '../vector';
 import { DataType, Dictionary } from '../type';
 import { Clonable, Sliceable, Applicative } from '../vector';
+/** @ignore */
 declare type ChunkedDict<T extends DataType> = T extends Dictionary ? T['dictionaryVector'] : null | never;
+/** @ignore */
 declare type ChunkedKeys<T extends DataType> = T extends Dictionary ? Vector<T['indices']> | Chunked<T['indices']> : null | never;
 /** @ignore */
 export declare type SearchContinuation<T extends Chunked> = (column: T, chunkIndex: number, valueIndex: number) => any;
@@ -23,7 +25,7 @@ export declare class Chunked<T extends DataType = any> extends Vector<T> impleme
     readonly type: T;
     readonly length: number;
     readonly chunks: Vector<T>[];
-    readonly typeId: import("../enum").Type;
+    readonly typeId: T['TType'];
     readonly data: Data<T>;
     readonly ArrayType: any;
     readonly numChildren: number;

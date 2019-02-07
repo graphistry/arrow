@@ -19,6 +19,7 @@ import * as util_int_ from './util/int';
 import * as util_buffer_ from './util/buffer';
 import * as predicate from './compute/predicate';
 export { predicate };
+/** @ignore */
 export declare const util: {
     clampIndex<T extends {
         length: number;

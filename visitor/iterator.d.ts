@@ -54,4 +54,5 @@ export interface IteratorVisitor extends Visitor {
 }
 export declare class IteratorVisitor extends Visitor {
 }
+/** @ignore */
 export declare const instance: IteratorVisitor;

@@ -54,4 +54,5 @@ export interface SetVisitor extends Visitor {
 }
 export declare class SetVisitor extends Visitor {
 }
+/** @ignore */
 export declare const instance: SetVisitor;
