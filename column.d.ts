@@ -1,6 +1,8 @@
+import { Data } from './data';
 import { Field } from './schema';
-import { Vector } from './vector';
 import { DataType } from './type';
+import { Vector } from './vector';
+import { VectorCtorArgs, Vector as V } from './interfaces';
 import { Clonable, Sliceable, Applicative } from './vector';
 import { Chunked } from './vector/chunked';
 export interface Column<T extends DataType = any> {
@@ -10,10 +12,14 @@ export interface Column<T extends DataType = any> {
     clone(chunks?: Vector<T>[], offsets?: Uint32Array): Column<T>;
 }
 export declare class Column<T extends DataType = any> extends Chunked<T> implements Clonable<Column<T>>, Sliceable<Column<T>>, Applicative<T, Column<T>> {
+    static new<T extends DataType>(field: string | Field<T>, ...chunks: (Vector<T> | Vector<T>[])[]): Column<T>;
+    static new<T extends DataType>(field: string | Field<T>, data: Data<T>, ...args: VectorCtorArgs<V<T>>): Column<T>;
     constructor(field: Field<T>, vectors?: Vector<T>[], offsets?: Uint32Array);
     protected _field: Field<T>;
     protected _children?: Column[];
     readonly field: Field<T>;
     readonly name: string;
+    readonly nullable: boolean;
+    readonly metadata: Map<string, string> | null | undefined;
     getChildAt<R extends DataType = any>(index: number): Column<R> | null;
 }

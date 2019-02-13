@@ -1,24 +1,32 @@
 import { Field } from '../schema';
 import { MapVector } from '../vector/map';
-import { DataType, RowLike } from '../type';
+import { DataType } from '../type';
 import { StructVector } from '../vector/struct';
-/** @ignore */
+/** @ignore */ export declare const kLength: unique symbol;
+/** @ignore */ export declare const kParent: unique symbol;
+/** @ignore */ export declare const kRowIndex: unique symbol;
 export declare class Row<T extends {
     [key: string]: DataType;
 }> implements Iterable<T[keyof T]['TValue']> {
     [key: string]: T[keyof T]['TValue'];
+    [kParent]: MapVector<T> | StructVector<T>;
+    [kRowIndex]: number;
+    readonly [kLength]: number;
+    [Symbol.iterator](): IterableIterator<T[keyof T]["TValue"]>;
+    get<K extends keyof T>(key: K): T[K]["TValue"];
+    toJSON(): any;
+    toString(): any;
+}
+/** @ignore */
+export declare class RowProxyGenerator<T extends {
+    [key: string]: DataType;
+}> {
     /** @nocollapse */
     static new<T extends {
         [key: string]: DataType;
-    }>(schemaOrFields: T | Field[], fieldsAreEnumerable?: boolean): RowLike<T> & Row<T>;
-    private parent;
-    private rowIndex;
-    readonly length: number;
+    }>(parent: MapVector<T> | StructVector<T>, schemaOrFields: T | Field[], fieldsAreEnumerable?: boolean): RowProxyGenerator<T>;
+    private rowPrototype;
     private constructor();
-    [Symbol.iterator](this: RowLike<T>): IterableIterator<T[string]["TValue"]>;
     private _bindGetter;
-    get<K extends keyof T>(key: K): T[K]["TValue"];
-    bind<TParent extends MapVector<T> | StructVector<T>>(parent: TParent, rowIndex: number): RowLike<T>;
-    toJSON(): any;
-    toString(): any;
+    bind(rowIndex: number): any;
 }

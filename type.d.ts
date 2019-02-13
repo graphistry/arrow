@@ -1,8 +1,8 @@
 import { Field } from './schema';
 import { Vector } from './vector';
 import { flatbuffers } from 'flatbuffers';
-import { Vector as VType } from './interfaces';
 import { ArrayBufferViewConstructor } from './interfaces';
+import { Vector as VType, TypeToDataType } from './interfaces';
 import Long = flatbuffers.Long;
 import { Type, Precision, UnionMode, DateUnit, TimeUnit, IntervalUnit } from './enum';
 /** @ignore */
@@ -56,6 +56,7 @@ export declare class DataType<TType extends Type = Type, TChildren extends {
     readonly children: Field<TChildren[keyof TChildren]>[] | undefined;
     readonly typeId: TType;
     constructor(_children?: Field<TChildren[keyof TChildren]>[] | undefined);
+    compareTo(other: DataType): other is TypeToDataType<TType>;
     protected static [Symbol.toStringTag]: string;
 }
 export interface Null extends DataType<Type.Null> {

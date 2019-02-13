@@ -4,7 +4,6 @@ import { Vector } from './vector';
 import { Schema } from './schema';
 import { DataType, Struct } from './type';
 import { StructVector } from './vector/struct';
-import { Vector as VType } from './interfaces';
 import { Clonable, Sliceable, Applicative } from './vector';
 export interface RecordBatch<T extends {
     [key: string]: DataType;
@@ -19,11 +18,14 @@ export declare class RecordBatch<T extends {
     /** @nocollapse */
     static from<T extends {
         [key: string]: DataType;
-    } = any>(vectors: VType<T[keyof T]>[], names?: (keyof T)[]): RecordBatch<T>;
+    } = any>(chunks: (Data<T[keyof T]> | Vector<T[keyof T]>)[], names?: (keyof T)[]): RecordBatch<T>;
     protected _schema: Schema;
-    constructor(schema: Schema<T>, numRows: number, childData: (Data | Vector)[]);
+    constructor(schema: Schema<T>, length: number, children: (Data | Vector)[]);
     constructor(schema: Schema<T>, data: Data<Struct<T>>, children?: Vector[]);
     readonly schema: Schema<any>;
     readonly numCols: number;
     select<K extends keyof T = any>(...columnNames: K[]): RecordBatch<{ [P in K]: T[P]; }>;
+    selectAt<K extends T[keyof T] = any>(...columnIndices: number[]): RecordBatch<{
+        [key: string]: K;
+    }>;
 }

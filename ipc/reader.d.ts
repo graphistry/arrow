@@ -1,4 +1,3 @@
-/// <reference types="node" />
 import { DataType } from '../type';
 import { Vector } from '../vector';
 import { MessageHeader } from '../enum';

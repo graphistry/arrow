@@ -1,6 +1,6 @@
 import { Data } from '../data';
-import { Vector } from '../vector';
 import { DataType, Dictionary } from '../type';
+import { AbstractVector, Vector } from '../vector';
 import { Clonable, Sliceable, Applicative } from '../vector';
 /** @ignore */
 declare type ChunkedDict<T extends DataType> = T extends Dictionary ? T['dictionaryVector'] : null | never;
@@ -9,7 +9,7 @@ declare type ChunkedKeys<T extends DataType> = T extends Dictionary ? Vector<T['
 /** @ignore */
 export declare type SearchContinuation<T extends Chunked> = (column: T, chunkIndex: number, valueIndex: number) => any;
 /** @ignore */
-export declare class Chunked<T extends DataType = any> extends Vector<T> implements Clonable<Chunked<T>>, Sliceable<Chunked<T>>, Applicative<T, Chunked<T>> {
+export declare class Chunked<T extends DataType = any> extends AbstractVector<T> implements Clonable<Chunked<T>>, Sliceable<Chunked<T>>, Applicative<T, Chunked<T>> {
     /** @nocollapse */
     static flatten<T extends DataType>(...vectors: Vector<T>[]): Vector<T>[];
     /** @nocollapse */

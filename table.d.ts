@@ -1,7 +1,7 @@
+import { Data } from './data';
 import { Column } from './column';
-import { Schema } from './schema';
+import { Schema, Field } from './schema';
 import { RecordBatch } from './recordbatch';
-import { Vector as VType } from './interfaces';
 import { DataFrame } from './compute/dataframe';
 import { RecordBatchReader } from './ipc/reader';
 import { Vector, Chunked } from './vector/index';
@@ -60,19 +60,25 @@ export declare class Table<T extends {
     /** @nocollapse */
     static fromVectors<T extends {
         [key: string]: DataType;
-    } = any>(vectors: VType<T[keyof T]>[], names?: (keyof T)[]): Table<T>;
+    } = any>(vectors: Vector<T[keyof T]>[], fields?: (keyof T | Field<T[keyof T]>)[]): Table<T>;
     /** @nocollapse */
     static fromStruct<T extends {
         [key: string]: DataType;
     } = any>(struct: Vector<Struct<T>>): Table<T>;
+    static new<T extends {
+        [key: string]: DataType;
+    } = any>(chunks: (Data<T[keyof T]> | Vector<T[keyof T]>)[], fields?: (keyof T | Field<T[keyof T]>)[]): Table<T>;
+    static new<T extends {
+        [key: string]: DataType;
+    } = any>(...columns: (Column<T[keyof T]> | Column<T[keyof T]>[])[]): Table<T>;
     constructor(batches: RecordBatch<T>[]);
     constructor(...batches: RecordBatch<T>[]);
     constructor(schema: Schema, batches: RecordBatch<T>[]);
     constructor(schema: Schema, ...batches: RecordBatch<T>[]);
-    protected _schema: Schema;
+    protected _schema: Schema<T>;
     protected _chunks: RecordBatch<T>[];
     protected _children?: Column<T[keyof T]>[];
-    readonly schema: Schema<any>;
+    readonly schema: Schema<T>;
     readonly length: number;
     readonly chunks: RecordBatch<T>[];
     readonly numCols: number;
@@ -82,7 +88,13 @@ export declare class Table<T extends {
     getChildAt<R extends DataType = any>(index: number): Column<R> | null;
     serialize(encoding?: string, stream?: boolean): Uint8Array;
     count(): number;
-    select(...columnNames: string[]): Table<{
-        [x: string]: T[string];
+    select<K extends keyof T = any>(...columnNames: K[]): Table<{
+        [key: string]: any;
     }>;
+    selectAt<K extends T[keyof T] = any>(...columnIndices: number[]): Table<{
+        [key: string]: K;
+    }>;
+    assign<R extends {
+        [key: string]: DataType;
+    } = any>(other: Table<R>): Table<T & R>;
 }

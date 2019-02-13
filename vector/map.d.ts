@@ -1,4 +1,4 @@
-import { Row } from './row';
+import { RowProxyGenerator } from './row';
 import { BaseVector } from './base';
 import { DataType, Map_ } from '../type';
 export declare class MapVector<T extends {
@@ -6,5 +6,5 @@ export declare class MapVector<T extends {
 } = any> extends BaseVector<Map_<T>> {
     asStruct(): import("./struct").StructVector<T>;
     private _rowProxy;
-    readonly rowProxy: Row<T>;
+    readonly rowProxy: RowProxyGenerator<T>;
 }

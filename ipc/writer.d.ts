@@ -1,4 +1,3 @@
-/// <reference types="node" />
 import { Table } from '../table';
 import { Vector } from '../vector';
 import { Schema, Field } from '../schema';

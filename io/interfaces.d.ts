@@ -1,4 +1,3 @@
-/// <reference types="node" />
 /** @ignore */
 export declare const ITERATOR_DONE: any;
 /** @ignore */

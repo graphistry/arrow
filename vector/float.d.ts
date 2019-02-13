@@ -1,8 +1,9 @@
 import { BaseVector } from './base';
 import { Float, Float16, Float32, Float64 } from '../type';
 export declare class FloatVector<T extends Float = Float> extends BaseVector<T> {
-    /** @nocollapse */
-    static from<T extends Float>(data: T['TArray']): Float16Vector | Float32Vector | Float64Vector;
+    static from<T extends Float16>(data: T['TArray']): Float16Vector;
+    static from<T extends Float32>(data: T['TArray']): Float32Vector;
+    static from<T extends Float64>(data: T['TArray']): Float64Vector;
 }
 export declare class Float16Vector extends FloatVector<Float16> {
 }

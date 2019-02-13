@@ -1,4 +1,3 @@
-/// <reference types="node" />
 import { Readable, Writable, AsyncQueue } from './interfaces';
 import { ArrayBufferViewInput } from '../util/buffer';
 /** @ignore */

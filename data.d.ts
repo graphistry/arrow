@@ -40,6 +40,7 @@ export declare class Data<T extends DataType = DataType> {
     constructor(type: T, offset: number, length: number, nullCount?: number, buffers?: Partial<Buffers<T>> | Data<T>, childData?: (Data | Vector)[]);
     clone<R extends DataType>(type: R, offset?: number, length?: number, nullCount?: number, buffers?: Buffers<R>, childData?: (Data | Vector)[]): Data<R>;
     slice(offset: number, length: number): Data<T>;
+    _changeLengthAndBackfillNullBitmap(newLength: number): Data<T>;
     protected _sliceBuffers(offset: number, length: number, stride: number, typeId: T['TType']): Buffers<T>;
     protected _sliceChildren(childData: Data[], offset: number, length: number): Data[];
     /** @nocollapse */
