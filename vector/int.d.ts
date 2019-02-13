@@ -3,7 +3,8 @@ import { Vector as V } from '../interfaces';
 import { Int, Uint8, Uint16, Uint32, Uint64, Int8, Int16, Int32, Int64 } from '../type';
 export declare class IntVector<T extends Int = Int> extends BaseVector<T> {
     static from<T extends Int>(data: T['TArray']): V<T>;
-    static from<T extends Int32 | Uint32>(data: T['TArray'], is64: true): V<T>;
+    static from<T extends Int64>(data: T['TArray'], is64: true): V<T>;
+    static from<T extends Uint64>(data: T['TArray'], is64: true): V<T>;
 }
 export declare class Int8Vector extends IntVector<Int8> {
 }
