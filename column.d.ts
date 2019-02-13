@@ -20,6 +20,6 @@ export declare class Column<T extends DataType = any> extends Chunked<T> impleme
     readonly field: Field<T>;
     readonly name: string;
     readonly nullable: boolean;
-    readonly metadata: Map<string, string> | null | undefined;
+    readonly metadata: Map<string, string>;
     getChildAt<R extends DataType = any>(index: number): Column<R> | null;
 }
