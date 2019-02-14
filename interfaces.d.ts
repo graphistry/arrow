@@ -3,12 +3,18 @@ import { Type } from './enum';
 import * as type from './type';
 import { DataType } from './type';
 import * as vecs from './vector/index';
+/** @ignore */ declare type FloatArray = Float32Array | Float64Array;
+/** @ignore */ declare type IntArray = Int8Array | Int16Array | Int32Array;
+/** @ignore */ declare type UintArray = Uint8Array | Uint16Array | Uint32Array | Uint8ClampedArray;
 /** @ignore */
-export interface ArrayBufferViewConstructor<T extends ArrayBufferView> {
+export declare type TypedArray = FloatArray | IntArray | UintArray;
+export declare type BigIntArray = BigInt64Array | BigUint64Array;
+/** @ignore */
+export interface TypedArrayConstructor<T extends TypedArray> {
     readonly prototype: T;
-    new (length: number): T;
-    new (arrayOrArrayBuffer: ArrayLike<number> | ArrayBufferLike): T;
-    new (buffer: ArrayBufferLike, byteOffset: number, length?: number): T;
+    new (length?: number): T;
+    new (array: Iterable<number>): T;
+    new (buffer: ArrayBufferLike, byteOffset?: number, length?: number): T;
     /**
       * The size in bytes of each element in the array.
       */
@@ -25,6 +31,31 @@ export interface ArrayBufferViewConstructor<T extends ArrayBufferView> {
       * @param thisArg Value of 'this' used to invoke the mapfn.
       */
     from(arrayLike: ArrayLike<number>, mapfn?: (v: number, k: number) => number, thisArg?: any): T;
+    from<U>(arrayLike: ArrayLike<U>, mapfn: (v: U, k: number) => number, thisArg?: any): T;
+}
+/** @ignore */
+export interface BigIntArrayConstructor<T extends BigIntArray> {
+    readonly prototype: T;
+    new (length?: number): T;
+    new (array: Iterable<bigint>): T;
+    new (buffer: ArrayBufferLike, byteOffset?: number, length?: number): T;
+    /**
+      * The size in bytes of each element in the array.
+      */
+    readonly BYTES_PER_ELEMENT: number;
+    /**
+      * Returns a new array from a set of elements.
+      * @param items A set of elements to include in the new array object.
+      */
+    of(...items: bigint[]): T;
+    /**
+      * Creates an array from an array-like or iterable object.
+      * @param arrayLike An array-like or iterable object to convert to an array.
+      * @param mapfn A mapping function to call on every element of the array.
+      * @param thisArg Value of 'this' used to invoke the mapfn.
+      */
+    from(arrayLike: ArrayLike<bigint>, mapfn?: (v: bigint, k: number) => bigint, thisArg?: any): T;
+    from<U>(arrayLike: ArrayLike<U>, mapfn: (v: U, k: number) => bigint, thisArg?: any): T;
 }
 /** @ignore */
 export declare type VectorCtorArgs<T extends Vector<R>, R extends DataType = any, TArgs extends any[] = any[], TCtor extends new (data: Data<R>, ...args: TArgs) => T = new (data: Data<R>, ...args: TArgs) => T> = TCtor extends new (data: Data<R>, ...args: infer TArgs) => T ? TArgs : never;

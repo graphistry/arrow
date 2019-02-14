@@ -15,6 +15,15 @@ export interface Observable<T> {
     subscribe: (observer: Observer<T>) => Subscription;
 }
 /** @ignore */
+declare const BigIntCtor: BigIntConstructor, BigIntAvailable: boolean;
+/** @ignore */
+declare const BigInt64ArrayCtor: BigInt64ArrayConstructor, BigInt64ArrayAvailable: boolean;
+/** @ignore */
+declare const BigUint64ArrayCtor: BigUint64ArrayConstructor, BigUint64ArrayAvailable: boolean;
+export { BigIntCtor as BigInt, BigIntAvailable };
+export { BigInt64ArrayCtor as BigInt64Array, BigInt64ArrayAvailable };
+export { BigUint64ArrayCtor as BigUint64Array, BigUint64ArrayAvailable };
+/** @ignore */
 export declare const isObject: (x: any) => x is Object;
 /** @ignore */
 export declare const isPromise: <T = any>(x: any) => x is PromiseLike<T>;

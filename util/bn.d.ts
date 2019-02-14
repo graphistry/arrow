@@ -1,3 +1,4 @@
+import { BigIntArray, BigIntArrayConstructor } from '../interfaces';
 import { ArrayBufferViewInput } from './buffer';
 /** @ignore */
 declare type BigNumArray = IntArray | UintArray;
@@ -18,6 +19,7 @@ export declare class BN<T extends BigNumArray> {
 export interface BN<T extends BigNumArray> extends TypedArrayLike<T> {
     new <T extends ArrayBufferViewInput>(buffer: T, signed?: boolean): T;
     readonly signed: boolean;
+    readonly BigIntArray: BigIntArrayConstructor<BigIntArray>;
     [Symbol.toStringTag]: 'Int8Array' | 'Int16Array' | 'Int32Array' | 'Uint8Array' | 'Uint16Array' | 'Uint32Array' | 'Uint8ClampedArray';
     /**
      * Convert the bytes to their (positive) decimal representation for printing

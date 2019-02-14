@@ -1,7 +1,7 @@
 import { Data } from '../data';
+import { Type } from '../enum';
 import { Visitor } from '../visitor';
 import { Vector } from '../interfaces';
-import { Type } from '../enum';
 import { DataType, Dictionary, Bool, Null, Utf8, Binary, Decimal, FixedSizeBinary, List, FixedSizeList, Map_, Struct, Float, Float16, Float32, Float64, Int, Uint8, Uint16, Uint32, Uint64, Int8, Int16, Int32, Int64, Date_, DateDay, DateMillisecond, Interval, IntervalDayTime, IntervalYearMonth, Time, TimeSecond, TimeMillisecond, TimeMicrosecond, TimeNanosecond, Timestamp, TimestampSecond, TimestampMillisecond, TimestampMicrosecond, TimestampNanosecond, Union, DenseUnion, SparseUnion } from '../type';
 export interface ToArrayVisitor extends Visitor {
     visit<T extends Vector>(node: T): T['TArray'];
