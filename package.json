@@ -3,7 +3,7 @@
   "browser": "Arrow.dom",
   "main": "Arrow.node",
   "types": "Arrow.node.d.ts",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "license": "Apache-2.0",
   "description": "Apache Arrow columnar in-memory format",
   "author": "Apache Software Foundation",
