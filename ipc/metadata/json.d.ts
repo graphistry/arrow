@@ -8,4 +8,4 @@ export declare function recordBatchFromJSON(b: any): RecordBatch;
 /** @ignore */
 export declare function dictionaryBatchFromJSON(b: any): DictionaryBatch;
 /** @ignore */
-export declare function fieldFromJSON(_field: any, dictionaries?: Map<number, DataType>, dictionaryFields?: Map<number, Field<Dictionary>[]>): Field<DataType<import("../../enum").Type, any>>;
+export declare function fieldFromJSON(_field: any, dictionaries?: Map<number, DataType>, dictionaryFields?: Map<number, Field<Dictionary>[]>): Field<any>;

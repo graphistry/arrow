@@ -1,5 +1,5 @@
-import { Duplex, DuplexOptions } from 'stream';
 import { DataType } from '../../type';
+import { Duplex, DuplexOptions } from 'stream';
 import { AsyncByteQueue } from '../../io/stream';
 import { RecordBatchReader } from '../../ipc/reader';
 /** @ignore */

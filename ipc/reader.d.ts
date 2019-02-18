@@ -1,5 +1,5 @@
-import { DataType } from '../type';
 import { Vector } from '../vector';
+import { DataType } from '../type';
 import { MessageHeader } from '../enum';
 import { Footer } from './metadata/file';
 import { Schema, Field } from '../schema';
@@ -245,7 +245,7 @@ declare abstract class RecordBatchReaderImpl<T extends {
     constructor(dictionaries?: Map<number, Vector<any>>);
     protected _loadRecordBatch(header: metadata.RecordBatch, body: any): RecordBatch<T>;
     protected _loadDictionaryBatch(header: metadata.DictionaryBatch, body: any): Vector<any>;
-    protected _loadVectors(header: metadata.RecordBatch, body: any, types: (Field | DataType)[]): import("../data").Data<DataType<import("../enum").Type, any>>[];
+    protected _loadVectors(header: metadata.RecordBatch, body: any, types: (Field | DataType)[]): import("../data").Data<any>[];
 }
 /** @ignore */
 declare class RecordBatchStreamReaderImpl<T extends {
@@ -309,6 +309,6 @@ declare class RecordBatchJSONReaderImpl<T extends {
     [key: string]: DataType;
 } = any> extends RecordBatchStreamReaderImpl<T> {
     constructor(source: ArrowJSONLike, dictionaries?: Map<number, Vector>);
-    protected _loadVectors(header: metadata.RecordBatch, body: any, types: (Field | DataType)[]): import("../data").Data<DataType<import("../enum").Type, any>>[];
+    protected _loadVectors(header: metadata.RecordBatch, body: any, types: (Field | DataType)[]): import("../data").Data<any>[];
 }
 export {};

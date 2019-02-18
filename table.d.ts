@@ -7,6 +7,18 @@ import { RecordBatchReader } from './ipc/reader';
 import { Vector, Chunked } from './vector/index';
 import { DataType, RowLike, Struct } from './type';
 import { Clonable, Sliceable, Applicative } from './vector';
+declare type VectorMap = {
+    [key: string]: Vector;
+};
+declare type Fields<T extends {
+    [key: string]: DataType;
+}> = (keyof T)[] | Field<T[keyof T]>[];
+declare type ChildData<T extends {
+    [key: string]: DataType;
+}> = Data<T[keyof T]>[] | Vector<T[keyof T]>[];
+declare type Columns<T extends {
+    [key: string]: DataType;
+}> = Column<T[keyof T]>[] | Column<T[keyof T]>[][];
 export interface Table<T extends {
     [key: string]: DataType;
 } = any> {
@@ -58,23 +70,22 @@ export declare class Table<T extends {
         [key: string]: DataType;
     } = any>(source: import('./ipc/reader').FromArgs): Promise<Table<T>>;
     /** @nocollapse */
-    static fromVectors<T extends {
-        [key: string]: DataType;
-    } = any>(vectors: Vector<T[keyof T]>[], fields?: (keyof T | Field<T[keyof T]>)[]): Table<T>;
-    /** @nocollapse */
     static fromStruct<T extends {
         [key: string]: DataType;
     } = any>(struct: Vector<Struct<T>>): Table<T>;
     static new<T extends {
         [key: string]: DataType;
-    } = any>(chunks: (Data<T[keyof T]> | Vector<T[keyof T]>)[], fields?: (keyof T | Field<T[keyof T]>)[]): Table<T>;
+    } = any>(...columns: Columns<T>): Table<T>;
+    static new<T extends VectorMap = any>(children: T): Table<{
+        [P in keyof T]: T[P]['type'];
+    }>;
     static new<T extends {
         [key: string]: DataType;
-    } = any>(...columns: (Column<T[keyof T]> | Column<T[keyof T]>[])[]): Table<T>;
+    } = any>(children: ChildData<T>, fields?: Fields<T>): Table<T>;
     constructor(batches: RecordBatch<T>[]);
     constructor(...batches: RecordBatch<T>[]);
-    constructor(schema: Schema, batches: RecordBatch<T>[]);
-    constructor(schema: Schema, ...batches: RecordBatch<T>[]);
+    constructor(schema: Schema<T>, batches: RecordBatch<T>[]);
+    constructor(schema: Schema<T>, ...batches: RecordBatch<T>[]);
     protected _schema: Schema<T>;
     protected _chunks: RecordBatch<T>[];
     protected _children?: Column<T[keyof T]>[];
@@ -82,8 +93,8 @@ export declare class Table<T extends {
     readonly length: number;
     readonly chunks: RecordBatch<T>[];
     readonly numCols: number;
+    getColumn<R extends keyof T>(name: R): Column<T[R]>;
     getColumnAt<R extends DataType = any>(index: number): Column<R> | null;
-    getColumn<R extends keyof T>(name: R): Column<T[R]> | null;
     getColumnIndex<R extends keyof T>(name: R): number;
     getChildAt<R extends DataType = any>(index: number): Column<R> | null;
     serialize(encoding?: string, stream?: boolean): Uint8Array;
@@ -98,3 +109,4 @@ export declare class Table<T extends {
         [key: string]: DataType;
     } = any>(other: Table<R>): Table<T & R>;
 }
+export {};

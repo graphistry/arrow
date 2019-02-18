@@ -1,13 +1,36 @@
 import { Data } from './data';
 import { Vector } from './vector';
 import { DataType, Dictionary } from './type';
+declare type VectorMap = {
+    [key: string]: Vector;
+};
+declare type Fields<T extends {
+    [key: string]: DataType;
+}> = (keyof T)[] | Field<T[keyof T]>[];
+declare type ChildData<T extends {
+    [key: string]: DataType;
+}> = T[keyof T][] | Data<T[keyof T]>[] | Vector<T[keyof T]>[];
 export declare class Schema<T extends {
     [key: string]: DataType;
 } = any> {
-    /** @nocollapse */
     static from<T extends {
         [key: string]: DataType;
-    } = any>(chunks: (Data<T[keyof T]> | Vector<T[keyof T]>)[], names?: (keyof T)[]): Schema<T>;
+    } = any>(children: T): Schema<T>;
+    static from<T extends VectorMap = any>(children: T): Schema<{
+        [P in keyof T]: T[P]['type'];
+    }>;
+    static from<T extends {
+        [key: string]: DataType;
+    } = any>(children: ChildData<T>, fields?: Fields<T>): Schema<T>;
+    static new<T extends {
+        [key: string]: DataType;
+    } = any>(children: T): Schema<T>;
+    static new<T extends VectorMap = any>(children: T): Schema<{
+        [P in keyof T]: T[P]['type'];
+    }>;
+    static new<T extends {
+        [key: string]: DataType;
+    } = any>(children: ChildData<T>, fields?: Fields<T>): Schema<T>;
     readonly fields: Field<T[keyof T]>[];
     readonly metadata: Map<string, string>;
     readonly dictionaries: Map<number, DataType>;
@@ -27,7 +50,14 @@ export declare class Schema<T extends {
         [key: string]: DataType;
     } = any>(...fields: (Field<R[keyof R]> | Field<R[keyof R]>[])[]): Schema<T & R>;
 }
-export declare class Field<T extends DataType = DataType> {
+export declare class Field<T extends DataType = any> {
+    static new<T extends DataType = any>(props: {
+        name: string | number;
+        type: T;
+        nullable?: boolean;
+        metadata?: Map<string, string> | null;
+    }): Field<T>;
+    static new<T extends DataType = any>(name: string | number | Field<T>, type: T, nullable?: boolean, metadata?: Map<string, string> | null): Field<T>;
     readonly type: T;
     readonly name: string;
     readonly nullable: boolean;
@@ -37,10 +67,12 @@ export declare class Field<T extends DataType = DataType> {
     readonly [Symbol.toStringTag]: string;
     toString(): string;
     compareTo(other?: Field | null): other is Field<T>;
-    clone<R extends DataType = T>(props?: {
-        name?: string;
+    clone<R extends DataType = T>(props: {
+        name?: string | number;
         type?: R;
         nullable?: boolean;
         metadata?: Map<string, string> | null;
     }): Field<R>;
+    clone<R extends DataType = T>(name?: string | number | Field<T>, type?: R, nullable?: boolean, metadata?: Map<string, string> | null): Field<R>;
 }
+export {};

@@ -117,7 +117,7 @@ declare function decodeBufferRegion(b: _Buffer): BufferRegion;
 /** @ignore */
 declare function decodeFieldNode(f: _FieldNode): FieldNode;
 /** @ignore */
-declare function decodeField(f: _Field, dictionaries?: Map<number, DataType>, dictionaryFields?: Map<number, Field<Dictionary>[]>): Field<DataType<import("../../enum").Type, any>>;
+declare function decodeField(f: _Field, dictionaries?: Map<number, DataType>, dictionaryFields?: Map<number, Field<Dictionary>[]>): Field<any>;
 /** @ignore */
 declare function encodeSchema(b: Builder, schema: Schema): number;
 /** @ignore */

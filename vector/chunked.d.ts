@@ -11,9 +11,9 @@ export declare type SearchContinuation<T extends Chunked> = (column: T, chunkInd
 /** @ignore */
 export declare class Chunked<T extends DataType = any> extends AbstractVector<T> implements Clonable<Chunked<T>>, Sliceable<Chunked<T>>, Applicative<T, Chunked<T>> {
     /** @nocollapse */
-    static flatten<T extends DataType>(...vectors: Vector<T>[]): Vector<T>[];
+    static flatten<T extends DataType>(...vectors: (Vector<T> | Vector<T>[])[]): Vector<T>[];
     /** @nocollapse */
-    static concat<T extends DataType>(...chunks: Vector<T>[]): Chunked<T>;
+    static concat<T extends DataType>(...vectors: (Vector<T> | Vector<T>[])[]): Chunked<T>;
     protected _type: T;
     protected _length: number;
     protected _chunks: Vector<T>[];

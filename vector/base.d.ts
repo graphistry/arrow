@@ -1,5 +1,5 @@
 import { Data } from '../data';
-import { Vector } from '../vector';
+import { AbstractVector, Vector } from '../vector';
 import { DataType } from '../type';
 import { Chunked } from './chunked';
 import { Vector as VType } from '../interfaces';
@@ -9,7 +9,7 @@ export interface BaseVector<T extends DataType = any> extends Clonable<VType<T>>
     concat(...others: Vector<T>[]): Chunked<T>;
     clone<R extends DataType = T>(data: Data<R>, children?: Vector<R>[]): VType<R>;
 }
-export declare abstract class BaseVector<T extends DataType = any> extends Vector<T> implements Clonable<VType<T>>, Sliceable<VType<T>>, Applicative<T, Chunked<T>> {
+export declare abstract class BaseVector<T extends DataType = any> extends AbstractVector<T> implements Clonable<VType<T>>, Sliceable<VType<T>>, Applicative<T, Chunked<T>> {
     protected _children?: Vector[];
     constructor(data: Data<T>, children?: Vector[]);
     readonly data: Data<T>;
