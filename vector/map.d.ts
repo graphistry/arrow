@@ -1,5 +1,5 @@
-import { RowProxyGenerator } from './row';
 import { BaseVector } from './base';
+import { RowProxyGenerator } from './row';
 import { DataType, Map_ } from '../type';
 export declare class MapVector<T extends {
     [key: string]: DataType;

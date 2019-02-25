@@ -17,12 +17,10 @@ export declare type IsSigned = {
 /** @ignore */
 export declare type RowLike<T extends {
     [key: string]: DataType;
-}> = {
-    readonly length: number;
-} & (Iterable<T[keyof T]['TValue']>) & {
-    [P in keyof T]: T[P]['TValue'];
+}> = (Iterable<T[keyof T]['TValue'] | null>) & {
+    [P in keyof T]: T[P]['TValue'] | null;
 } & {
-    get<K extends keyof T>(key: K): T[K]['TValue'];
+    get<K extends keyof T>(key: K): T[K]['TValue'] | null;
 };
 export interface DataType<TType extends Type = Type, TChildren extends {
     [key: string]: DataType;
