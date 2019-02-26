@@ -54,7 +54,7 @@ export declare class RecordBatchWriter<T extends {
     abort(reason?: any): void;
     finish(): this;
     reset(sink?: WritableSink<ArrayBufferViewInput>, schema?: Schema<T> | null): this;
-    write(chunk?: Table<T> | RecordBatch<T> | null): void;
+    write(payload?: Table<T> | RecordBatch<T> | Iterable<RecordBatch<T>> | null): void;
     protected _writeMessage<T extends MessageHeader>(message: Message<T>, alignment?: number): this;
     protected _write(chunk: ArrayBufferViewInput): this;
     protected _writeSchema(schema: Schema<T>): this;
