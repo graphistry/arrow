@@ -44,7 +44,7 @@ export declare class Data<T extends DataType = DataType> {
     protected _sliceBuffers(offset: number, length: number, stride: number, typeId: T['TType']): Buffers<T>;
     protected _sliceChildren(childData: Data[], offset: number, length: number): Data[];
     /** @nocollapse */
-    static Null<T extends Null>(type: T, offset: number, length: number, nullCount: number, nullBitmap: NullBuffer): Data<T>;
+    static Null<T extends Null>(type: T, offset: number, length: number, nullCount: number, nullBitmap: NullBuffer, _data?: NullBuffer): Data<T>;
     /** @nocollapse */
     static Int<T extends Int>(type: T, offset: number, length: number, nullCount: number, nullBitmap: NullBuffer, data: DataBuffer<T>): Data<T>;
     /** @nocollapse */

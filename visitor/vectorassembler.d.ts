@@ -32,7 +32,7 @@ export declare class VectorAssembler extends Visitor {
     /** @nocollapse */
     static assemble<T extends Vector | RecordBatch>(...args: (T | T[])[]): VectorAssembler;
     private constructor();
-    visitNull<T extends Null>(_nullV: VType<T>): this;
+    visitNull<T extends Null>(_nullV: VType<T>): VectorAssembler;
     visitDictionary<T extends Dictionary>(vector: VType<T>): this;
     readonly nodes: FieldNode[];
     readonly buffers: ArrayBufferView[];
