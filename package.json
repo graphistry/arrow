@@ -1,9 +1,16 @@
 {
   "name": "apache-arrow",
+  "version": "0.4.0",
+  "unpkg": "Arrow.es5.min.js",
+  "jsdelivr": "Arrow.es5.min.js",
   "browser": "Arrow.dom",
   "main": "Arrow.node",
+  "module": "Arrow.dom.mjs",
+  "esm": {
+    "mode": "all",
+    "sourceMap": true
+  },
   "types": "Arrow.node.d.ts",
-  "version": "0.4.0",
   "license": "Apache-2.0",
   "description": "Apache Arrow columnar in-memory format",
   "author": "Apache Software Foundation",
@@ -35,4 +42,3 @@
     "arrow2csv": "bin/arrow2csv.js"
   }
 }
-
