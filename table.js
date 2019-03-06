@@ -39,7 +39,7 @@ class Table extends index_1.Chunked {
             throw new TypeError('Table must be initialized with a Schema or at least one RecordBatch');
         }
         if (!chunks[0]) {
-            chunks[0] = new recordbatch_1.RecordBatch(schema, 0, schema.fields.map((f) => new data_1.Data(f.type, 0, 0)));
+            chunks[0] = new recordbatch_1.RecordBatch(schema, 0, schema.fields.map((f) => data_1.Data.new(f.type, 0, 0)));
         }
         super(new type_1.Struct(schema.fields), chunks);
         this._schema = schema;

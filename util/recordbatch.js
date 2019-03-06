@@ -39,7 +39,7 @@ function ensureSameLengthData(schema, chunks, batchLength = chunks.reduce((l, c)
         else {
             (field = fields[i]).nullable || (fields[i] = fields[i].clone({ nullable: true }));
             batchData[i] = data ? data._changeLengthAndBackfillNullBitmap(batchLength)
-                : new data_1.Data(field.type, 0, batchLength, batchLength, nullBufs(bitmapLength));
+                : data_1.Data.new(field.type, 0, batchLength, batchLength, nullBufs(bitmapLength));
         }
     }
     return [new schema_1.Schema(fields), batchLength, batchData];
@@ -100,7 +100,7 @@ function distributeChildData(fields, batchLength, childData, columns, memo) {
         else {
             (field = fields[i]).nullable || (fields[i] = field.clone({ nullable: true }));
             childData[i] = data ? data._changeLengthAndBackfillNullBitmap(batchLength)
-                : new data_1.Data(field.type, 0, batchLength, batchLength, nullBufs(bitmapLength));
+                : data_1.Data.new(field.type, 0, batchLength, batchLength, nullBufs(bitmapLength));
         }
     }
     return childData;

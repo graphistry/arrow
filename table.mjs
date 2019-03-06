@@ -37,7 +37,7 @@ export class Table extends Chunked {
             throw new TypeError('Table must be initialized with a Schema or at least one RecordBatch');
         }
         if (!chunks[0]) {
-            chunks[0] = new RecordBatch(schema, 0, schema.fields.map((f) => new Data(f.type, 0, 0)));
+            chunks[0] = new RecordBatch(schema, 0, schema.fields.map((f) => Data.new(f.type, 0, 0)));
         }
         super(new Struct(schema.fields), chunks);
         this._schema = schema;

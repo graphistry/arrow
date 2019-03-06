@@ -133,6 +133,36 @@ class Data {
     // Convenience methods for creating Data instances for each of the Arrow Vector types
     //
     /** @nocollapse */
+    static new(type, offset, length, nullCount, buffers, childData) {
+        if (buffers instanceof Data) {
+            buffers = buffers.buffers;
+        }
+        else if (!buffers) {
+            buffers = [];
+        }
+        switch (type.typeId) {
+            case enum_1.Type.Null: return Data.Null(type, offset, length, nullCount || 0, buffers[2]);
+            case enum_1.Type.Int: return Data.Int(type, offset, length, nullCount || 0, buffers[2], buffers[1] || []);
+            case enum_1.Type.Dictionary: return Data.Dictionary(type, offset, length, nullCount || 0, buffers[2], buffers[1] || []);
+            case enum_1.Type.Float: return Data.Float(type, offset, length, nullCount || 0, buffers[2], buffers[1] || []);
+            case enum_1.Type.Bool: return Data.Bool(type, offset, length, nullCount || 0, buffers[2], buffers[1] || []);
+            case enum_1.Type.Decimal: return Data.Decimal(type, offset, length, nullCount || 0, buffers[2], buffers[1] || []);
+            case enum_1.Type.Date: return Data.Date(type, offset, length, nullCount || 0, buffers[2], buffers[1] || []);
+            case enum_1.Type.Time: return Data.Time(type, offset, length, nullCount || 0, buffers[2], buffers[1] || []);
+            case enum_1.Type.Timestamp: return Data.Timestamp(type, offset, length, nullCount || 0, buffers[2], buffers[1] || []);
+            case enum_1.Type.Interval: return Data.Interval(type, offset, length, nullCount || 0, buffers[2], buffers[1] || []);
+            case enum_1.Type.FixedSizeBinary: return Data.FixedSizeBinary(type, offset, length, nullCount || 0, buffers[2], buffers[1] || []);
+            case enum_1.Type.Binary: return Data.Binary(type, offset, length, nullCount || 0, buffers[2], buffers[0] || [], buffers[1] || []);
+            case enum_1.Type.Utf8: return Data.Utf8(type, offset, length, nullCount || 0, buffers[2], buffers[0] || [], buffers[1] || []);
+            case enum_1.Type.List: return Data.List(type, offset, length, nullCount || 0, buffers[2], buffers[0] || [], (childData || [])[0]);
+            case enum_1.Type.FixedSizeList: return Data.FixedSizeList(type, offset, length, nullCount || 0, buffers[2], (childData || [])[0]);
+            case enum_1.Type.Struct: return Data.Struct(type, offset, length, nullCount || 0, buffers[2], childData || []);
+            case enum_1.Type.Map: return Data.Map(type, offset, length, nullCount || 0, buffers[2], childData || []);
+            case enum_1.Type.Union: return Data.Union(type, offset, length, nullCount || 0, buffers[2], buffers[3] || [], buffers[1] || childData, childData);
+        }
+        throw new Error(`Unrecognized typeId ${type.typeId}`);
+    }
+    /** @nocollapse */
     static Null(type, offset, length, nullCount, nullBitmap, _data) {
         return new Data(type, offset, length, nullCount, [undefined, undefined, buffer_1.toUint8Array(nullBitmap)]);
     }

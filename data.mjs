@@ -131,6 +131,36 @@ export class Data {
     // Convenience methods for creating Data instances for each of the Arrow Vector types
     //
     /** @nocollapse */
+    static new(type, offset, length, nullCount, buffers, childData) {
+        if (buffers instanceof Data) {
+            buffers = buffers.buffers;
+        }
+        else if (!buffers) {
+            buffers = [];
+        }
+        switch (type.typeId) {
+            case Type.Null: return Data.Null(type, offset, length, nullCount || 0, buffers[2]);
+            case Type.Int: return Data.Int(type, offset, length, nullCount || 0, buffers[2], buffers[1] || []);
+            case Type.Dictionary: return Data.Dictionary(type, offset, length, nullCount || 0, buffers[2], buffers[1] || []);
+            case Type.Float: return Data.Float(type, offset, length, nullCount || 0, buffers[2], buffers[1] || []);
+            case Type.Bool: return Data.Bool(type, offset, length, nullCount || 0, buffers[2], buffers[1] || []);
+            case Type.Decimal: return Data.Decimal(type, offset, length, nullCount || 0, buffers[2], buffers[1] || []);
+            case Type.Date: return Data.Date(type, offset, length, nullCount || 0, buffers[2], buffers[1] || []);
+            case Type.Time: return Data.Time(type, offset, length, nullCount || 0, buffers[2], buffers[1] || []);
+            case Type.Timestamp: return Data.Timestamp(type, offset, length, nullCount || 0, buffers[2], buffers[1] || []);
+            case Type.Interval: return Data.Interval(type, offset, length, nullCount || 0, buffers[2], buffers[1] || []);
+            case Type.FixedSizeBinary: return Data.FixedSizeBinary(type, offset, length, nullCount || 0, buffers[2], buffers[1] || []);
+            case Type.Binary: return Data.Binary(type, offset, length, nullCount || 0, buffers[2], buffers[0] || [], buffers[1] || []);
+            case Type.Utf8: return Data.Utf8(type, offset, length, nullCount || 0, buffers[2], buffers[0] || [], buffers[1] || []);
+            case Type.List: return Data.List(type, offset, length, nullCount || 0, buffers[2], buffers[0] || [], (childData || [])[0]);
+            case Type.FixedSizeList: return Data.FixedSizeList(type, offset, length, nullCount || 0, buffers[2], (childData || [])[0]);
+            case Type.Struct: return Data.Struct(type, offset, length, nullCount || 0, buffers[2], childData || []);
+            case Type.Map: return Data.Map(type, offset, length, nullCount || 0, buffers[2], childData || []);
+            case Type.Union: return Data.Union(type, offset, length, nullCount || 0, buffers[2], buffers[3] || [], buffers[1] || childData, childData);
+        }
+        throw new Error(`Unrecognized typeId ${type.typeId}`);
+    }
+    /** @nocollapse */
     static Null(type, offset, length, nullCount, nullBitmap, _data) {
         return new Data(type, offset, length, nullCount, [undefined, undefined, toUint8Array(nullBitmap)]);
     }

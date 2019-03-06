@@ -1,7 +1,7 @@
 import { Vector } from './vector';
 import { DataType, SparseUnion, DenseUnion } from './type';
 import { VectorType as BufferType } from './enum';
-import { Dictionary, Null, Int, Float, Binary, Bool, Utf8, Decimal, Date_, Time, Timestamp, Interval, List, Struct, FixedSizeBinary, FixedSizeList, Map_ } from './type';
+import { Dictionary, Null, Int, Float, Binary, Bool, Utf8, Decimal, Date_, Time, Timestamp, Interval, List, Struct, Union, FixedSizeBinary, FixedSizeList, Map_ } from './type';
 /** @ignore */ export declare type kUnknownNullCount = -1;
 /** @ignore */ export declare const kUnknownNullCount = -1;
 /** @ignore */ export declare type NullBuffer = Uint8Array | null | undefined;
@@ -44,6 +44,8 @@ export declare class Data<T extends DataType = DataType> {
     protected _sliceBuffers(offset: number, length: number, stride: number, typeId: T['TType']): Buffers<T>;
     protected _sliceChildren(childData: Data[], offset: number, length: number): Data[];
     /** @nocollapse */
+    static new<T extends DataType>(type: T, offset: number, length: number, nullCount?: number, buffers?: Partial<Buffers<T>> | Data<T>, childData?: (Data | Vector)[]): Data<T>;
+    /** @nocollapse */
     static Null<T extends Null>(type: T, offset: number, length: number, nullCount: number, nullBitmap: NullBuffer, _data?: NullBuffer): Data<T>;
     /** @nocollapse */
     static Int<T extends Int>(type: T, offset: number, length: number, nullCount: number, nullBitmap: NullBuffer, data: DataBuffer<T>): Data<T>;
@@ -77,6 +79,7 @@ export declare class Data<T extends DataType = DataType> {
     static Struct<T extends Struct>(type: T, offset: number, length: number, nullCount: number, nullBitmap: NullBuffer, children: (Data | Vector)[]): Data<T>;
     /** @nocollapse */
     static Map<T extends Map_>(type: T, offset: number, length: number, nullCount: number, nullBitmap: NullBuffer, children: (Data | Vector)[]): Data<T>;
-    static Union<T extends SparseUnion>(type: T, offset: number, length: number, nullCount: number, nullBitmap: NullBuffer, typeIds: TypeIdsBuffer, children: (Data | Vector)[]): Data<T>;
+    static Union<T extends SparseUnion>(type: T, offset: number, length: number, nullCount: number, nullBitmap: NullBuffer, typeIds: TypeIdsBuffer, children: (Data | Vector)[], _?: any): Data<T>;
     static Union<T extends DenseUnion>(type: T, offset: number, length: number, nullCount: number, nullBitmap: NullBuffer, typeIds: TypeIdsBuffer, valueOffsets: ValueOffsetsBuffer, children: (Data | Vector)[]): Data<T>;
+    static Union<T extends Union>(type: T, offset: number, length: number, nullCount: number, nullBitmap: NullBuffer, typeIds: TypeIdsBuffer, valueOffsetsOrChildren: ValueOffsetsBuffer | (Data | Vector)[], children?: (Data | Vector)[]): Data<T>;
 }
