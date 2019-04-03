@@ -55,6 +55,8 @@ export class RecordBatchReader extends ReadableInterop {
     }
     reset(schema) {
         this._impl.reset(schema);
+        this._DOMStream = undefined;
+        this._nodeStream = undefined;
         return this;
     }
     open(options) {

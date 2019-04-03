@@ -1,3 +1,4 @@
+/// <reference types="node" />
 /** @ignore */
 export declare const ITERATOR_DONE: any;
 /** @ignore */
@@ -58,9 +59,9 @@ export declare abstract class ReadableInterop<T> {
         writable: WritableStream<T>;
         readable: R;
     }, options?: PipeOptions): ReadableStream<any>;
-    private _DOMStream?;
+    protected _DOMStream?: ReadableStream<T>;
     private _getDOMStream;
-    private _nodeStream?;
+    protected _nodeStream?: import('stream').Readable;
     private _getNodeStream;
 }
 /** @ignore */

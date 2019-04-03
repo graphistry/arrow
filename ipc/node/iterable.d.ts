@@ -1,3 +1,4 @@
+/// <reference types="node" />
 import { Readable } from 'stream';
 /** @ignore */
 declare type ReadableOptions = import('stream').ReadableOptions;

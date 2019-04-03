@@ -1,3 +1,4 @@
+/// <reference types="node" />
 import { DataType } from '../../type';
 import { Duplex, DuplexOptions } from 'stream';
 import { AsyncByteStream } from '../../io/stream';

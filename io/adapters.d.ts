@@ -1,3 +1,4 @@
+/// <reference types="node" />
 import { ArrayBufferViewInput } from '../util/buffer';
 import { ReadableDOMStreamOptions } from './interfaces';
 declare const _default: {

@@ -1,3 +1,4 @@
+/// <reference types="node" />
 import { ArrowJSONLike } from '../io/interfaces';
 /** @ignore */
 export interface Subscription {
