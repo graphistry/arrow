@@ -1,6 +1,6 @@
 {
   "version": "0.14.0",
-  "name": "@graphistry/apache-arrow",
+  "name": "apache-arrow",
   "private": true,
   "unpkg": "Arrow.es5.min.js",
   "jsdelivr": "Arrow.es5.min.js",
