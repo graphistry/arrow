@@ -29,14 +29,14 @@
   ],
   "dependencies": {
     "@types/flatbuffers": "^1.9.0",
-    "@types/node": "^10.12.18",
+    "@types/node": "^11.13.4",
     "@types/text-encoding-utf-8": "^1.0.1",
     "command-line-args": "5.0.2",
     "command-line-usage": "5.0.5",
     "flatbuffers": "^1.10.2",
     "json-bignum": "0.0.3",
     "pad-left": "2.1.0",
-    "text-encoding-utf-8": "1.0.2",
+    "text-encoding-utf-8": "^1.0.2",
     "tslib": "^1.9.3"
   },
   "bin": {
