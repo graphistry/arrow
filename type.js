@@ -455,5 +455,20 @@ Dictionary[Symbol.toStringTag] = ((proto) => {
     return proto[Symbol.toStringTag] = 'Dictionary';
 })(Dictionary.prototype);
 exports.Dictionary = Dictionary;
+function strideForType(type) {
+    let t = type;
+    switch (type.typeId) {
+        case enum_1.Type.Decimal: return 4;
+        case enum_1.Type.Timestamp: return 2;
+        case enum_1.Type.Date: return 1 + t.unit;
+        case enum_1.Type.Interval: return 1 + t.unit;
+        case enum_1.Type.Int: return 1 + +(t.bitWidth > 32);
+        case enum_1.Type.Time: return 1 + +(t.bitWidth > 32);
+        case enum_1.Type.FixedSizeList: return t.listSize;
+        case enum_1.Type.FixedSizeBinary: return t.byteWidth;
+        default: return 1;
+    }
+}
+exports.strideForType = strideForType;
 
 //# sourceMappingURL=type.js.map

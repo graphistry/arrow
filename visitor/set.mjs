@@ -82,7 +82,7 @@ const setFloat = (vector, index, value) => {
         : setFloat16(vector, index, value);
 };
 /* istanbul ignore next */
-const getDate = (vector, index, value) => {
+const setDate = (vector, index, value) => {
     vector.type.unit === DateUnit.DAY
         ? setDateDay(vector, index, value)
         : setDateMillisecond(vector, index, value);
@@ -203,7 +203,7 @@ SetVisitor.prototype.visitFloat64 = setNumeric;
 SetVisitor.prototype.visitUtf8 = setUtf8;
 SetVisitor.prototype.visitBinary = setBinary;
 SetVisitor.prototype.visitFixedSizeBinary = setFixedSizeBinary;
-SetVisitor.prototype.visitDate = getDate;
+SetVisitor.prototype.visitDate = setDate;
 SetVisitor.prototype.visitDateDay = setDateDay;
 SetVisitor.prototype.visitDateMillisecond = setDateMillisecond;
 SetVisitor.prototype.visitTimestamp = setTimestamp;

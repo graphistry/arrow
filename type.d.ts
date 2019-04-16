@@ -411,8 +411,8 @@ export declare class Struct<T extends {
 /** @ignore */
 declare type Unions = Type.Union | Type.DenseUnion | Type.SparseUnion;
 interface Union_<T extends Unions = Unions> extends DataType<T> {
-    TArray: Int32Array;
-    TValue: any[];
+    TArray: Int8Array;
+    TValue: any;
 }
 declare class Union_<T extends Unions = Unions> extends DataType<T> {
     readonly mode: UnionMode;
@@ -465,7 +465,7 @@ export declare class FixedSizeList<T extends DataType = any> extends DataType<Ty
 export interface Map_<T extends {
     [key: string]: DataType;
 } = any> extends DataType<Type.Map> {
-    TArray: Uint8Array;
+    TArray: IterableArrayLike<RowLike<T>>;
     TValue: RowLike<T>;
     dataTypes: T;
 }
@@ -506,3 +506,4 @@ export interface IterableArrayLike<T = any> extends ArrayLike<T>, Iterable<T> {
 export declare type FloatArray = Uint16Array | Float32Array | Float64Array;
 /** @ignore */
 export declare type IntArray = Int8Array | Int16Array | Int32Array | Uint8Array | Uint16Array | Uint32Array;
+export declare function strideForType(type: DataType): number;

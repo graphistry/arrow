@@ -16,10 +16,11 @@
 // specific language governing permissions and limitations
 // under the License.
 Object.defineProperty(exports, "__esModule", { value: true });
-const vector_1 = require("../vector");
+const enum_1 = require("../enum");
 const chunked_1 = require("./chunked");
-const vector_2 = require("../util/vector");
-class BaseVector extends vector_1.AbstractVector {
+const vector_1 = require("../util/vector");
+const vector_2 = require("../vector");
+class BaseVector extends vector_2.AbstractVector {
     constructor(data, children) {
         super();
         this._children = children;
@@ -32,7 +33,7 @@ class BaseVector extends vector_1.AbstractVector {
     get offset() { return this.data.offset; }
     get stride() { return this.data.stride; }
     get nullCount() { return this.data.nullCount; }
-    get VectorName() { return this.constructor.name; }
+    get VectorName() { return `${enum_1.Type[this.typeId]}Vector`; }
     get ArrayType() { return this.data.ArrayType; }
     get values() { return this.data.values; }
     get typeIds() { return this.data.typeIds; }
@@ -40,7 +41,7 @@ class BaseVector extends vector_1.AbstractVector {
     get valueOffsets() { return this.data.valueOffsets; }
     get [Symbol.toStringTag]() { return `${this.VectorName}<${this.type[Symbol.toStringTag]}>`; }
     clone(data, children = this._children) {
-        return vector_1.Vector.new(data, children);
+        return vector_2.Vector.new(data, children);
     }
     concat(...others) {
         return chunked_1.Chunked.concat(this, ...others);
@@ -49,7 +50,7 @@ class BaseVector extends vector_1.AbstractVector {
         // Adjust args similar to Array.prototype.slice. Normalize begin/end to
         // clamp between 0 and length, and wrap around on negative indices, e.g.
         // slice(-1, 5) or slice(5, -1)
-        return vector_2.clampRange(this, begin, end, this._sliceInternal);
+        return vector_1.clampRange(this, begin, end, this._sliceInternal);
     }
     isValid(index) {
         if (this.nullCount > 0) {
@@ -62,7 +63,7 @@ class BaseVector extends vector_1.AbstractVector {
     }
     getChildAt(index) {
         return index < 0 || index >= this.numChildren ? null : ((this._children || (this._children = []))[index] ||
-            (this._children[index] = vector_1.Vector.new(this.data.childData[index])));
+            (this._children[index] = vector_2.Vector.new(this.data.childData[index])));
     }
     // @ts-ignore
     toJSON() { return [...this]; }

@@ -42,6 +42,7 @@ export class Chunked extends AbstractVector {
     get length() { return this._length; }
     get chunks() { return this._chunks; }
     get typeId() { return this._type.typeId; }
+    get VectorName() { return `Chunked<${this._type}>`; }
     get data() {
         return this._chunks[0] ? this._chunks[0].data : null;
     }

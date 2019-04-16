@@ -28,5 +28,5 @@ export declare class RowProxyGenerator<T extends {
     private rowPrototype;
     private constructor();
     private _bindGetter;
-    bind(rowIndex: number): any;
+    bind(rowIndex: number): Row<T>;
 }

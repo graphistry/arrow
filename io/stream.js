@@ -72,6 +72,9 @@ class AsyncByteStream {
         else if (compat_1.isReadableNodeStream(source)) {
             this.source = new AsyncByteStreamSource(adapters_1.default.fromNodeStream(source));
         }
+        else if (compat_1.isReadableDOMStream(source)) {
+            this.source = new AsyncByteStreamSource(adapters_1.default.fromDOMStream(source));
+        }
         else if (compat_1.isFetchResponse(source)) {
             this.source = new AsyncByteStreamSource(adapters_1.default.fromDOMStream(source.body));
         }
@@ -83,9 +86,6 @@ class AsyncByteStream {
         }
         else if (compat_1.isAsyncIterable(source)) {
             this.source = new AsyncByteStreamSource(adapters_1.default.fromAsyncIterable(source));
-        }
-        else if (compat_1.isReadableDOMStream(source)) {
-            this.source = new AsyncByteStreamSource(adapters_1.default.fromDOMStream(source));
         }
     }
     [Symbol.asyncIterator]() { return this; }

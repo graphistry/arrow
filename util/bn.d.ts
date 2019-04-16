@@ -39,6 +39,14 @@ export interface BN<T extends BigNumArray> extends TypedArrayLike<T> {
     [Symbol.toPrimitive](hint: any): number | string | bigint;
 }
 /** @ignore */
+export declare let bignumToString: {
+    <T extends BN<BigNumArray>>(a: T): string;
+};
+/** @ignore */
+export declare let bignumToBigInt: {
+    <T extends BN<BigNumArray>>(a: T): bigint;
+};
+/** @ignore */
 interface TypedArrayLike<T extends BigNumArray> {
     readonly length: number;
     readonly buffer: ArrayBuffer;

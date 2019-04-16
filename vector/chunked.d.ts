@@ -26,6 +26,7 @@ export declare class Chunked<T extends DataType = any> extends AbstractVector<T>
     readonly length: number;
     readonly chunks: Vector<T>[];
     readonly typeId: T['TType'];
+    readonly VectorName: string;
     readonly data: Data<T>;
     readonly ArrayType: any;
     readonly numChildren: number;

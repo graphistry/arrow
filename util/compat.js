@@ -116,9 +116,7 @@ exports.isWritableDOMStream = (x) => {
 /** @ignore */
 exports.isReadableDOMStream = (x) => {
     return exports.isObject(x) &&
-        isFunction(x['tee']) &&
         isFunction(x['cancel']) &&
-        isFunction(x['pipeTo']) &&
         isFunction(x['getReader']) &&
         !(x instanceof interfaces_1.ReadableInterop);
 };

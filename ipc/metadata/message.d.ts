@@ -14,7 +14,10 @@ import _FieldNode = Message_.org.apache.arrow.flatbuf.FieldNode;
 import _RecordBatch = Message_.org.apache.arrow.flatbuf.RecordBatch;
 import _DictionaryBatch = Message_.org.apache.arrow.flatbuf.DictionaryBatch;
 import { DataType, Dictionary } from '../../type';
-/** @ignore */
+/**
+ * @ignore
+ * @private
+ **/
 export declare class Message<T extends MessageHeader = any> {
     /** @nocollapse */
     static fromJSON<T extends MessageHeader>(msg: any, headerType: T): Message<T>;
@@ -39,7 +42,10 @@ export declare class Message<T extends MessageHeader = any> {
     isDictionaryBatch(): this is Message<MessageHeader.DictionaryBatch>;
     constructor(bodyLength: Long | number, version: MetadataVersion, headerType: T, header?: any);
 }
-/** @ignore */
+/**
+ * @ignore
+ * @private
+ **/
 export declare class RecordBatch {
     protected _length: number;
     protected _nodes: FieldNode[];
@@ -49,7 +55,10 @@ export declare class RecordBatch {
     readonly buffers: BufferRegion[];
     constructor(length: Long | number, nodes: FieldNode[], buffers: BufferRegion[]);
 }
-/** @ignore */
+/**
+ * @ignore
+ * @private
+ **/
 export declare class DictionaryBatch {
     protected _id: number;
     protected _isDelta: boolean;
@@ -62,13 +71,19 @@ export declare class DictionaryBatch {
     readonly buffers: BufferRegion[];
     constructor(data: RecordBatch, id: Long | number, isDelta?: boolean);
 }
-/** @ignore */
+/**
+ * @ignore
+ * @private
+ **/
 export declare class BufferRegion {
     offset: number;
     length: number;
     constructor(offset: Long | number, length: Long | number);
 }
-/** @ignore */
+/**
+ * @ignore
+ * @private
+ **/
 export declare class FieldNode {
     length: number;
     nullCount: number;

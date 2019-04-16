@@ -28,7 +28,7 @@ export declare class VectorLoader extends Visitor {
     visitDecimal<T extends type.Decimal>(type: T, { length, nullCount }?: FieldNode): Data<T>;
     visitList<T extends type.List>(type: T, { length, nullCount }?: FieldNode): Data<T>;
     visitStruct<T extends type.Struct>(type: T, { length, nullCount }?: FieldNode): Data<T>;
-    visitUnion<T extends type.Union>(type: T): Data<type.DenseUnion> | Data<type.SparseUnion>;
+    visitUnion<T extends type.Union>(type: T): Data<type.SparseUnion> | Data<type.DenseUnion>;
     visitDenseUnion<T extends type.DenseUnion>(type: T, { length, nullCount }?: FieldNode): Data<T>;
     visitSparseUnion<T extends type.SparseUnion>(type: T, { length, nullCount }?: FieldNode): Data<T>;
     visitDictionary<T extends type.Dictionary>(type: T, { length, nullCount }?: FieldNode): Data<T>;

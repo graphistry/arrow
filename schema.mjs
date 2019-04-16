@@ -15,7 +15,7 @@
 // specific language governing permissions and limitations
 // under the License.
 import { selectArgs } from './util/args';
-import { DataType, Dictionary } from './type';
+import { DataType } from './type';
 import { selectFieldArgs } from './util/args';
 import { instance as comparer } from './visitor/typecomparator';
 export class Schema {
@@ -54,7 +54,6 @@ export class Schema {
         const other = args[0] instanceof Schema ? args[0]
             : new Schema(selectArgs(Field, args));
         const curFields = [...this.fields];
-        const curDictionaries = [...this.dictionaries];
         const curDictionaryFields = this.dictionaryFields;
         const metadata = mergeMaps(mergeMaps(new Map(), this.metadata), other.metadata);
         const newFields = other.fields.filter((f2) => {
@@ -63,17 +62,13 @@ export class Schema {
                 metadata: mergeMaps(mergeMaps(new Map(), curFields[i].metadata), f2.metadata)
             })) && false : true;
         });
-        const { dictionaries, dictionaryFields } = generateDictionaryMap(newFields, new Map(), new Map());
-        const newDictionaries = [...dictionaries].filter(([y]) => !curDictionaries.every(([x]) => x === y));
+        const { dictionaries: newDictionaries, dictionaryFields } = generateDictionaryMap(newFields, new Map(), new Map());
         const newDictionaryFields = [...dictionaryFields].map(([id, newDictFields]) => {
             return [id, [...(curDictionaryFields.get(id) || []), ...newDictFields.map((f) => {
-                        const i = newFields.findIndex((f2) => f.name === f2.name);
-                        const { dictionary, indices, isOrdered, dictionaryVector } = f.type;
-                        const type = new Dictionary(dictionary, indices, id, isOrdered, dictionaryVector);
-                        return newFields[i] = f.clone({ type });
+                        return newFields[newFields.findIndex((f2) => f.name === f2.name)] = f.clone();
                     })]];
         });
-        return new Schema([...curFields, ...newFields], metadata, new Map([...curDictionaries, ...newDictionaries]), new Map([...curDictionaryFields, ...newDictionaryFields]));
+        return new Schema([...curFields, ...newFields], metadata, new Map([...this.dictionaries, ...newDictionaries]), new Map([...curDictionaryFields, ...newDictionaryFields]));
     }
 }
 export class Field {

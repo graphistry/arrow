@@ -14,9 +14,10 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-import { AbstractVector, Vector } from '../vector';
+import { Type } from '../enum';
 import { Chunked } from './chunked';
 import { clampRange } from '../util/vector';
+import { AbstractVector, Vector } from '../vector';
 export class BaseVector extends AbstractVector {
     constructor(data, children) {
         super();
@@ -30,7 +31,7 @@ export class BaseVector extends AbstractVector {
     get offset() { return this.data.offset; }
     get stride() { return this.data.stride; }
     get nullCount() { return this.data.nullCount; }
-    get VectorName() { return this.constructor.name; }
+    get VectorName() { return `${Type[this.typeId]}Vector`; }
     get ArrayType() { return this.data.ArrayType; }
     get values() { return this.data.values; }
     get typeIds() { return this.data.typeIds; }

@@ -1,0 +1,1 @@
+{"version":3,"sources":["builder/map.ts"],"names":[],"mappings":";;AACA,iCAAuC;AAEvC,MAAa,UAAqE,SAAQ,oBAA6B;CAAG;AAA1H,gCAA0H","file":"map.js","sourcesContent":["import { DataType, Map_ } from '../type';\nimport { NestedBuilder } from './base';\n\nexport class MapBuilder<T extends { [key: string]: DataType } = any, TNull = any> extends NestedBuilder<Map_<T>, TNull> {}\n"]}

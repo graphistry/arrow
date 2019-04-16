@@ -68,6 +68,9 @@ export class AsyncByteStream {
         else if (isReadableNodeStream(source)) {
             this.source = new AsyncByteStreamSource(streamAdapters.fromNodeStream(source));
         }
+        else if (isReadableDOMStream(source)) {
+            this.source = new AsyncByteStreamSource(streamAdapters.fromDOMStream(source));
+        }
         else if (isFetchResponse(source)) {
             this.source = new AsyncByteStreamSource(streamAdapters.fromDOMStream(source.body));
         }
@@ -79,9 +82,6 @@ export class AsyncByteStream {
         }
         else if (isAsyncIterable(source)) {
             this.source = new AsyncByteStreamSource(streamAdapters.fromAsyncIterable(source));
-        }
-        else if (isReadableDOMStream(source)) {
-            this.source = new AsyncByteStreamSource(streamAdapters.fromDOMStream(source));
         }
     }
     [Symbol.asyncIterator]() { return this; }

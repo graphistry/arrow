@@ -25,8 +25,8 @@ const useNativeEncoders = typeof TextDecoder === 'function' && typeof TextEncode
 /** @ignore */
 exports.decodeUtf8 = ((TextDecoder) => {
     if (useNativeEncoders || !_Buffer) {
-        const decoder = new TextDecoder();
-        return decoder.decode.bind(decoder);
+        const decoder = new TextDecoder('utf-8');
+        return (buffer) => decoder.decode(buffer);
     }
     return (input) => {
         const { buffer, byteOffset, length } = buffer_1.toUint8Array(input);
@@ -37,7 +37,7 @@ exports.decodeUtf8 = ((TextDecoder) => {
 exports.encodeUtf8 = ((TextEncoder) => {
     if (useNativeEncoders || !_Buffer) {
         const encoder = new TextEncoder();
-        return encoder.encode.bind(encoder);
+        return (value) => encoder.encode(value);
     }
     return (input = '') => buffer_1.toUint8Array(_Buffer.from(input, 'utf8'));
 })(typeof TextEncoder !== 'undefined' ? TextEncoder : text_encoding_utf_8_1.TextEncoder);

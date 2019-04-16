@@ -195,7 +195,7 @@ class AdaptiveByteReader {
     }
     async cancel(reason) {
         const { reader, source } = this;
-        reader && (await reader['cancel'](reason));
+        reader && (await reader['cancel'](reason).catch(() => { }));
         source && (source['locked'] && this.releaseLock());
     }
     async read(size) {

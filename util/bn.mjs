@@ -59,30 +59,33 @@ export class BN {
     }
 }
 /** @ignore */
-function bignumToNumber({ buffer, byteOffset, length }) {
-    let int64 = 0;
-    let words = new Uint32Array(buffer, byteOffset, length);
-    for (let i = 0, n = words.length; i < n;) {
-        int64 += words[i++] + (words[i++] * (i ** 32));
+function bignumToNumber({ buffer, byteOffset, length, signed }) {
+    let words = new Int32Array(buffer, byteOffset, length);
+    let number = 0, i = 0, n = words.length, hi, lo;
+    while (i < n) {
+        lo = words[i++];
+        hi = words[i++];
+        number += signed ? (lo >>> 0) + (hi * (i ** 32))
+            : (lo >>> 0) + ((hi >>> 0) * (i ** 32));
     }
-    return int64;
+    return number;
 }
 /** @ignore */
-let bignumToString;
+export let bignumToString;
 /** @ignore */
-let bignumToBigInt;
+export let bignumToBigInt;
 if (!BigIntAvailable) {
     bignumToString = decimalToString;
     bignumToBigInt = bignumToString;
 }
 else {
-    bignumToBigInt = ((a) => a.length === 2 ? new a.BigIntArray(a.buffer, a.byteOffset, 1)[0] : decimalToString(a));
-    bignumToString = ((a) => a.length === 2 ? `${new a.BigIntArray(a.buffer, a.byteOffset, 1)[0]}` : decimalToString(a));
+    bignumToBigInt = ((a) => a.byteLength === 8 ? new a.BigIntArray(a.buffer, a.byteOffset, 1)[0] : decimalToString(a));
+    bignumToString = ((a) => a.byteLength === 8 ? `${new a.BigIntArray(a.buffer, a.byteOffset, 1)[0]}` : decimalToString(a));
 }
 function decimalToString(a) {
     let digits = '';
     let base64 = new Uint32Array(2);
-    let base32 = new Uint16Array(a.buffer, a.byteOffset, a.length * 2);
+    let base32 = new Uint16Array(a.buffer, a.byteOffset, a.byteLength / 2);
     let checks = new Uint32Array((base32 = new Uint16Array(base32).reverse()).buffer);
     let i = -1, n = base32.length - 1;
     do {

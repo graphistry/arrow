@@ -19,6 +19,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const bit_1 = require("./util/bit");
 const bit_2 = require("./util/bit");
 const enum_1 = require("./enum");
+const type_1 = require("./type");
 const buffer_1 = require("./util/buffer");
 /** @ignore */ exports.kUnknownNullCount = -1;
 /** @ignore */
@@ -38,39 +39,12 @@ class Data {
             this.valueOffsets = buffers.valueOffsets;
         }
         else {
+            this.stride = type_1.strideForType(type);
             if (buffers) {
                 (buffer = buffers[0]) && (this.valueOffsets = buffer);
                 (buffer = buffers[1]) && (this.values = buffer);
                 (buffer = buffers[2]) && (this.nullBitmap = buffer);
                 (buffer = buffers[3]) && (this.typeIds = buffer);
-            }
-            const t = type;
-            switch (type.typeId) {
-                case enum_1.Type.Decimal:
-                    this.stride = 4;
-                    break;
-                case enum_1.Type.Timestamp:
-                    this.stride = 2;
-                    break;
-                case enum_1.Type.Date:
-                    this.stride = 1 + t.unit;
-                    break;
-                case enum_1.Type.Interval:
-                    this.stride = 1 + t.unit;
-                    break;
-                case enum_1.Type.Int:
-                    this.stride = 1 + +(t.bitWidth > 32);
-                    break;
-                case enum_1.Type.Time:
-                    this.stride = 1 + +(t.bitWidth > 32);
-                    break;
-                case enum_1.Type.FixedSizeList:
-                    this.stride = t.listSize;
-                    break;
-                case enum_1.Type.FixedSizeBinary:
-                    this.stride = t.byteWidth;
-                    break;
-                default: this.stride = 1;
             }
         }
     }
@@ -245,6 +219,6 @@ class Data {
     }
 }
 exports.Data = Data;
-(Data.prototype.childData = Object.freeze([]));
+Data.prototype.childData = Object.freeze([]);
 
 //# sourceMappingURL=data.js.map

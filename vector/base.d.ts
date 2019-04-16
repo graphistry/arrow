@@ -1,9 +1,8 @@
 import { Data } from '../data';
-import { AbstractVector, Vector } from '../vector';
 import { DataType } from '../type';
 import { Chunked } from './chunked';
 import { Vector as VType } from '../interfaces';
-import { Clonable, Sliceable, Applicative } from '../vector';
+import { AbstractVector, Vector, Clonable, Sliceable, Applicative } from '../vector';
 export interface BaseVector<T extends DataType = any> extends Clonable<VType<T>>, Sliceable<VType<T>>, Applicative<T, Chunked<T>> {
     slice(begin?: number, end?: number): VType<T>;
     concat(...others: Vector<T>[]): Chunked<T>;

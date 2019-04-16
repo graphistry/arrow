@@ -36,7 +36,10 @@ var _Endianness = Schema_.org.apache.arrow.flatbuf.Endianness;
 var _RecordBatch = Message_.org.apache.arrow.flatbuf.RecordBatch;
 var _DictionaryBatch = Message_.org.apache.arrow.flatbuf.DictionaryBatch;
 import { DataType, Dictionary, Utf8, Binary, Decimal, FixedSizeBinary, List, FixedSizeList, Map_, Struct, Union, Bool, Null, Int, Float, Date_, Time, Interval, Timestamp, Int32, } from '../../type';
-/** @ignore */
+/**
+ * @ignore
+ * @private
+ **/
 export class Message {
     constructor(bodyLength, version, headerType, header) {
         this._version = version;
@@ -104,7 +107,10 @@ export class Message {
     isRecordBatch() { return this.headerType === MessageHeader.RecordBatch; }
     isDictionaryBatch() { return this.headerType === MessageHeader.DictionaryBatch; }
 }
-/** @ignore */
+/**
+ * @ignore
+ * @private
+ **/
 export class RecordBatch {
     get nodes() { return this._nodes; }
     get length() { return this._length; }
@@ -115,7 +121,10 @@ export class RecordBatch {
         this._length = typeof length === 'number' ? length : length.low;
     }
 }
-/** @ignore */
+/**
+ * @ignore
+ * @private
+ **/
 export class DictionaryBatch {
     get id() { return this._id; }
     get data() { return this._data; }
@@ -129,14 +138,20 @@ export class DictionaryBatch {
         this._id = typeof id === 'number' ? id : id.low;
     }
 }
-/** @ignore */
+/**
+ * @ignore
+ * @private
+ **/
 export class BufferRegion {
     constructor(offset, length) {
         this.offset = typeof offset === 'number' ? offset : offset.low;
         this.length = typeof length === 'number' ? length : length.low;
     }
 }
-/** @ignore */
+/**
+ * @ignore
+ * @private
+ **/
 export class FieldNode {
     constructor(length, nullCount) {
         this.length = typeof length === 'number' ? length : length.low;

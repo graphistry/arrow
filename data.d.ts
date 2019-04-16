@@ -1,6 +1,6 @@
 import { Vector } from './vector';
-import { DataType, SparseUnion, DenseUnion } from './type';
 import { VectorType as BufferType } from './enum';
+import { DataType, SparseUnion, DenseUnion } from './type';
 import { Dictionary, Null, Int, Float, Binary, Bool, Utf8, Decimal, Date_, Time, Timestamp, Interval, List, Struct, Union, FixedSizeBinary, FixedSizeList, Map_ } from './type';
 /** @ignore */ export declare type kUnknownNullCount = -1;
 /** @ignore */ export declare const kUnknownNullCount = -1;

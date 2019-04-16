@@ -100,7 +100,7 @@ const vectorctor_1 = require("../visitor/vectorctor");
 vector_2.Vector.new = newVector;
 /** @ignore */
 function newVector(data, ...args) {
-    return new (vectorctor_1.instance.getVisitFn(data.type)())(data, ...args);
+    return new (vectorctor_1.instance.getVisitFn(data)())(data, ...args);
 }
 //
 // We provide the following method implementations for code navigability purposes only.
@@ -130,45 +130,17 @@ base_2.BaseVector.prototype[Symbol.iterator] = function baseVectorSymbolIterator
 base_2.BaseVector.prototype._bindDataAccessors = bindBaseVectorDataAccessors;
 // Perf: bind and assign the operator Visitor methods to each of the Vector subclasses for each Type
 Object.keys(enum_1.Type)
-    .filter((typeId) => typeId !== enum_1.Type.NONE && typeId !== enum_1.Type[enum_1.Type.NONE])
-    .map((T) => enum_1.Type[T]).filter((T) => typeof T === 'number')
+    .map((T) => enum_1.Type[T])
+    .filter((T) => typeof T === 'number')
+    .filter((typeId) => typeId !== enum_1.Type.NONE)
     .forEach((typeId) => {
-    let typeIds;
-    switch (typeId) {
-        case enum_1.Type.Int:
-            typeIds = [enum_1.Type.Int8, enum_1.Type.Int16, enum_1.Type.Int32, enum_1.Type.Int64, enum_1.Type.Uint8, enum_1.Type.Uint16, enum_1.Type.Uint32, enum_1.Type.Uint64];
-            break;
-        case enum_1.Type.Float:
-            typeIds = [enum_1.Type.Float16, enum_1.Type.Float32, enum_1.Type.Float64];
-            break;
-        case enum_1.Type.Date:
-            typeIds = [enum_1.Type.DateDay, enum_1.Type.DateMillisecond];
-            break;
-        case enum_1.Type.Time:
-            typeIds = [enum_1.Type.TimeSecond, enum_1.Type.TimeMillisecond, enum_1.Type.TimeMicrosecond, enum_1.Type.TimeNanosecond];
-            break;
-        case enum_1.Type.Timestamp:
-            typeIds = [enum_1.Type.TimestampSecond, enum_1.Type.TimestampMillisecond, enum_1.Type.TimestampMicrosecond, enum_1.Type.TimestampNanosecond];
-            break;
-        case enum_1.Type.Interval:
-            typeIds = [enum_1.Type.IntervalDayTime, enum_1.Type.IntervalYearMonth];
-            break;
-        case enum_1.Type.Union:
-            typeIds = [enum_1.Type.DenseUnion, enum_1.Type.SparseUnion];
-            break;
-        default:
-            typeIds = [typeId];
-            break;
-    }
-    typeIds.forEach((typeId) => {
-        const VectorCtor = vectorctor_1.instance.visit(typeId);
-        VectorCtor.prototype['get'] = partial1(get_1.instance.getVisitFn(typeId));
-        VectorCtor.prototype['set'] = partial2(set_1.instance.getVisitFn(typeId));
-        VectorCtor.prototype['indexOf'] = partial2(indexof_1.instance.getVisitFn(typeId));
-        VectorCtor.prototype['toArray'] = partial0(toarray_1.instance.getVisitFn(typeId));
-        VectorCtor.prototype['getByteWidth'] = partialType0(bytewidth_1.instance.getVisitFn(typeId));
-        VectorCtor.prototype[Symbol.iterator] = partial0(iterator_1.instance.getVisitFn(typeId));
-    });
+    const VectorCtor = vectorctor_1.instance.visit(typeId);
+    VectorCtor.prototype['get'] = partial1(get_1.instance.getVisitFn(typeId));
+    VectorCtor.prototype['set'] = partial2(set_1.instance.getVisitFn(typeId));
+    VectorCtor.prototype['indexOf'] = partial2(indexof_1.instance.getVisitFn(typeId));
+    VectorCtor.prototype['toArray'] = partial0(toarray_1.instance.getVisitFn(typeId));
+    VectorCtor.prototype['getByteWidth'] = partialType0(bytewidth_1.instance.getVisitFn(typeId));
+    VectorCtor.prototype[Symbol.iterator] = partial0(iterator_1.instance.getVisitFn(typeId));
 });
 /** @ignore */
 function partial0(visit) {

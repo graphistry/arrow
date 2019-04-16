@@ -22,6 +22,7 @@ export { Column } from './column';
 export { Schema, Field } from './schema';
 export { Visitor } from './visitor';
 export { Row, Vector, BaseVector, BinaryVector, BoolVector, Chunked, DateVector, DateDayVector, DateMillisecondVector, DecimalVector, DictionaryVector, FixedSizeBinaryVector, FixedSizeListVector, FloatVector, Float16Vector, Float32Vector, Float64Vector, IntervalVector, IntervalDayTimeVector, IntervalYearMonthVector, IntVector, Int8Vector, Int16Vector, Int32Vector, Int64Vector, Uint8Vector, Uint16Vector, Uint32Vector, Uint64Vector, ListVector, MapVector, NullVector, StructVector, TimestampVector, TimestampSecondVector, TimestampMillisecondVector, TimestampMicrosecondVector, TimestampNanosecondVector, TimeVector, TimeSecondVector, TimeMillisecondVector, TimeMicrosecondVector, TimeNanosecondVector, UnionVector, DenseUnionVector, SparseUnionVector, Utf8Vector, } from './vector/index';
+export { Builder, BinaryBuilder, BoolBuilder, DateBuilder, DateDayBuilder, DateMillisecondBuilder, DecimalBuilder, DictionaryBuilder, FixedSizeBinaryBuilder, FixedSizeListBuilder, FloatBuilder, Float16Builder, Float32Builder, Float64Builder, IntervalBuilder, IntervalDayTimeBuilder, IntervalYearMonthBuilder, IntBuilder, Int8Builder, Int16Builder, Int32Builder, Int64Builder, Uint8Builder, Uint16Builder, Uint32Builder, Uint64Builder, ListBuilder, MapBuilder, NullBuilder, StructBuilder, TimestampBuilder, TimestampSecondBuilder, TimestampMillisecondBuilder, TimestampMicrosecondBuilder, TimestampNanosecondBuilder, TimeBuilder, TimeSecondBuilder, TimeMillisecondBuilder, TimeMicrosecondBuilder, TimeNanosecondBuilder, UnionBuilder, DenseUnionBuilder, SparseUnionBuilder, Utf8Builder, } from './builder/index';
 export { ByteStream, AsyncByteStream, AsyncByteQueue } from './io/stream';
 export { RecordBatchReader, RecordBatchFileReader, RecordBatchStreamReader, AsyncRecordBatchFileReader, AsyncRecordBatchStreamReader } from './ipc/reader';
 export { RecordBatchWriter, RecordBatchFileWriter, RecordBatchStreamWriter, RecordBatchJSONWriter } from './ipc/writer';
@@ -29,6 +30,7 @@ export { MessageReader, AsyncMessageReader, JSONMessageReader } from './ipc/mess
 export { Message } from './ipc/metadata/message';
 export { RecordBatch } from './recordbatch';
 export { DataFrame, FilteredDataFrame, CountByResult } from './compute/dataframe';
+import * as util_bn_ from './util/bn';
 import * as util_int_ from './util/int';
 import * as util_bit_ from './util/bit';
 import * as util_buffer_ from './util/buffer';
@@ -37,6 +39,7 @@ import * as predicate from './compute/predicate';
 export { predicate };
 /** @ignore */
 export const util = {
+    ...util_bn_,
     ...util_int_,
     ...util_bit_,
     ...util_buffer_,
