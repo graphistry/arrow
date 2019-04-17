@@ -1,5 +1,6 @@
-import { FlatBuilder } from './base';
 import { bignumToBigInt } from '../util/bn';
+import { BigInt64Array } from '../util/compat';
+import { FlatBuilder } from './base';
 export class IntBuilder extends FlatBuilder {
 }
 export class Int8Builder extends IntBuilder {

@@ -1,7 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const base_1 = require("./base");
 const bn_1 = require("../util/bn");
+const compat_1 = require("../util/compat");
+const base_1 = require("./base");
 class IntBuilder extends base_1.FlatBuilder {
 }
 exports.IntBuilder = IntBuilder;
@@ -56,6 +57,6 @@ const toMaybeBigInt = ((memo) => (value) => {
         memo.buffer = null;
     }
     return value;
-})({ BigIntArray: BigInt64Array });
+})({ BigIntArray: compat_1.BigInt64Array });
 
 //# sourceMappingURL=int.js.map
