@@ -91,7 +91,7 @@ export declare const util: {
     Uint64: typeof util_int_.Uint64;
     Int64: typeof util_int_.Int64;
     Int128: typeof util_int_.Int128;
-    BN: typeof util_bn_.BN;
     bignumToString: <T extends util_bn_.BN<Int8Array | Uint8Array | Uint8ClampedArray | Int16Array | Uint16Array | Int32Array | Uint32Array>>(a: T) => string;
     bignumToBigInt: <T extends util_bn_.BN<Int8Array | Uint8Array | Uint8ClampedArray | Int16Array | Uint16Array | Int32Array | Uint32Array>>(a: T) => bigint;
+    BN: typeof util_bn_.BN;
 };

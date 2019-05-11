@@ -1,24 +1,34 @@
-import { BigIntArray, BigIntArrayConstructor } from '../interfaces';
 import { ArrayBufferViewInput } from './buffer';
+import { TypedArray, TypedArrayConstructor } from '../interfaces';
+import { BigIntArray, BigIntArrayConstructor } from '../interfaces';
+/** @ignore */ declare type BigNumArray = IntArray | UintArray;
+/** @ignore */ declare type IntArray = Int8Array | Int16Array | Int32Array;
+/** @ignore */ declare type UintArray = Uint8Array | Uint16Array | Uint32Array | Uint8ClampedArray;
 /** @ignore */
-declare type BigNumArray = IntArray | UintArray;
+export declare let bignumToString: {
+    <T extends BN<BigNumArray>>(a: T): string;
+};
 /** @ignore */
-declare type IntArray = Int8Array | Int16Array | Int32Array;
-/** @ignore */
-declare type UintArray = Uint8Array | Uint16Array | Uint32Array | Uint8ClampedArray;
+export declare let bignumToBigInt: {
+    <T extends BN<BigNumArray>>(a: T): bigint;
+};
 /** @ignore */
 export declare class BN<T extends BigNumArray> {
-    static new<T extends BigNumArray>(input: ArrayBufferViewInput, signed?: boolean): T;
     /** @nocollapse */
-    static signed<T extends IntArray>(input: ArrayBufferViewInput): T;
+    static new<T extends BigNumArray>(num: T, isSigned?: boolean): T;
     /** @nocollapse */
-    static unsigned<T extends UintArray>(input: ArrayBufferViewInput): T;
-    constructor(input: ArrayBufferViewInput, signed?: boolean);
+    static signed<T extends IntArray>(num: T): T;
+    /** @nocollapse */
+    static unsigned<T extends UintArray>(num: T): T;
+    /** @nocollapse */
+    static decimal<T extends UintArray>(num: T): T;
+    constructor(num: T, isSigned?: boolean);
 }
 /** @ignore */
 export interface BN<T extends BigNumArray> extends TypedArrayLike<T> {
     new <T extends ArrayBufferViewInput>(buffer: T, signed?: boolean): T;
     readonly signed: boolean;
+    readonly TypedArray: TypedArrayConstructor<TypedArray>;
     readonly BigIntArray: BigIntArrayConstructor<BigIntArray>;
     [Symbol.toStringTag]: 'Int8Array' | 'Int16Array' | 'Int32Array' | 'Uint8Array' | 'Uint16Array' | 'Uint32Array' | 'Uint8ClampedArray';
     /**
@@ -38,14 +48,6 @@ export interface BN<T extends BigNumArray> extends TypedArrayLike<T> {
     toJSON(): string;
     [Symbol.toPrimitive](hint: any): number | string | bigint;
 }
-/** @ignore */
-export declare let bignumToString: {
-    <T extends BN<BigNumArray>>(a: T): string;
-};
-/** @ignore */
-export declare let bignumToBigInt: {
-    <T extends BN<BigNumArray>>(a: T): bigint;
-};
 /** @ignore */
 interface TypedArrayLike<T extends BigNumArray> {
     readonly length: number;

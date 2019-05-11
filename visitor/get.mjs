@@ -97,9 +97,9 @@ const getTimeSecond = ({ values, stride }, index) => values[stride * index];
 /** @ignore */
 const getTimeMillisecond = ({ values, stride }, index) => values[stride * index];
 /** @ignore */
-const getTimeMicrosecond = ({ values }, index) => BN.new(values.subarray(2 * index, 2 * (index + 1)), true);
+const getTimeMicrosecond = ({ values }, index) => BN.signed(values.subarray(2 * index, 2 * (index + 1)));
 /** @ignore */
-const getTimeNanosecond = ({ values }, index) => BN.new(values.subarray(2 * index, 2 * (index + 1)), true);
+const getTimeNanosecond = ({ values }, index) => BN.signed(values.subarray(2 * index, 2 * (index + 1)));
 /* istanbul ignore next */
 /** @ignore */
 const getTime = (vector, index) => {
@@ -111,7 +111,7 @@ const getTime = (vector, index) => {
     }
 };
 /** @ignore */
-const getDecimal = ({ values }, index) => BN.new(values.subarray(4 * index, 4 * (index + 1)), false);
+const getDecimal = ({ values }, index) => BN.decimal(values.subarray(4 * index, 4 * (index + 1)));
 /** @ignore */
 const getList = (vector, index) => {
     const child = vector.getChildAt(0), { valueOffsets, stride } = vector;

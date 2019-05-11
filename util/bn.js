@@ -16,51 +16,45 @@
 // specific language governing permissions and limitations
 // under the License.
 Object.defineProperty(exports, "__esModule", { value: true });
-const buffer_1 = require("./buffer");
 const compat_1 = require("./compat");
 /** @ignore */
-const BigNumNMixin = {
-    toJSON() { return `"${exports.bignumToString(this)}"`; },
-    valueOf() { return bignumToNumber(this); },
-    toString() { return exports.bignumToString(this); },
-    [Symbol.toPrimitive](hint) {
-        switch (hint) {
-            case 'number': return bignumToNumber(this);
-            case 'string': return exports.bignumToString(this);
-            case 'default': return exports.bignumToBigInt(this);
-        }
-        return exports.bignumToString(this);
+function BigNum(x, ...xs) {
+    const Ctor = this.TypedArray;
+    const bn = x instanceof Ctor ? x : new Ctor(x, ...xs);
+    return Object.setPrototypeOf(bn, this.constructor.prototype);
+}
+BigNum.prototype.toJSON = function () { return `"${exports.bignumToString(this)}"`; };
+BigNum.prototype.valueOf = function () { return bignumToNumber(this); };
+BigNum.prototype.toString = function () { return exports.bignumToString(this); };
+BigNum.prototype[Symbol.toPrimitive] = function (hint) {
+    switch (hint) {
+        case 'number': return bignumToNumber(this);
+        case 'string': return exports.bignumToString(this);
+        case 'default': return exports.bignumToBigInt(this);
     }
+    return exports.bignumToString(this);
 };
 /** @ignore */
-const SignedBigNumNMixin = Object.assign({}, BigNumNMixin, { signed: true, BigIntArray: compat_1.BigInt64Array });
+function SignedBigNum(...args) { return BigNum.apply(this, args); }
 /** @ignore */
-const UnsignedBigNumNMixin = Object.assign({}, BigNumNMixin, { signed: false, BigIntArray: compat_1.BigUint64Array });
+function UnsignedBigNum(...args) { return BigNum.apply(this, args); }
 /** @ignore */
-class BN {
-    constructor(input, signed = input instanceof Int32Array) {
-        return BN.new(input, signed);
-    }
-    /** @nocollapse */
-    static new(input, signed = (input instanceof Int8Array || input instanceof Int16Array || input instanceof Int32Array)) {
-        return (signed === true) ? BN.signed(input) : BN.unsigned(input);
-    }
-    /** @nocollapse */
-    static signed(input) {
-        const Ctor = ArrayBuffer.isView(input) ? input.constructor : Int32Array;
-        const { buffer, byteOffset, length } = buffer_1.toArrayBufferView(Ctor, input);
-        const bn = new Ctor(buffer, byteOffset, length);
-        return Object.assign(bn, SignedBigNumNMixin);
-    }
-    /** @nocollapse */
-    static unsigned(input) {
-        const Ctor = ArrayBuffer.isView(input) ? input.constructor : Uint32Array;
-        const { buffer, byteOffset, length } = buffer_1.toArrayBufferView(Ctor, input);
-        const bn = new Ctor(buffer, byteOffset, length);
-        return Object.assign(bn, UnsignedBigNumNMixin);
-    }
-}
-exports.BN = BN;
+function DecimalBigNum(...args) { return BigNum.apply(this, args); }
+Object.setPrototypeOf(SignedBigNum.prototype, Int32Array.prototype);
+Object.setPrototypeOf(UnsignedBigNum.prototype, Uint32Array.prototype);
+Object.setPrototypeOf(DecimalBigNum.prototype, Uint32Array.prototype);
+SignedBigNum.prototype = Object.create(SignedBigNum.prototype);
+SignedBigNum.prototype = Object.assign(SignedBigNum.prototype, BigNum.prototype, {
+    signed: true, constructor: SignedBigNum, TypedArray: Int32Array, BigIntArray: compat_1.BigInt64Array
+});
+UnsignedBigNum.prototype = Object.create(UnsignedBigNum.prototype);
+UnsignedBigNum.prototype = Object.assign(UnsignedBigNum.prototype, BigNum.prototype, {
+    signed: false, constructor: UnsignedBigNum, TypedArray: Uint32Array, BigIntArray: compat_1.BigUint64Array
+});
+DecimalBigNum.prototype = Object.create(DecimalBigNum.prototype);
+DecimalBigNum.prototype = Object.assign(DecimalBigNum.prototype, BigNum.prototype, {
+    signed: true, constructor: DecimalBigNum, TypedArray: Uint32Array, BigIntArray: compat_1.BigUint64Array
+});
 /** @ignore */
 function bignumToNumber({ buffer, byteOffset, length, signed }) {
     let words = new Int32Array(buffer, byteOffset, length);
@@ -81,6 +75,7 @@ else {
     exports.bignumToBigInt = ((a) => a.byteLength === 8 ? new a.BigIntArray(a.buffer, a.byteOffset, 1)[0] : decimalToString(a));
     exports.bignumToString = ((a) => a.byteLength === 8 ? `${new a.BigIntArray(a.buffer, a.byteOffset, 1)[0]}` : decimalToString(a));
 }
+/** @ignore */
 function decimalToString(a) {
     let digits = '';
     let base64 = new Uint32Array(2);
@@ -98,5 +93,39 @@ function decimalToString(a) {
     } while (checks[0] || checks[1] || checks[2] || checks[3]);
     return digits ? digits : `0`;
 }
+/** @ignore */
+class BN {
+    constructor(num, isSigned) {
+        return BN.new(num, isSigned);
+    }
+    /** @nocollapse */
+    static new(num, isSigned) {
+        switch (isSigned) {
+            case true: return new SignedBigNum(num);
+            case false: return new UnsignedBigNum(num);
+        }
+        switch (num.constructor) {
+            case Int8Array:
+            case Int16Array:
+            case Int32Array:
+            case compat_1.BigInt64Array:
+                return new SignedBigNum(num);
+        }
+        return new UnsignedBigNum(num);
+    }
+    /** @nocollapse */
+    static signed(num) {
+        return new SignedBigNum(num);
+    }
+    /** @nocollapse */
+    static unsigned(num) {
+        return new UnsignedBigNum(num);
+    }
+    /** @nocollapse */
+    static decimal(num) {
+        return new DecimalBigNum(num);
+    }
+}
+exports.BN = BN;
 
 //# sourceMappingURL=bn.js.map
